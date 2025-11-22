@@ -13,10 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniVocabularyWithP2L">
+<!--        <activity-->
+<!--            android:name="com.example.thongBao.ReminderReceiver"-->
+<!--            android:exported="false"-->
+<!--            tools:ignore="MissingClass" />-->
         <activity
             android:name="com.example.dangKi.DangNhapActivity"
-            android:exported="false" />
-        <!-- Activity Đăng ký (Chạy đầu tiên) -->
+            android:exported="false" /> <!-- Activity Đăng ký (Chạy đầu tiên) -->
         <activity
             android:name="com.example.dangKi.DangKiActivity"
             android:exported="true">
@@ -39,7 +42,7 @@
         <activity android:name="com.example.gheptu.VictoryActivity" />
         <activity android:name="com.example.LuyenPA.LuyenPhatAmActivity" />
 
-        <receiver android:name="com.example.thongBao.ThongBaoActivity" />
+<!--        <receiver android:name="com.example.thongBao.ThongBaoActivity" />-->
 
         <activity android:name="com.example.chuDe.ChuDeActivity" />
         <activity android:name="com.example.chuDe.FlashCardActivity" />
@@ -47,11 +50,13 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 
