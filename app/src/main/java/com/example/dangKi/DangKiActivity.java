@@ -70,7 +70,7 @@ public class DangKiActivity extends AppCompatActivity {
         if (insertSuccess) {
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
             // Chuyển sang màn hình chính
-            Intent intent = new Intent(DangKiActivity.this, MainActivity.class);
+            Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

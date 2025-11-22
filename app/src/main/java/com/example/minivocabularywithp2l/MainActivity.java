@@ -28,7 +28,7 @@ import java.util.Calendar;
 
 //Cac trang activ se lien ket voi Mainactivity (trang chu) bang intent o day
 public class MainActivity extends AppCompatActivity {
-    private Button btnGame, btnNhiemVu;
+    private Button btnGame, btnNhiemVu, btnAnimail;
     private ImageButton imbtnHome;
     private ImageButton imbtnHoc;
     private ImageButton imbtnCheckList;
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             btnGame = findViewById(R.id.btnGame);
             btnNhiemVu = findViewById(R.id.btnNhiemVu);
+            btnAnimail = findViewById(R.id.btnAnimail);
             imbtnHome = findViewById(R.id.imbtnHome);
             imbtnGame = findViewById(R.id.imbtnGame);
             imbtnHoc = findViewById(R.id.imbtnHoc);
@@ -94,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             btnNhiemVu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intentNhiemVu = new Intent(MainActivity.this, NhiemVuActivity.class);
+                    Intent intentNhiemVu = new Intent(MainActivity.this, ChuDeActivity.class);
                     startActivity(intentNhiemVu);
                 }
             });
@@ -107,6 +108,9 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Lien ket trang hoc flatcat
+
     }
 
 

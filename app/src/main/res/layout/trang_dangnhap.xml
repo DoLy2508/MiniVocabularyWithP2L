@@ -29,6 +29,7 @@
             android:text="Welcome Back!"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:textColor="#D81B60"
             android:layout_marginTop="16dp"/>
 
         <!-- Mô tả -->
@@ -45,21 +46,33 @@
         <EditText
             android:id="@+id/editEmail"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Enter your email"
-            android:padding="12dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_edittext_hong"
+            android:drawableStart="@android:drawable/sym_action_email"
+            android:drawablePadding="12dp"
+            android:drawableTint="#FF69B4"
+            android:hint="Địa chỉ email"
             android:inputType="textEmailAddress"
-            android:layout_marginBottom="12dp"/>
+            android:textColor="#333333"
+            android:textColorHint="#AAAAAA"
+            android:minHeight="50dp"/>
 
         <!-- Password -->
         <EditText
             android:id="@+id/editPassword"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Enter Password"
-            android:padding="12dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/bg_edittext_hong"
+            android:drawableStart="@android:drawable/ic_lock_idle_lock"
+            android:drawablePadding="12dp"
+            android:drawableTint="#FF69B4"
+            android:hint="Mật khẩu"
             android:inputType="textPassword"
-            android:layout_marginBottom="12dp"/>
+            android:textColor="#333333"
+            android:textColorHint="#AAAAAA"
+            android:minHeight="50dp"/>
 
         <!-- Nút Login -->
         <Button
@@ -68,7 +81,7 @@
             android:layout_height="48dp"
             android:text="Login"
             android:textAllCaps="false"
-            android:backgroundTint="#FF8000"
+            android:backgroundTint="#D81B60"
             android:textColor="@android:color/white"/>
 
         <!-- Forgot Password -->
