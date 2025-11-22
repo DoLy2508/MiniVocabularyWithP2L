@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Vòng tròn nền màu nhạt -->
+    <item android:id="@android:id/background">
+        <shape
+            android:innerRadiusRatio="2.5"
+            android:shape="ring"
+            android:thicknessRatio="18.0"
+            android:useLevel="false">
+            <solid android:color="#FFE0B2" /> <!-- Màu nền của vòng tròn -->
+        </shape>
+    </item>
+
+    <!-- Vòng tròn tiến độ màu đậm -->
+    <item android:id="@android:id/progress">
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270">
+            <shape
+                android:innerRadiusRatio="2.5"
+                android:shape="ring"
+                android:thicknessRatio="18.0"
+                android:useLevel="true">
+                <solid android:color="#FF7043" /> <!-- Màu của tiến độ -->
+            </shape>
+        </rotate>
+    </item>
+</layer-list>
+    

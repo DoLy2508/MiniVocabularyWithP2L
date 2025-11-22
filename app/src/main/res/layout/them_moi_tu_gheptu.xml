@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.gheptu.activities.ThemMoiTuActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#FFF9F1"
+        android:gravity="center_horizontal">
+        <TextView
+            android:text="Thêm từ vựng mới"
+            android:gravity="center"
+            android:textSize="10pt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/edtThemMaTu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập mã từ vựng"/>
+        <EditText
+            android:id="@+id/edtThemTiengAnh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập từ tiếng anh"/>
+        <EditText
+            android:id="@+id/edtThemTiengViet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập từ tiếng việt"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnHuyThemMoi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EDBFBF"
+                android:text="Hủy bỏ"
+                android:layout_weight="1"
+                />
+
+            <Button
+                android:id="@+id/btnThemMoiTu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="#EDBFBF"
+                android:text="Thêm mới" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

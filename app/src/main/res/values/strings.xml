@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">MiniVocabularyWithP2L</string>
+    <string name="db_name">tuvungGT_v2.sql</string>
+</resources>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@drawable/mauvangnhat_dangki">
+    <!-- Dùng nền bo góc nhẹ hoặc màu nền chung -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="24dp"
+        android:text="Cập nhật nhiệm vụ"
+        android:textColor="#E67E22"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên nhiệm vụ:"
+        android:textColor="#D81B60"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/et_edit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edittext_hong"
+        android:hint="Tên nhiệm vụ cần sửa..."
+        android:padding="12dp"
+        android:textColor="#333333"
+        android:minHeight="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chi tiết / Ví dụ:"
+        android:textColor="#D81B60"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/et_edit_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edittext_hong"
+        android:hint="Sửa lại ví dụ hoặc mô tả..."
+        android:padding="12dp"
+        android:textColor="#333333"
+        android:minHeight="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_edit_cancel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_white"
+            android:text="Hủy"
+            android:textColor="#888888" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_edit_save"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/buton_orange"
+            android:text="Cập nhật"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>

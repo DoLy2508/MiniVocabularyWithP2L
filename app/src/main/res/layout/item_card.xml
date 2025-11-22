@@ -1,0 +1,26 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="#FFFFFF"
+    app:strokeWidth="0dp"
+    app:strokeColor="@android:color/transparent">
+
+    <!-- Trang ghep tu -->
+
+    <TextView
+        android:id="@+id/txtWord"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:text="culminate"
+        android:textColor="#E67E22"
+        android:textSize="18sp"
+        android:padding="8dp"
+        android:background="#FFFFFF"/>
+</com.google.android.material.card.MaterialCardView>

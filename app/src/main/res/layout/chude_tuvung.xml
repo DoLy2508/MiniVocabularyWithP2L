@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        android:gravity="center">
+
+        <!-- Thanh trên cùng chứa các nút (2 hàng, mỗi hàng 3 nút) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- Hàng 1 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/ghinho"
+                    android:backgroundTint="#D3D3D3"
+                    android:textColor="#000"
+                    android:text="Thẻ ghi nhớ" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/hoc"
+                    android:backgroundTint="#D3D3D3"
+                    android:textColor="#000"
+                    android:layout_weight="1"
+                    android:text="Học" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/kiemtra"
+                    android:backgroundTint="#D3D3D3"
+                    android:textColor="#000"
+                    android:layout_weight="1"
+                    android:text="Kiểm tra" />
+            </LinearLayout>
+
+            <!-- Hàng 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/blocks"
+                    android:backgroundTint="#D3D3D3"
+                    android:textColor="#000"
+                    android:layout_weight="1"
+                    android:text="Blocks" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/blast"
+                    android:backgroundTint="#D3D3D3"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:text="Blast" />
+
+                <Button
+                    android:id="@+id/btnGhepThe"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/ghepthe"
+                    android:textColor="#000"
+                    android:backgroundTint="#D3D3D3"
+                    android:layout_weight="1"
+                    android:text="Ghép thẻ" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Khoảng cách -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <!-- Khung hiển thị flashcard -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:padding="12dp"
+            android:elevation="8dp"
+            android:background="@android:color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <!-- Phần chứa TextView và icon đèn -->
+                <TextView
+                    android:id="@+id/text_hint"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Hiển thị gợi ý"
+                    android:drawableStart="@drawable/goi_y"
+                    android:textSize="8pt"
+                    android:gravity="center_vertical" />
+
+                <!-- Phần chứa nút loa và sao -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_sound"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/loa" />
+
+                    <ImageButton
+                        android:id="@+id/btn_star"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/sao" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Nội dung flashcard -->
+            <TextView
+                android:id="@+id/text_flashcard"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="you are so irritating/annoying"
+                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:paddingTop="40dp"
+                android:paddingBottom="40dp"/>
+        </LinearLayout>
+
+        <!-- Nút Tiếp tục -->
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tiếp tục"
+            android:backgroundTint="#CCCCCC" />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

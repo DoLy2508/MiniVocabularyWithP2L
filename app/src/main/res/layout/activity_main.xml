@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- PHẦN ĐẦU: TRANG CHỦ + ICON -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="30dp">
+
+            <!-- Tiêu đề -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Trang chủ"
+                android:textSize="12pt"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+
+            <!-- Icon thông báo -->
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/anhthongbao"
+                android:contentDescription="Thông báo"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:padding="4dp" />
+
+            <!-- Icon cài đặt -->
+            <ImageButton
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/anhcaidat"
+                android:contentDescription="Cài đặt"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:padding="4dp" />
+        </LinearLayout>
+
+        <!-- Thông báo -->
+        <TextView
+            android:id="@+id/tvThongbao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFB952"
+            android:padding="12dp"
+            android:text="Mỗi ngày một từ – Mở rộng cả thế giới! \n Tích lũy từ vựng – Bứt phá tiếng Anh!"
+            android:textColor="#000000"
+            android:textSize="8pt"
+            android:textStyle="bold"
+            android:textAlignment="center"/>
+
+        <!-- Khoảng cách -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <!-- Hàng: Tiến độ và Luyện nghe -->
+        <!-- android:divider + showDividers có đường chia (hoặc khoảng trống) giữa các phần tử con trong LinearLayout cha  -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:divider="?android:attr/dividerHorizontal"
+            android:showDividers="middle"
+            android:dividerPadding="50dp"
+            android:weightSum="2">
+
+            <!-- Tiến độ -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_tiendo"
+                android:padding="16dp">
+
+                <!-- Hình ảnh -->
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/tiendo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Theo dõi tiến độ\nSố từ đã học"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+
+            <!-- Luyện nghe -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="180dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_luyennghe"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/nghe" />
+
+                <TextView
+                    android:id="@+id/tvluyenphatam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Luyện nghe  phát âm"
+                    android:textSize="14sp"
+                    android:paddingTop="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Khoảng cách -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <!-- Chủ đề từ vựng -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chủ đề từ vựng"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <!-- Các nút chủ đề -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:layout_weight="1"
+                android:backgroundTint="#90cbf7"
+                android:drawableTop="@drawable/animals"
+                android:text="Animals" />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:drawableTop="@drawable/food"
+                android:layout_weight="1"
+                android:text="Food"
+                android:backgroundTint="#a6d6a4"/>
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:drawableTop="@drawable/travel"
+                android:layout_weight="1"
+                android:text="Travel"
+                android:backgroundTint="#ffe087"/>
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="80dp"
+                android:drawableTop="@drawable/jobs"
+                android:layout_weight="1"
+                android:text="Jobs"
+                android:backgroundTint="#feac93"/>
+        </LinearLayout>
+
+        <!-- Khoảng cách -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <!-- Các chức năng phụ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnNhiemVu"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:drawableLeft="@drawable/checklist"
+                android:text="Nhiệm vụ học tập"
+                android:backgroundTint="#8af2f2"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+
+            <Button
+                android:id="@+id/btnGame"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="80dp"
+                android:layout_margin="10dp"
+                android:drawableLeft="@drawable/game"
+                android:text="Trò chơi ghép từ"
+                android:backgroundTint="#eda9fc"
+                android:textStyle="bold"
+                android:textColor="#000"/>
+        </LinearLayout>
+
+        <!-- Khoảng cách để đẩy thanh nav xuống -->
+
+        <!-- Thanh điều hướng dưới cùng -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="39dp"
+            android:background="#DDDDDD"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageButton
+                android:id="@+id/imbtnHome"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="Home"
+                android:src="@drawable/home" />
+
+            <ImageButton
+                android:id="@+id/imbtnHoc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="Học từ vựng"
+                android:src="@drawable/book" />
+
+            <ImageButton
+                android:id="@+id/imbtnCheckList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="Checklist"
+                android:src="@drawable/checklist" />
+
+            <ImageButton
+                android:id="@+id/imbtnGame"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="Game"
+                android:src="@drawable/game" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

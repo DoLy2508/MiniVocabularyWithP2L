@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FFF0F5"
+    android:padding="24dp"
+    tools:context=".MainActivity">
+
+    <!-- ELSA Logo -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="ELSA Logo"
+        app:srcCompat="@drawable/chotbieutuong" />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng ký thành viên"
+        android:textColor="#D81B60"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lưu lại tiến trình học của bạn"
+        android:textColor="#888888"
+        android:textSize="14sp"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Ô nhập Email -->
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_edittext_hong"
+        android:drawableStart="@android:drawable/sym_action_email"
+        android:drawablePadding="12dp"
+        android:drawableTint="#FF69B4"
+        android:hint="Địa chỉ email"
+        android:inputType="textEmailAddress"
+        android:textColor="#333333"
+        android:textColorHint="#AAAAAA"
+        android:minHeight="50dp" />
+
+    <!-- Ô nhập Mật khẩu -->
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/bg_edittext_hong"
+        android:drawableStart="@android:drawable/ic_lock_idle_lock"
+        android:drawablePadding="12dp"
+        android:drawableTint="#FF69B4"
+        android:hint="Mật khẩu"
+        android:inputType="textPassword"
+        android:textColor="#333333"
+        android:textColorHint="#AAAAAA"
+        android:minHeight="50dp" />
+
+    <!-- Nút Đăng ký -->
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/mauaodieu"
+        app:backgroundTint="@null"
+        android:text="Đăng ký"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:elevation="4dp" />
+
+    <!-- Điều khoản và chính sách -->
+    <TextView
+        android:id="@+id/terms_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bằng việc đăng ký, bạn đồng ý với Điều khoản &amp; Chính sách của chúng tôi."
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"/>
+
+</LinearLayout>

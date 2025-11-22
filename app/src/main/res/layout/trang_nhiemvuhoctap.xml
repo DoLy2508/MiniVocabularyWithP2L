@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mauvangnhat_dangki"
+    tools:context=".MainActivity">
+
+    <!-- Sử dụng LinearLayout bao ngoài để chứa phần header và listview -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_marginBottom="70dp"> <!-- Chừa chỗ cho menu bottom -->
+
+        <!-- TIÊU ĐỀ CHÍNH -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/checklist" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Danh sách học tập"
+                android:textColor="#E67E22"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- TIÊU ĐỀ PHỤ -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:text="Ghi chú &amp; nhắc lại từ chưa thuộc"
+            android:textColor="#D35400"
+            android:textSize="14sp" />
+
+        <!-- LISTVIEW HIỂN THỊ NHIỆM VỤ -->
+        <ListView
+            android:id="@+id/lv_nhiemvu"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp" />
+
+    </LinearLayout>
+
+    <!-- Nút thêm nhiệm vụ -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="90dp"
+        android:src="@drawable/themnhiemvu"
+        app:backgroundTint="#FF9800"
+        app:tint="@android:color/white"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        android:contentDescription="Thêm nhiệm vụ mới"/>
+
+    <!-- Menu bottom -->
+    <include
+        android:id="@+id/thanh_menu"
+        layout="@layout/thanh_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

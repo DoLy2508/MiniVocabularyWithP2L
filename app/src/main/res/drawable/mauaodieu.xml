@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Định nghĩa màu gradient -->
+    <gradient
+        android:type="linear"
+        android:angle="0"
+        android:startColor="#FFB6C1"
+        android:endColor="#FBC2EB" />
+
+    <!-- Bo tròn các góc của nút bấm -->
+    <corners android:radius="30dp" />
+
+</shape>
