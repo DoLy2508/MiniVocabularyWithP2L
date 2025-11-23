@@ -70,7 +70,7 @@ public class GhepTuActivity extends AppCompatActivity {
 
         sqLiteConnect = new SQLiteConnect(GhepTuActivity.this, getString(R.string.db_name),
                 null,
-                1
+                SQLiteConnect.DATABASE_VERSION
         );
         imbtnQuanLiTu = findViewById(R.id.imbtnQuanLiTu);
         gridLayout = findViewById(R.id.gridLayout);

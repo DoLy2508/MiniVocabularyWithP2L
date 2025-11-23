@@ -93,7 +93,7 @@ public class TuVungGTAdapter extends ArrayAdapter {
                         try{
                             String query = "DELETE FROM tuvungGT_v2 WHERE id = '" + tu.getId() + "'";
                             SQLiteConnect sqlitesConnect = new SQLiteConnect(context, context.getString(R.string.db_name),
-                                    null, 1);
+                                    null, SQLiteConnect.DATABASE_VERSION);
                             sqlitesConnect.queryData(query);
                             Toast.makeText(context, "Đã xóa " + tu.getMaTu() + "-" + tu.getTiengAnh(), Toast.LENGTH_SHORT).show();
                             ((QuanLiTuActivity) context).loadDataTuVung();

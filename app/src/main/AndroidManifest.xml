@@ -32,13 +32,17 @@
             android:exported="false" />
         <activity android:name="com.example.gheptu.GhepTuActivity" />
         <activity android:name="com.example.gheptu.VictoryActivity" />
-        <activity android:name="com.example.LuyenPA.LuyenPhatAmActivity" />
+
 
         <receiver android:name="com.example.thongBao.ThongBaoActivity" />
 
         <activity android:name="com.example.chuDe.ChuDeActivity" />
         <activity android:name="com.example.chuDe.FlashCardActivity" />
         <activity android:name="com.example.NhiemVu.NhiemVuActivity" />
+
+        <activity android:name="com.example.LuyenPA.LuyenPhatAmActivity" />
+        <activity android:name="com.example.LuyenPA.Activities.ThemMoiTuPaActivity"/>
+        <activity android:name="com.example.LuyenPA.QuanLiTuPaActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

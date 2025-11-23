@@ -50,13 +50,15 @@ public class MainActivity extends AppCompatActivity {
         scheduleDailyReminder();          // đặt thông báo hằng ngày
 
         // Lien ket trang tro choi ghep tu
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+
             btnGame = findViewById(R.id.btnGame);
             btnNhiemVu = findViewById(R.id.btnNhiemVu);
             imbtnHome = findViewById(R.id.imbtnHome);
             imbtnGame = findViewById(R.id.imbtnGame);
             imbtnHoc = findViewById(R.id.imbtnHoc);
+            imbtnCheckList = findViewById(R.id.imbtnCheckList);
             tvluyenphatam = findViewById(R.id.tvluyenphatam);
+
             View.OnClickListener gameClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,10 +105,7 @@ public class MainActivity extends AppCompatActivity {
             // .....
 
 
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
     }
 
 
