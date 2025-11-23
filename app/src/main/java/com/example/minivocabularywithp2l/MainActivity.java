@@ -1,7 +1,10 @@
 package com.example.minivocabularywithp2l;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -20,6 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.LuyenPA.LuyenPhatAmActivity;
 import com.example.NhiemVu.NhiemVuActivity;
 import com.example.chuDe.ChuDeActivity;
+import com.example.chuDe.FlashCardActivity;
 import com.example.gheptu.GhepTuActivity;
 import com.example.thongBao.ThongBaoActivity;
 
@@ -28,7 +32,7 @@ import java.util.Calendar;
 
 //Cac trang activ se lien ket voi Mainactivity (trang chu) bang intent o day
 public class MainActivity extends AppCompatActivity {
-    private Button btnGame, btnNhiemVu;
+    private Button btnGame, btnNhiemVu, btnAnimail;
     private ImageButton imbtnHome;
     private ImageButton imbtnHoc;
     private ImageButton imbtnCheckList;
@@ -50,15 +54,14 @@ public class MainActivity extends AppCompatActivity {
         scheduleDailyReminder();          // đặt thông báo hằng ngày
 
         // Lien ket trang tro choi ghep tu
-
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             btnGame = findViewById(R.id.btnGame);
             btnNhiemVu = findViewById(R.id.btnNhiemVu);
+            btnAnimail = findViewById(R.id.btnAnimail);
             imbtnHome = findViewById(R.id.imbtnHome);
             imbtnGame = findViewById(R.id.imbtnGame);
             imbtnHoc = findViewById(R.id.imbtnHoc);
-            imbtnCheckList = findViewById(R.id.imbtnCheckList);
             tvluyenphatam = findViewById(R.id.tvluyenphatam);
-
             View.OnClickListener gameClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             btnNhiemVu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intentNhiemVu = new Intent(MainActivity.this, NhiemVuActivity.class);
+                    Intent intentNhiemVu = new Intent(MainActivity.this, ChuDeActivity.class);
                     startActivity(intentNhiemVu);
                 }
             });
@@ -105,43 +108,71 @@ public class MainActivity extends AppCompatActivity {
             // .....
 
 
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-    }
+//        btnAnimail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intentAnimal = new Intent(MainActivity.this, FlashCardActivity.class);
+//                startActivity(intentAnimal);
+//            }
+//        });
 
-
-
-
-    // su kien thong bao
-    private void requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
-            }
-        }
     }
 
     private void scheduleDailyReminder() {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(this, ThongBaoActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        // Thiết lập thời gian gửi (ví dụ: 8h sáng mỗi ngày)
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 16);
-        calendar.set(Calendar.MINUTE, 32);
-        calendar.set(Calendar.SECOND, 0);
-
-        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-            // Nếu giờ 8h hôm nay đã qua, đặt cho ngày mai
-            calendar.add(Calendar.DAY_OF_YEAR, 1);
-        }
-
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-        );
     }
+
+    private void requestNotificationPermission() {
+    }
+    // Lien ket trang hoc flatcat
+
+
+    // su kien thong bao
+//    private void requestNotificationPermission() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+//            }
+//        }
+//    }
+
+
+//    private void scheduleDailyReminder() {
+//        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+//
+//        // 👇 SỬA DÒNG NÀY: Dùng ReminderReceiver.class thay vì ThongBaoActivity.class
+//        Intent intent = new Intent(this,ThongBaoActivity.class);
+//
+//        // 👇 DÙNG getBroadcast() — đúng với BroadcastReceiver
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+//                this,
+//                0,
+//                intent,
+//                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+//        );
+//
+//        // Thiết lập thời gian (16:32 mỗi ngày)
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR_OF_DAY, 16);
+//        calendar.set(Calendar.MINUTE, 32);
+//        calendar.set(Calendar.SECOND, 0);
+//
+//        // Nếu thời gian đã qua trong ngày hôm nay → dời sang ngày mai
+//        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+//            calendar.add(Calendar.DAY_OF_YEAR, 1);
+//        }
+//
+//        // Đặt nhắc lại mỗi ngày
+//        alarmManager.setRepeating(
+//                AlarmManager.RTC_WAKEUP,
+//                calendar.getTimeInMillis(),
+//                AlarmManager.INTERVAL_DAY,
+//                pendingIntent
+//        );
+//   }
 }

@@ -150,6 +150,7 @@
             android:gravity="center">
 
             <Button
+                android:id="@+id/btnAnimail"
                 android:layout_width="40dp"
                 android:layout_height="80dp"
                 android:layout_weight="1"
@@ -158,6 +159,7 @@
                 android:text="Animals" />
 
             <Button
+                android:id="@+id/btnFood"
                 android:layout_width="40dp"
                 android:layout_height="80dp"
                 android:drawableTop="@drawable/food"
@@ -166,6 +168,7 @@
                 android:backgroundTint="#a6d6a4"/>
 
             <Button
+                android:id="@+id/btnTravel"
                 android:layout_width="40dp"
                 android:layout_height="80dp"
                 android:drawableTop="@drawable/travel"
@@ -174,6 +177,7 @@
                 android:backgroundTint="#ffe087"/>
 
             <Button
+                android:id="@+id/btnJobs"
                 android:layout_width="40dp"
                 android:layout_height="80dp"
                 android:drawableTop="@drawable/jobs"
