@@ -76,7 +76,7 @@
         android:id="@+id/register_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/mauaodieu"
         app:backgroundTint="@null"
         android:text="Đăng ký"
@@ -85,6 +85,18 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:elevation="4dp" />
+
+    <!-- Nút chuyển sang Đăng nhập -->
+    <TextView
+        android:id="@+id/login_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="Đã có tài khoản? Đăng nhập ngay"
+        android:textColor="#D81B60"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:gravity="center" />
 
     <!-- Điều khoản và chính sách -->
     <TextView
