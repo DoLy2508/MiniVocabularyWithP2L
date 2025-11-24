@@ -32,13 +32,21 @@
                     android:text="English"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="#E67E22" />
+                    android:textColor="#F0902A" />
+                <TextView
+                    android:id="@+id/tvNguAm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" /ˈəʊ.ʃən/"
+                    android:textSize="16sp"
+                    android:textColor="#000000" />
                 <TextView
                 android:id="@+id/tvTiengViet"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Vietnamese"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 android:textColor="#F28B8B" />
                 <LinearLayout
                     android:layout_width="match_parent"

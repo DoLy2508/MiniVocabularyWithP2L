@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 
 public class QuanLiTuPaActivity extends AppCompatActivity {
     ImageButton imbtnHome, imbtnHoc, imbtnCheckList, imbtnGame;
+    ImageView imvTroLai;
     ListView lvTuVugPhatAm;
     ArrayList<LuyenPhatAm> listTuPA;
     TuVungPAadapter tuVungPaAdapter;
@@ -46,7 +48,11 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
         imbtnHoc = findViewById(R.id.imbtnHoc);
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         imbtnGame = findViewById(R.id.imbtnGame);
+        imvTroLai = findViewById(R.id.imvTroLai);
+
         lvTuVugPhatAm = findViewById(R.id.lvTuVugPhatAm);
+
+        imvTroLai.setOnClickListener(v -> finish());
 
         listTuPA = new ArrayList<>();
 
@@ -99,16 +105,15 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
 
         tuVungPaAdapter.notifyDataSetChanged();
     }
-    ActivityResultLauncher themMoiTuLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK){
-                        loadDataTuVung();
-                    }
+    ActivityResultLauncher<Intent> themMoiTuLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    loadDataTuVung(); // reload danh sách mới thêm
                 }
+            }
+    );
 
-            });
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.option_menu_gheptu, menu);

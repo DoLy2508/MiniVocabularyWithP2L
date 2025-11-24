@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -48,14 +49,16 @@ public class LuyenPhatAmActivity extends AppCompatActivity {
 
 
         imvTroVe.setOnClickListener(v -> {
-                    startActivity(new Intent(LuyenPhatAmActivity.this, MainActivity.class));
-                    finish();
+            Log.d("CLICK_TEST", "Click Tro Ve");
+            startActivity(new Intent(LuyenPhatAmActivity.this, MainActivity.class));
+            finish();
 
 
-                });
+        });
         imbtnQuanLiTuPA.setOnClickListener(v -> {
-            Intent intent = new Intent(LuyenPhatAmActivity.this, QuanLiTuPaActivity.class);
-            startActivity(intent);
+            Log.d("CLICK_TEST", "Click QuanLiTuPA");
+            Intent intentPA = new Intent(LuyenPhatAmActivity.this, QuanLiTuPaActivity.class);
+            startActivity(intentPA);
         });
 
 

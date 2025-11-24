@@ -7,6 +7,30 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.LuyenPA.QuanLiTuPaActivity"
     >
+    <LinearLayout
+        android:id="@+id/headerBack"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/imvTroLai"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quản lý từ phát âm"
+            android:textColor="#000"
+            android:textSize="18sp"
+            android:layout_marginStart="70dp"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lvTuVugPhatAm"

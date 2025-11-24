@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             btnGame = findViewById(R.id.btnGame);
             btnNhiemVu = findViewById(R.id.btnNhiemVu);
             btnAnimail = findViewById(R.id.btnAnimail);
+            imbtnCheckList = findViewById(R.id.imbtnCheckList);
             imbtnHome = findViewById(R.id.imbtnHome);
             imbtnGame = findViewById(R.id.imbtnGame);
             imbtnHoc = findViewById(R.id.imbtnHoc);
@@ -95,17 +96,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
         // Liên ket trang nhiem vu hoc tap
-            btnNhiemVu.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener nhiemVuClickListener = new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
-                    Intent intentNhiemVu = new Intent(MainActivity.this, ChuDeActivity.class);
+                public void onClick(View v) {
+                    Intent intentNhiemVu = new Intent(MainActivity.this, NhiemVuActivity.class);
                     startActivity(intentNhiemVu);
                 }
-            });
+            };
+            btnNhiemVu.setOnClickListener(nhiemVuClickListener);
+            imbtnCheckList.setOnClickListener(nhiemVuClickListener);
+
+
 
         // Lien ket trang tien do hoc tap
             // .....
+
+
 
 
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
