@@ -92,7 +92,7 @@
         <GridLayout
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
-            android:layout_height="490dp"
+            android:layout_height="565dp"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
             android:alignmentMode="alignMargins"

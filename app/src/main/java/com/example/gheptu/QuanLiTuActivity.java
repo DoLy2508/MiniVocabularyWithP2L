@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class QuanLiTuActivity extends AppCompatActivity {
     ArrayList<TuVungGhepTu> listTu;
     TuVungGTAdapter tuVungGTAdapter;
     SQLiteConnect sqLiteConnect;
+    ImageView imvTroLai;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,9 @@ public class QuanLiTuActivity extends AppCompatActivity {
         imbtnHoc = findViewById(R.id.imbtnHoc);
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         imbtnGame = findViewById(R.id.imbtnGame);
+        imvTroLai = findViewById(R.id.imvTroLai);
+
+        imvTroLai.setOnClickListener(v -> finish());
 
         imbtnGame.setOnClickListener(v -> {
             startActivity(new Intent(QuanLiTuActivity.this, GhepTuActivity.class));

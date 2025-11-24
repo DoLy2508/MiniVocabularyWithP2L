@@ -30,7 +30,7 @@
                     android:drawableTop="@drawable/ghinho"
                     android:backgroundTint="#D3D3D3"
                     android:textColor="#000"
-                    android:text="Thẻ ghi nhớ" />
+                    android:text="Trang chủ" />
 
                 <Button
                     android:layout_width="0dp"

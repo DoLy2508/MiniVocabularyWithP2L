@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Quản lý từ phát âm"
-            android:textColor="#000"
+            android:textColor="#E67E22"
             android:textSize="18sp"
             android:layout_marginStart="70dp"
             android:textStyle="bold"/>
@@ -38,50 +38,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="#FFF9F1"/>
-    <LinearLayout
-    android:id="@+id/bottom_navigation_bar"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="#DDDDDD"
-    android:orientation="horizontal"
-    android:weightSum="4">
-
-            <ImageButton
-                android:id="@+id/imbtnHome"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="Home"
-                android:src="@drawable/home"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageButton
-                android:id="@+id/imbtnHoc"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="Học từ vựng"
-                android:src="@drawable/book"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageButton
-                android:id="@+id/imbtnCheckList"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="Checklist"
-                android:src="@drawable/checklist"
-                android:background="?android:attr/selectableItemBackground"/>
-
-            <ImageButton
-                android:id="@+id/imbtnGame"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:contentDescription="Game"
-                android:src="@drawable/game"
-                android:background="?android:attr/selectableItemBackground"/>
-
-</LinearLayout>
-
+    <!-- Menu bottom -->
+    <include
+        android:id="@+id/thanh_menu"
+        layout="@layout/thanh_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 </LinearLayout>
