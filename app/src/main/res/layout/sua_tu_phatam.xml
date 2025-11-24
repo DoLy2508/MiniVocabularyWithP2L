@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
+    tools:context="com.example.LuyenPA.Activities.SuaTuPaActivity"
     >
 
     <LinearLayout
@@ -18,26 +19,33 @@
             android:text="Sửa từ vựng"
             android:gravity="center"
             android:textSize="10pt"
+            android:textColor="#E67E22"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"/>
 
         <EditText
-            android:id="@+id/edtThemMaTu"
+            android:id="@+id/edtSuaMaTu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập mã từ vựng"
             android:layout_marginTop="8dp"/>
 
         <EditText
-            android:id="@+id/edtThemTiengAnh"
+            android:id="@+id/edtSuaTiengAnh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập từ tiếng anh"
             android:layout_marginTop="8dp"/>
+        <EditText
+            android:id="@+id/edtSuaNguAm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập ngữ âm của từ"
+            android:layout_marginTop="8dp"/>
 
         <EditText
-            android:id="@+id/edtThemTiengViet"
+            android:id="@+id/edtSuaTiengViet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nhập từ tiếng việt"

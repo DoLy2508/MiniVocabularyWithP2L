@@ -83,7 +83,7 @@
                 android:layout_marginRight="10dp"/>
             <ImageView
                 android:id="@+id/imvXoa"
-                android:src="@drawable/delete"
+                android:src="@drawable/xoa"
                 android:layout_width="40dp"
                 android:layout_height="40dp"/>
 

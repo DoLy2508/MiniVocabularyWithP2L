@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "HocTiengAnh.db";
-    public static final int DATABASE_VERSION = 3; // Tăng version để cập nhật bảng mới
+    public static final int DATABASE_VERSION = 5; // Tăng version để cập nhật bảng mới
 
     // Bảng Users (Đăng Ký)
     public static final String TABLE_USERS = "users";
@@ -53,8 +53,12 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         String createTableUsers = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_EMAIL + " TEXT UNIQUE, " +
-                COLUMN_PASSWORD + " TEXT)";
+                COLUMN_PASSWORD + " TEXT, " +
+                "role TEXT DEFAULT 'user')";
         db.execSQL(createTableUsers);
+
+        // Chèn tai khoan admin (chi 1 lan)
+        db.execSQL("INSERT OR IGNORE INTO users (email, password, role) VALUES ('minivocabularywithp2l@gmail.com', '123456A@', 'admin')");
 
         // 2. Tạo bảng Tasks
         String createTableTasks = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + " (" +
@@ -190,4 +194,21 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         int rowsDeleted = db.delete(TABLE_TASKS, COLUMN_TASK_ID + " = ?", new String[]{String.valueOf(id)});
         return rowsDeleted > 0;
     }
+
+    public boolean isAdmin(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT role FROM users WHERE email = ?",
+                new String[]{email}
+        );
+
+        boolean isAdmin = false;
+        if (cursor.moveToFirst()) {
+            String role = cursor.getString(0);
+            isAdmin = "admin".equalsIgnoreCase(role);
+        }
+        cursor.close();
+        return isAdmin;
+    }
+
 }
