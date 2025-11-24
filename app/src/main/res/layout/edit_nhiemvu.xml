@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="@drawable/mauvangnhat_dangki">
+    android:background="#FFF9F1">
     <!-- Dùng nền bo góc nhẹ hoặc màu nền chung -->
 
     <TextView
@@ -76,7 +76,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:background="@drawable/buton_orange"
+            android:background="#EDBFBF"
             android:text="Cập nhật"
             android:textColor="@android:color/white" />
     </LinearLayout>

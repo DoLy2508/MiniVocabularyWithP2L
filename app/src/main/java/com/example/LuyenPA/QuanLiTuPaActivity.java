@@ -1,7 +1,8 @@
-package com.example.gheptu;
+package com.example.LuyenPA;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,105 +22,98 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.gheptu.Adapter.TuVungGTAdapter;
-import com.example.gheptu.Database.SQLiteConnect;
-import com.example.gheptu.Model.TuVungGhepTu;
-import com.example.gheptu.activities.ThemMoiTuActivity;
-import com.example.minivocabularywithp2l.R;
 
+import com.example.LuyenPA.Activities.ThemMoiTuPaActivity;
+import com.example.LuyenPA.Adapter.TuVungPAadapter;
+import com.example.LuyenPA.Model.LuyenPhatAm;
+import com.example.gheptu.Database.SQLiteConnect;
+import com.example.minivocabularywithp2l.R;
 
 import java.util.ArrayList;
 
-public class QuanLiTuActivity extends AppCompatActivity {
+public class QuanLiTuPaActivity extends AppCompatActivity {
     ImageButton imbtnHome, imbtnHoc, imbtnCheckList, imbtnGame;
-    ListView lvTuVugGhepTu;
-    ArrayList<TuVungGhepTu> listTu;
-    TuVungGTAdapter tuVungGTAdapter;
-    SQLiteConnect sqLiteConnect;
     ImageView imvTroLai;
+    ListView lvTuVugPhatAm;
+    ArrayList<LuyenPhatAm> listTuPA;
+    TuVungPAadapter tuVungPaAdapter;
+    SQLiteConnect sqLiteConnect;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.quan_li_tu_gheptu);
+        setContentView(R.layout.quan_li_tu_phatam);
         imbtnHome = findViewById(R.id.imbtnHome);
         imbtnHoc = findViewById(R.id.imbtnHoc);
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         imbtnGame = findViewById(R.id.imbtnGame);
         imvTroLai = findViewById(R.id.imvTroLai);
 
+        lvTuVugPhatAm = findViewById(R.id.lvTuVugPhatAm);
+
         imvTroLai.setOnClickListener(v -> finish());
 
-        imbtnGame.setOnClickListener(v -> {
-            startActivity(new Intent(QuanLiTuActivity.this, GhepTuActivity.class));
-            finish();
+        listTuPA = new ArrayList<>();
 
-        });
-
-
-        lvTuVugGhepTu = findViewById(R.id.lvTuVugGhepTu);
-        listTu = new ArrayList<>();
-        sqLiteConnect = new SQLiteConnect(getBaseContext(), getString(R.string.db_name), null,  SQLiteConnect.DATABASE_VERSION);
-        String query = "CREATE TABLE IF NOT EXISTS tuvungGT_v2 (" +
-                " id       INTEGER PRIMARY KEY AUTOINCREMENT," +
-                " maTu      TEXT," +
-                " tiengAnh  TEXT," +
-                " tiengViet TEXT)";
-        sqLiteConnect.queryData(query);
+        sqLiteConnect = new SQLiteConnect(
+                getBaseContext(),
+                getString(R.string.db_name),
+                null,
+                SQLiteConnect.DATABASE_VERSION);
 
 
-
-
-
-        tuVungGTAdapter = new TuVungGTAdapter(QuanLiTuActivity.this, R.layout.item_quan_li_gheptu, listTu);
-        lvTuVugGhepTu.setAdapter(tuVungGTAdapter);
+        tuVungPaAdapter = new TuVungPAadapter(this, R.layout.item_quan_li_phatam, listTuPA);
+        lvTuVugPhatAm.setAdapter(tuVungPaAdapter);
 
         loadDataTuVung();
-
-        lvTuVugGhepTu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvTuVugPhatAm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(QuanLiTuActivity.this, listTu.get(position).getTiengAnh(), Toast.LENGTH_SHORT).show();
 
+                LuyenPhatAm tuPA = listTuPA.get(position);
+                String tenAudio = tuPA.getTenAudio();   // tên lưu trong DB (vd: rainbow)
+
+                int audioId = getResources().getIdentifier(tenAudio, "raw", getPackageName());
+
+                if (audioId != 0) {
+                    MediaPlayer mediaPlayer = MediaPlayer.create(QuanLiTuPaActivity.this, audioId);
+                    mediaPlayer.start();
+                } else {
+                    Toast.makeText(QuanLiTuPaActivity.this, "Không tìm thấy audio: " + tenAudio, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (sqLiteConnect != null) {
-            sqLiteConnect.close();
-        }
-    }
     public void loadDataTuVung(){
-        String query = "SELECT * FROM tuvungGT_v2";
+        String query = "SELECT * FROM tuvungPAm";
         Cursor cursor = sqLiteConnect.getData(query);
-        listTu.clear();
+        listTuPA.clear();
 
         while (cursor.moveToNext()){
-            int key = cursor.getInt(0);
+            int id = cursor.getInt(0);
             String maTu = cursor.getString(1);
             String tiengAnh = cursor.getString(2);
-            String tiengViet = cursor.getString(3);
-            TuVungGhepTu tu = new TuVungGhepTu(key, maTu, tiengAnh, tiengViet);
-            listTu.add(tu);
+            String nguAm = cursor.getString(3);
+            String tiengViet = cursor.getString(4);
+            String tenAudio = cursor.getString(5);
 
-
+            LuyenPhatAm tuPA = new LuyenPhatAm(id, maTu, tiengAnh, nguAm, tiengViet, tenAudio);
+            listTuPA.add(tuPA);
         }
-        tuVungGTAdapter.notifyDataSetChanged();
-    }
-    ActivityResultLauncher themMoiTuLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == RESULT_OK){
-                        loadDataTuVung();
-                    }
-                }
+        cursor.close();
 
+        tuVungPaAdapter.notifyDataSetChanged();
+    }
+    ActivityResultLauncher<Intent> themMoiTuLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    loadDataTuVung(); // reload danh sách mới thêm
+                }
             }
     );
+
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.option_menu_gheptu, menu);
@@ -128,7 +122,7 @@ public class QuanLiTuActivity extends AppCompatActivity {
         menuThemMoiTu.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Intent themMoiTuIntent = new Intent(QuanLiTuActivity.this, ThemMoiTuActivity.class);
+                Intent themMoiTuIntent = new Intent(QuanLiTuPaActivity.this, ThemMoiTuPaActivity.class);
                 themMoiTuLauncher.launch(themMoiTuIntent);
                 return false;
 
@@ -140,13 +134,13 @@ public class QuanLiTuActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchView.clearFocus();
-                tuVungGTAdapter.getFilter().filter(query);
+                tuVungPaAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                tuVungGTAdapter.getFilter().filter(newText);
+                tuVungPaAdapter.getFilter().filter(newText);
                 return false;
 
 
@@ -155,18 +149,6 @@ public class QuanLiTuActivity extends AppCompatActivity {
 
         return super.onCreateOptionsMenu(menu);
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == 123){
-            loadDataTuVung();
-        }
-
-    }
-
-
-
 
 
 }

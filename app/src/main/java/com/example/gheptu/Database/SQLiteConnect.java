@@ -32,6 +32,9 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     
     // Bảng Từ vựng Ghép từ (giữ lại code cũ của bạn)
     public static final String TABLE_TUVUNG_GT = "tuvungGT_v2";
+
+    // Bang tu vung phat am
+    public static final String TABLE_TUVUNG_PA = "tuvungPAm";
     private static final String COLUMN_TASK_COMPLETED = "is_completed";
 
     public SQLiteConnect(@Nullable Context context) {
@@ -69,6 +72,17 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "tiengAnh TEXT NOT NULL," +
                         "tiengViet TEXT NOT NULL)"
         );
+
+        // 3. Tạo bảng Từ cung phat am
+        db.execSQL(
+                "CREATE TABLE IF NOT EXISTS " + TABLE_TUVUNG_PA + " (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "maTu TEXT," +
+                        "tiengAnh TEXT," +
+                        "nguAm TEXT," +
+                        "tiengViet TEXT," +
+                        "tenAudio TEXT)"
+        );
     }
 
     @Override
@@ -77,6 +91,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_GT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_PA);
         onCreate(db);
     }
 

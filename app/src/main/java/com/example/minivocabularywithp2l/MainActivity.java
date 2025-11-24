@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         btnNhiemVu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentNhiemVu = new Intent(MainActivity.this, ChuDeActivity.class);
+                Intent intentNhiemVu = new Intent(MainActivity.this, NhiemVuActivity.class);
                 startActivity(intentNhiemVu);
             }
         });

@@ -47,7 +47,7 @@ public class ThemMoiTuActivity extends AppCompatActivity {
                     String query = "INSERT INTO tuvungGT_v2 (maTu, tiengAnh, tiengViet) "
                             + "VALUES ('" + maTu + "', '" + tiengAnh + "', '" + tiengViet + "')";
 
-                    SQLiteConnect sqLiteConnect = new SQLiteConnect(getBaseContext(), getString(R.string.db_name), null, 1);
+                    SQLiteConnect sqLiteConnect = new SQLiteConnect(getBaseContext(), getString(R.string.db_name), null,  SQLiteConnect.DATABASE_VERSION);
                     sqLiteConnect.queryData(query); // thay doi du lieu
                     Toast.makeText(ThemMoiTuActivity.this, "Them moi" + maTu + "- "+ tiengAnh +" thanh cong",
                             Toast.LENGTH_SHORT).show();
