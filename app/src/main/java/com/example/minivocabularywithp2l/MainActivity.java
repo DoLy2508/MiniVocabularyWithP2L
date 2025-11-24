@@ -32,7 +32,7 @@ import java.util.Calendar;
 
 //Cac trang activ se lien ket voi Mainactivity (trang chu) bang intent o day
 public class MainActivity extends AppCompatActivity {
-    private Button btnGame, btnNhiemVu, btnAnimail;
+    private Button btnGame, btnNhiemVu, btnAnimail,  btnFood, btnTravel;
     private ImageButton imbtnHome;
     private ImageButton imbtnHoc;
     private ImageButton imbtnCheckList;
@@ -50,85 +50,96 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        requestNotificationPermission();  // xin quyền nếu cần
-        scheduleDailyReminder();          // đặt thông báo hằng ngày
+        // ánh xạ view (b1)
+        btnGame = findViewById(R.id.btnGame);
+        btnNhiemVu = findViewById(R.id.btnNhiemVu);
+        btnAnimail = findViewById(R.id.btnAnimail);
+        btnFood = findViewById(R.id.btnFood);
+        btnTravel = findViewById(R.id.btnTravel);
+        imbtnHome = findViewById(R.id.imbtnHome);
+        imbtnGame = findViewById(R.id.imbtnGame);
+        imbtnHoc = findViewById(R.id.imbtnHoc);
+        tvluyenphatam = findViewById(R.id.tvluyenphatam);
 
-        // Lien ket trang tro choi ghep tu
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            btnGame = findViewById(R.id.btnGame);
-            btnNhiemVu = findViewById(R.id.btnNhiemVu);
-            btnAnimail = findViewById(R.id.btnAnimail);
-            imbtnCheckList = findViewById(R.id.imbtnCheckList);
-            imbtnHome = findViewById(R.id.imbtnHome);
-            imbtnGame = findViewById(R.id.imbtnGame);
-            imbtnHoc = findViewById(R.id.imbtnHoc);
-            tvluyenphatam = findViewById(R.id.tvluyenphatam);
-            View.OnClickListener gameClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intentGhepTu = new Intent(MainActivity.this, GhepTuActivity.class);
-                    startActivity(intentGhepTu);
-                }
-            };
-        btnGame.setOnClickListener(gameClickListener);
-        imbtnGame.setOnClickListener(gameClickListener);
+        //  Gắn sự kiện là các setOnclickListener (b2)
 
         // Lien ket trang Phat am
         tvluyenphatam.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intentLuyenPA = new Intent(MainActivity.this, LuyenPhatAmActivity.class);
-                    startActivity(intentLuyenPA);
-                }
-            });
-
-
-
+            @Override
+            public void onClick(View view) {
+                Intent intentLuyenPA = new Intent(MainActivity.this, LuyenPhatAmActivity.class);
+                startActivity(intentLuyenPA);
+            }
+        });
 
         // Lien ket trang chu de tu vung
-            imbtnHoc.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intentChuDe = new Intent(MainActivity.this, ChuDeActivity.class);
-                    startActivity(intentChuDe);
-                }
-            });
-
-
-
-
+        imbtnHoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentChuDe = new Intent(MainActivity.this, ChuDeActivity.class);
+                startActivity(intentChuDe);
+            }
+        });
 
         // Liên ket trang nhiem vu hoc tap
-            View.OnClickListener nhiemVuClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intentNhiemVu = new Intent(MainActivity.this, NhiemVuActivity.class);
-                    startActivity(intentNhiemVu);
-                }
-            };
-            btnNhiemVu.setOnClickListener(nhiemVuClickListener);
-            imbtnCheckList.setOnClickListener(nhiemVuClickListener);
+        btnNhiemVu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentNhiemVu = new Intent(MainActivity.this, ChuDeActivity.class);
+                startActivity(intentNhiemVu);
+            }
+        });
 
+        // Lien ket trang hoc flatcat
+        btnAnimail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentAnimal = new Intent(MainActivity.this, FlashCardActivity.class);
+                startActivity(intentAnimal);
+            }
+        });
+        btnFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentFood = new Intent(MainActivity.this, FlashCardActivity.class);
+                startActivity(intentFood);
+            }
+        });
+        btnTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentTravel = new Intent(MainActivity.this, FlashCardActivity.class);
+                startActivity(intentTravel);
+            }
+        });
 
+        // trò chơi ghép từ
+        View.OnClickListener gameClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentGhepTu = new Intent(MainActivity.this, GhepTuActivity.class);
+                startActivity(intentGhepTu);
+            }
+        };
+        btnGame.setOnClickListener(gameClickListener);
+        imbtnGame.setOnClickListener(gameClickListener);
 
-        // Lien ket trang tien do hoc tap
+        //Xin quyền & nhắc nhở (b3)
+        requestNotificationPermission();  // xin quyền nếu cần
+        scheduleDailyReminder();          // đặt thông báo hằng ngày
+
+        // Lien ket trang tro choi ghep tu (b4 : setOnApplyWindowInsetsListener nên để sau k để lên trước nó sẽ bị lỗi )
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            // Lien ket trang tien do hoc tap
             // .....
-
-
-
 
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-//        btnAnimail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intentAnimal = new Intent(MainActivity.this, FlashCardActivity.class);
-//                startActivity(intentAnimal);
-//            }
-//        });
+
+
 
     }
 
@@ -137,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestNotificationPermission() {
     }
-    // Lien ket trang hoc flatcat
+    
 
 
     // su kien thong bao
