@@ -32,12 +32,11 @@ import java.util.Calendar;
 
 //Cac trang activ se lien ket voi Mainactivity (trang chu) bang intent o day
 public class MainActivity extends AppCompatActivity {
-    private Button btnGame, btnNhiemVu, btnAnimail,  btnFood, btnTravel;
+    private Button btnGame, btnNhiemVu, btnAnimail, btnFood, btnTravel;
     private ImageButton imbtnHome;
     private ImageButton imbtnHoc;
     private ImageButton imbtnCheckList;
     private ImageButton imbtnGame;
-
     private TextView tvluyenphatam;
 
 
@@ -130,14 +129,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Lien ket trang tro choi ghep tu (b4 : setOnApplyWindowInsetsListener nên để sau k để lên trước nó sẽ bị lỗi )
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            // Lien ket trang tien do hoc tap
+        // Lien ket trang tien do hoc tap
             // .....
 
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
 
 
 
@@ -148,7 +146,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestNotificationPermission() {
     }
-    
 
 
     // su kien thong bao
