@@ -47,6 +47,7 @@ public class DangNhapActivity extends AppCompatActivity {
     
     }
 
+    // kiem tra user hay admin
     private void handleLogin() {
         String email = editEmail.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
@@ -63,16 +64,24 @@ public class DangNhapActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra user trong SQLite
+        // kiểm tra đăng nhập
         boolean loginSuccess = databaseHelper.checkUser(email, password);
+
         if(loginSuccess){
+            boolean isAdmin = databaseHelper.isAdmin(email); // kiểm tra quyền admin
+
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-            // Chuyển sang màn hình chính hoặc HomeActivity
-            startActivity(new Intent(DangNhapActivity.this, MainActivity.class));
+
+            // Gửi thông tin sang MainActivity
+            Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+            intent.putExtra("email", email);
+            intent.putExtra("isAdmin", isAdmin);
+            startActivity(intent);
+
             finish();
         } else {
             Toast.makeText(this, "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
         }
-
     }
+
 }

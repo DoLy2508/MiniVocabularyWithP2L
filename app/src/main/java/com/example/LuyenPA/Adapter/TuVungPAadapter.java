@@ -1,7 +1,10 @@
 package com.example.LuyenPA.Adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 
+import com.example.LuyenPA.Activities.SuaTuPaActivity;
 import com.example.LuyenPA.Model.LuyenPhatAm;
+import com.example.LuyenPA.QuanLiTuPaActivity;
 import com.example.minivocabularywithp2l.R;
 
 import java.util.ArrayList;
@@ -24,13 +29,15 @@ public class TuVungPAadapter extends ArrayAdapter {
     int resource;
     ArrayList<LuyenPhatAm> listTuPA, listTuBackup, listTuFilter;
     MediaPlayer mediaPlayer;
+    QuanLiTuPaActivity activity;
 
-    public TuVungPAadapter(Activity context, int resource, ArrayList<LuyenPhatAm> listTuPA) {
+    public TuVungPAadapter(QuanLiTuPaActivity context, int resource, ArrayList<LuyenPhatAm> listTuPA) {
 
         super(context, resource, listTuPA);
         this.context = context;
         this.resource = resource;
         this.listTuPA = this.listTuBackup = listTuPA;
+        this.activity = context;
     }
 
     public int getCount() {
@@ -71,45 +78,54 @@ public class TuVungPAadapter extends ArrayAdapter {
         imvPhatAm.setOnClickListener(v -> {
 
             String tenAudio = tuPA.getTenAudio().trim();
-
-
-
             int audioId = context.getResources().getIdentifier(
-                    tenAudio,
-                    "raw",
-                    context.getPackageName()
+                    tenAudio, "raw", context.getPackageName()
             );
 
-
             if (audioId == 0) {
-                Toast.makeText(context, "Không tìm thấy audio: " + tenAudio,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Không tìm thấy audio: " + tenAudio, Toast.LENGTH_SHORT).show();
+                Log.d("AudioDebug", "tenAudio=" + tenAudio + " not found");
                 return;
             }
 
-            // Nếu đang phát thì dừng & giải phóng trước
+            // Dừng MediaPlayer cũ
             if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-                mediaPlayer.release();
-            }
-
-            // Dừng và giải phóng MediaPlayer cũ nếu đang phát
-            if (mediaPlayer != null) {
-                if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-                mediaPlayer.release();
+                try {
+                    if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+                    mediaPlayer.release();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 mediaPlayer = null;
             }
 
-            // Tạo MediaPlayer mới và phát audio
+            // Tạo MediaPlayer mới từ ApplicationContext
             mediaPlayer = MediaPlayer.create(context, audioId);
             mediaPlayer.start();
 
-            // Release khi audio kết thúc
             mediaPlayer.setOnCompletionListener(mp -> {
                 mp.release();
                 mediaPlayer = null;
             });
         });
+
+
+        imvSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle data = new Bundle();
+                data.putSerializable("tu", tuPA);
+
+                Intent suaTuIntent = new Intent(context, SuaTuPaActivity.class);
+                suaTuIntent.putExtras(data);
+                activity.suaTuLauncher.launch(suaTuIntent);
+
+
+
+
+            }
+        });
+
 
 
 

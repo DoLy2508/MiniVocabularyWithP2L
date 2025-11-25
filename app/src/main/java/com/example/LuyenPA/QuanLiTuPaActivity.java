@@ -39,6 +39,16 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
     TuVungPAadapter tuVungPaAdapter;
     SQLiteConnect sqLiteConnect;
 
+    // launcher sua
+    public ActivityResultLauncher<Intent> suaTuLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    loadDataTuVung();   // reload lại list
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +73,7 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
                 SQLiteConnect.DATABASE_VERSION);
 
 
-        tuVungPaAdapter = new TuVungPAadapter(this, R.layout.item_quan_li_phatam, listTuPA);
+        tuVungPaAdapter = new TuVungPAadapter(QuanLiTuPaActivity.this, R.layout.item_quan_li_phatam, listTuPA);
         lvTuVugPhatAm.setAdapter(tuVungPaAdapter);
 
         loadDataTuVung();
@@ -86,9 +96,10 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
         });
     }
     public void loadDataTuVung(){
+        listTuPA.clear();
         String query = "SELECT * FROM tuvungPAm";
         Cursor cursor = sqLiteConnect.getData(query);
-        listTuPA.clear();
+
 
         while (cursor.moveToNext()){
             int id = cursor.getInt(0);
@@ -148,6 +159,15 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 456 && resultCode == 456){
+            loadDataTuVung();
+        }
+
     }
 
 

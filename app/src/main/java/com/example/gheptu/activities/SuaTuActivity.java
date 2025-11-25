@@ -62,7 +62,8 @@ public class SuaTuActivity extends AppCompatActivity {
                     String query = "UPDATE tuvungGT_v2 SET maTu = '" + maTu +
                             "', tiengAnh = '" + tiengAnh + "', tiengViet = '"
                             + tiengViet + "' WHERE id = '" + tu.getId() + "'";
-                    SQLiteConnect sqLiteConnect = new SQLiteConnect(getBaseContext(), getString(R.string.db_name), null,  SQLiteConnect.DATABASE_VERSION);
+                    SQLiteConnect sqLiteConnect = new SQLiteConnect(getBaseContext(),
+                            getString(R.string.db_name), null,  SQLiteConnect.DATABASE_VERSION);
                     sqLiteConnect.queryData(query);
                     Toast.makeText(SuaTuActivity.this, "Sua tu " + maTu + " - " + tiengAnh + " thanh cong",
                             Toast.LENGTH_SHORT).show();
