@@ -30,7 +30,7 @@
                     android:drawableTop="@drawable/ghinho"
                     android:backgroundTint="#D3D3D3"
                     android:textColor="#000"
-                    android:text="Thẻ ghi nhớ" />
+                    android:text="Trang chủ" />
 
                 <Button
                     android:layout_width="0dp"
@@ -143,28 +143,81 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Nội dung flashcard -->
-            <TextView
-                android:id="@+id/text_flashcard"
+            <!-- Khung chứa 2 mặt của flashcard và hint-->
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:text="you are so irritating/annoying"
-                android:textSize="20sp"
-                android:textColor="@android:color/black"
                 android:paddingTop="40dp"
-                android:paddingBottom="40dp"/>
+                android:paddingBottom="40dp">
+
+                <!-- Mặt trước: chỉ hiển thị từ -->
+                <TextView
+                    android:id="@+id/text_flashcard_front"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:visibility="visible" />
+
+                <!-- Mặt sau: hiển thị nghĩa -->
+                <TextView
+                    android:id="@+id/text_flashcard_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"
+                    android:visibility="gone" />
+
+                <!-- Gợi ý (hint) - sẽ hiển thị dưới từ/nghĩa khi được bật -->
+                <TextView
+                    android:id="@+id/text_flashcard_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textSize="14sp"
+                    android:textColor="#666666"
+                    android:visibility="gone"
+                    android:maxLines="3"
+                    android:ellipsize="end" />
+
+            </FrameLayout>
         </LinearLayout>
 
-        <!-- Nút Tiếp tục -->
-        <Button
-            android:id="@+id/btn_next"
-            android:layout_width="wrap_content"
+        <!-- Hàng chứa 2 nút: Lật thẻ & Tiếp tục - ĐẢM BẢO HIỂN THỊ ĐÚNG VỊ TRÍ -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Tiếp tục"
-            android:backgroundTint="#CCCCCC" />
+            android:layout_gravity="bottom|center_horizontal"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/btn_flip"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Lật thẻ"
+                android:backgroundTint="#CCCCCC"
+                android:textColor="@android:color/black" />
+
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Tiếp tục"
+                android:backgroundTint="#CCCCCC"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

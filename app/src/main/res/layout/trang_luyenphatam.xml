@@ -7,7 +7,9 @@
     android:background="#FFF9F1"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:padding="0dp">
+    android:fitsSystemWindows="true"
+    android:padding="0dp"
+    tools:context="com.example.LuyenPA.LuyenPhatAmActivity">
 
     <!-- HEADER -->
     <LinearLayout
@@ -26,7 +28,7 @@
             android:src="@drawable/close" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/tvTieuDe"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -37,20 +39,17 @@
             android:textColor="@android:color/black"/>
     </LinearLayout>
 
-    <!-- Content -->
-    <TextView
-        android:id="@+id/tvContent"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text=""
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textStyle="bold"
-        android:layout_marginTop="40dp"/>
+    <ImageButton
+        android:id="@+id/imbtnQuanLiTuPA"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Quản lý từ vựng"
+        android:src="@drawable/quan_li" />
 
     <TextView
-        android:id="@+id/tvWord"
+        android:id="@+id/tvTiengAnh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apple"
@@ -61,7 +60,6 @@
 
     <!-- Phonetic + Speaker -->
     <LinearLayout
-        android:id="@+id/phoneticContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -70,14 +68,14 @@
         android:layout_marginTop="4dp">
 
         <ImageView
-            android:id="@+id/btnSpeaker"
+            android:id="@+id/imvNghe"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="20dp"
-            android:src="@drawable/play" />
+            android:src="@drawable/listen" />
 
         <TextView
-            android:id="@+id/tvPhonetic"
+            android:id="@+id/tvNguAm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="/ˈæp.əl/"
@@ -86,7 +84,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvMeaning"
+        android:id="@+id/tvNghiaTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Quả táo"
@@ -103,7 +101,9 @@
         android:src="@drawable/microphone"
         android:tint="@android:color/white"
         app:backgroundTint="#EDBFBF"
-        app:maxImageSize="40dp"/>
+        app:maxImageSize="40dp">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
     <!-- Button Row -->
     <LinearLayout
@@ -119,16 +119,16 @@
             android:layout_height="wrap_content"
             android:text="Retry"
             android:textColor="@android:color/white"
-            android:backgroundTint="#BD9DC4"
+            android:backgroundTint="#EDBFBF"
             android:layout_marginEnd="20dp"/>
 
         <Button
-            android:id="@+id/btnConti"
+            android:id="@+id/btnContinue"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:text="Continue"
             android:textColor="@android:color/white"
-            android:backgroundTint="#BD9DC4"/>
+            android:backgroundTint="#EDBFBF"/>
     </LinearLayout>
 
     <TextView

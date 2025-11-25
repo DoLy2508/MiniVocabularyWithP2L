@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mauvangnhat_dangki"
-    tools:context=".MainActivity">
+    android:background="#FFF9F1"
+    tools:context="com.example.NhiemVu.NhiemVuActivity">
 
     <!-- Sử dụng LinearLayout bao ngoài để chứa phần header và listview -->
     <LinearLayout
@@ -69,7 +69,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="90dp"
         android:src="@drawable/themnhiemvu"
-        app:backgroundTint="#FF9800"
+        app:backgroundTint="#EDBFBF"
         app:tint="@android:color/white"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
         android:contentDescription="Thêm nhiệm vụ mới"/>

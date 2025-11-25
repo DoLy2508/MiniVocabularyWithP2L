@@ -49,7 +49,7 @@ Bạn cần tạo file dialog_background.xml để bo góc nền trắng -->
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:background="@drawable/buton_orange"
+            android:background="#EDBFBF"
             android:text="Xóa"
             android:textColor="@android:color/white" />
     </LinearLayout>

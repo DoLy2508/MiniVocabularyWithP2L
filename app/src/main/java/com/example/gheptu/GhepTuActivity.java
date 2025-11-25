@@ -66,11 +66,13 @@ public class GhepTuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trang_gheptu);
+        boolean isAdmin = getIntent().getBooleanExtra("isAdmin", false);
+
 
 
         sqLiteConnect = new SQLiteConnect(GhepTuActivity.this, getString(R.string.db_name),
                 null,
-                1
+                SQLiteConnect.DATABASE_VERSION
         );
         imbtnQuanLiTu = findViewById(R.id.imbtnQuanLiTu);
         gridLayout = findViewById(R.id.gridLayout);
@@ -80,6 +82,15 @@ public class GhepTuActivity extends AppCompatActivity {
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         imbtnGame = findViewById(R.id.imbtnGame);
         imbtnHome = findViewById(R.id.imbtnHome);
+
+        // Ẩn nút quản lý từ nếu không phải admin
+        if (!isAdmin) {
+            imbtnQuanLiTu.setVisibility(View.GONE);
+        }
+
+        imbtnQuanLiTu.setOnClickListener(v -> {
+            startActivity(new Intent(GhepTuActivity.this, QuanLiTuActivity.class));
+        });
 
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override

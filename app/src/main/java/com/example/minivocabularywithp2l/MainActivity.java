@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imbtnCheckList;
     private ImageButton imbtnGame;
     private TextView tvluyenphatam;
+    private boolean isAdmin;
+    private String email;
 
 
 
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+         isAdmin = getIntent().getBooleanExtra("isAdmin", false);
+         email = getIntent().getStringExtra("email");
         // ánh xạ view (b1)
         btnGame = findViewById(R.id.btnGame);
         btnNhiemVu = findViewById(R.id.btnNhiemVu);
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         btnNhiemVu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentNhiemVu = new Intent(MainActivity.this, ChuDeActivity.class);
+                Intent intentNhiemVu = new Intent(MainActivity.this, NhiemVuActivity.class);
                 startActivity(intentNhiemVu);
             }
         });
@@ -116,7 +120,10 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener gameClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intentGhepTu = new Intent(MainActivity.this, GhepTuActivity.class);
+                intentGhepTu.putExtra("isAdmin", isAdmin);
                 startActivity(intentGhepTu);
             }
         };
