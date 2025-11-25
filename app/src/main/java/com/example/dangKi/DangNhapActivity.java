@@ -1,10 +1,13 @@
 package com.example.dangKi;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +47,90 @@ public class DangNhapActivity extends AppCompatActivity {
         // Login
         btnLogin.setOnClickListener(v -> handleLogin());
 
+        tvForgot.setOnClickListener(v -> {
+            showForgotPasswordDialog();
+        });
+
     
+    }
+
+    private void showForgotPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Quên mật khẩu");
+
+        // Tạo EditText để nhập email
+        EditText input = new EditText(this);
+        input.setHint("Nhập email của bạn");
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        builder.setView(input);
+
+        builder.setPositiveButton("Gửi", (dialog, which) -> {
+            String email = input.getText().toString().trim();
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập email!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            SQLiteConnect db = new SQLiteConnect(this);
+            if (db.checkEmail(email)) {
+                // Cho phép đặt mật khẩu mới ngay (vì không có email server)
+                showResetPasswordDialog(email);
+            } else {
+                Toast.makeText(this, "Email không tồn tại!", Toast.LENGTH_SHORT).show();
+            }
+            db.close();
+        });
+
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
+    }
+
+    private void showResetPasswordDialog(String email) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Đặt lại mật khẩu");
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        EditText etNewPass = new EditText(this);
+        etNewPass.setHint("Mật khẩu mới");
+        etNewPass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(etNewPass);
+
+        EditText etConfirmPass = new EditText(this);
+        etConfirmPass.setHint("Nhập lại mật khẩu");
+        etConfirmPass.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(etConfirmPass);
+
+        builder.setView(layout);
+
+        builder.setPositiveButton("Lưu", (dialog, which) -> {
+            String newPass = etNewPass.getText().toString().trim();
+            String confirmPass = etConfirmPass.getText().toString().trim();
+
+            if (newPass.isEmpty() || confirmPass.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập đủ thông tin!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!newPass.equals(confirmPass)) {
+                Toast.makeText(this, "Mật khẩu không khớp!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Cập nhật mật khẩu trong SQLite
+            SQLiteConnect db = new SQLiteConnect(this);
+            //  Bạn chưa có hàm updatePassword → cần thêm!
+            boolean updated = db.updatePassword(email, newPass);
+            if (updated) {
+                Toast.makeText(this, "Đặt lại mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Lỗi khi cập nhật!", Toast.LENGTH_SHORT).show();
+            }
+            db.close();
+        });
+
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
     }
 
     // kiem tra user hay admin

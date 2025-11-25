@@ -270,6 +270,19 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM flashcards WHERE id = ?", new String[]{String.valueOf(id)});
     }
 
+    public boolean isAdmin(String email) {
+        return false;
+    }
+
+    public boolean updatePassword(String email, String newPass) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        byte[] newPassword = new byte[0];
+        cv.put(COLUMN_PASSWORD, newPassword);
+        int rows = db.update(TABLE_USERS, cv, COLUMN_EMAIL + " = ?", new String[]{email});
+        return rows > 0;
+    }
+
 //    public void closeDatabase() {
 //    }
 }
