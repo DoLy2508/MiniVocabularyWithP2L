@@ -83,6 +83,46 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "tiengViet TEXT," +
                         "tenAudio TEXT)"
         );
+        // 4.Phương : Tạo bảng flashcard
+        db.execSQL(
+                "CREATE TABLE IF NOT EXISTS flashcards (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "word TEXT NOT NULL," +
+                        "meaning TEXT NOT NULL," +
+                        "hint TEXT," +
+                        "audio_path TEXT," +
+                        "is_starred INTEGER DEFAULT 0," +
+                        "last_reviewed TEXT" +
+                        ")"
+        );
+        //  CHÈN DỮ LIỆU MẪU VÀO BẢNG flashcards
+        insertSampleFlashcards(db);
+
+    }
+
+    private void insertSampleFlashcards(SQLiteDatabase db) {
+        ContentValues values = new ContentValues();
+
+        // Flashcard 1
+        values.put("word", "irritating");
+        values.put("meaning", "gây khó chịu");
+        values.put("hint", "Thường dùng để mô tả người hoặc hành động khiến bạn bực mình.");
+        values.put("audio_path", "irritating.mp3");
+        values.put("is_starred", 0);
+        values.put("last_reviewed", "2025-01-01");
+        db.insert("flashcards", null, values);
+
+        // Flashcard 2
+        values.clear();
+        values.put("word", "annoying");
+        values.put("meaning", "phiền toái");
+        values.put("hint", "Gần nghĩa với irritating, thường dùng cho vật hoặc tình huống.");
+        values.put("audio_path", "irritating.mp3");
+        values.put("is_starred", 0);
+        values.put("last_reviewed", "2025-01-01");
+        db.insert("flashcards", null, values);
+
+        // Thêm nhiều hơn nếu cần...
     }
 
     @Override
@@ -92,6 +132,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_GT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_PA);
+        db.execSQL("DROP TABLE IF EXISTS flashcards"); // ← THÊM DÒNG NÀY
         onCreate(db);
     }
 
@@ -190,4 +231,45 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         int rowsDeleted = db.delete(TABLE_TASKS, COLUMN_TASK_ID + " = ?", new String[]{String.valueOf(id)});
         return rowsDeleted > 0;
     }
+
+    // quản lý flashcard
+//    public boolean checkDatabase() {
+//        return false;
+//    }
+
+//    public void copyDatabase() {
+//    }
+
+//    public void openDatabase() {
+//    }
+
+    public void updateStarred(int currentId, boolean isStarred) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        boolean starred = false;
+        cv.put("is_starred", isStarred ? 1 : 0);
+//        db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
+        final String TABLE_FLASHCARDS = "flashcards";
+        final String COLUMN_FLASHCARD_ID = "id";
+        final String COLUMN_FLASHCARD_WORD = "word";
+        final String COLUMN_FLASHCARD_MEANING = "meaning";
+        final String COLUMN_FLASHCARD_HINT = "hint";
+        final String COLUMN_FLASHCARD_AUDIO_PATH = "audio_path";
+        final String COLUMN_FLASHCARD_STARRED = "is_starred";
+        final String COLUMN_FLASHCARD_LAST_REVIEWED = "last_reviewed";
+        db.update(TABLE_FLASHCARDS, cv, COLUMN_FLASHCARD_ID + " = ?", new String[]{String.valueOf(currentId)});
+    }
+
+    public Cursor getRandomFlashcard() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM flashcards ORDER BY RANDOM() LIMIT 1", null);
+    }
+
+    public Cursor getFlashcardById(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM flashcards WHERE id = ?", new String[]{String.valueOf(id)});
+    }
+
+//    public void closeDatabase() {
+//    }
 }

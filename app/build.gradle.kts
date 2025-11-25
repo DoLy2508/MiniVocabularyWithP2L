@@ -1,9 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
-    // được thêm
-
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)  // ✅ Dùng alias từ libs.versions.toml
+//    // được thêm
+//
+//    alias(libs.plugins.kotlin.android)
+//    alias(libs.plugins.kotlin.kapt)  // ✅ Dùng alias từ libs.versions.toml
 }
 
 android {
@@ -33,14 +33,14 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    // thêm đoạn này
-    kotlinOptions {
-        jvmTarget = "11"  // 👈 Thêm dòng này
-    }
-    // 👇 Cấu hình toolchain để Gradle tự dùng JDK 11 khi build
-    kotlin {
-        jvmToolchain(11)
-    }
+//    // thêm đoạn này
+//    kotlinOptions {
+//        jvmTarget = "11"  // 👈 Thêm dòng này
+//    }
+//    // 👇 Cấu hình toolchain để Gradle tự dùng JDK 11 khi build
+//    kotlin {
+//        jvmToolchain(11)
+//    }
 }
 
 dependencies {
@@ -53,11 +53,11 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    // được thêm mới Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    testImplementation("androidx.room:room-testing:2.6.1")
+//    // được thêm mới Room
+//    implementation("androidx.room:room-runtime:2.6.1")
+//    kapt("androidx.room:room-compiler:2.6.1")
+//    implementation("androidx.room:room-ktx:2.6.1")
+//    testImplementation("androidx.room:room-testing:2.6.1")
 }
 
 

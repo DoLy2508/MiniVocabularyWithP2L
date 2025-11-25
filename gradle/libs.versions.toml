@@ -8,8 +8,8 @@ material = "1.13.0"
 activity = "1.12.0"
 constraintlayout = "2.2.1"
 # được thêm mới
-room = "2.6.1"
-kotlin = "1.9.20"  # hoặc phiên bản tương ứng
+#room = "2.6.1"
+#kotlin = "1.9.20"  # hoặc phiên bản tương ứng
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -20,15 +20,15 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
-# được thêm
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+## được thêm
+#room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+#room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+#room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+#room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 #được thêm mới
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+#kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 
