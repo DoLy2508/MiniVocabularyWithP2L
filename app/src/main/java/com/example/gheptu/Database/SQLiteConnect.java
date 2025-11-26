@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "HocTiengAnh.db";
-    public static final int DATABASE_VERSION = 3; // Tăng version để cập nhật bảng mới
+    public static final int DATABASE_VERSION = 4; // Tăng version để cập nhật bảng mới
 
     // Bảng Users (Đăng Ký)
     public static final String TABLE_USERS = "users";
@@ -92,9 +92,11 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "hint TEXT," +
                         "audio_path TEXT," +
                         "is_starred INTEGER DEFAULT 0," +
-                        "last_reviewed TEXT" +
+                        "last_reviewed TEXT," + // <-- SỬA LỖI: Thêm dấu phẩy ở đây
+                        "image TEXT" +
                         ")"
         );
+
         //  CHÈN DỮ LIỆU MẪU VÀO BẢNG flashcards
         insertSampleFlashcards(db);
 
@@ -104,22 +106,24 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         // Flashcard 1
-        values.put("word", "irritating");
-        values.put("meaning", "gây khó chịu");
-        values.put("hint", "Thường dùng để mô tả người hoặc hành động khiến bạn bực mình.");
+        values.put("word", "banana");
+        values.put("meaning", "Quả chuối");
+        values.put("hint", "A sweet, curved yellow fruit that monkeys love!");
         values.put("audio_path", "irritating.mp3");
         values.put("is_starred", 0);
         values.put("last_reviewed", "2025-01-01");
+        values.put("image", "banana"); // ← THÊM DÒNG NÀY
         db.insert("flashcards", null, values);
 
         // Flashcard 2
         values.clear();
-        values.put("word", "annoying");
-        values.put("meaning", "phiền toái");
-        values.put("hint", "Gần nghĩa với irritating, thường dùng cho vật hoặc tình huống.");
+        values.put("word", "apple");
+        values.put("meaning", "Quả táo");
+        values.put("hint", "A crisp, juicy fruit that’s red, green.");
         values.put("audio_path", "irritating.mp3");
         values.put("is_starred", 0);
         values.put("last_reviewed", "2025-01-01");
+        values.put("image", "apple"); // ← THÊM DÒNG NÀY
         db.insert("flashcards", null, values);
 
         // Thêm nhiều hơn nếu cần...

@@ -48,7 +48,7 @@
                     android:backgroundTint="#D3D3D3"
                     android:textColor="#000"
                     android:layout_weight="1"
-                    android:text="Tiến độ học tập " />
+                    android:text="Tiến độ học " />
             </LinearLayout>
 
             <!-- Hàng 2 -->
@@ -97,7 +97,7 @@
         <!-- Khung hiển thị flashcard -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="320dp"
             android:orientation="vertical"
             android:layout_margin="20dp"
             android:padding="12dp"
@@ -146,11 +146,22 @@
             <!-- Khung chứa 2 mặt của flashcard và hint-->
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:paddingTop="40dp"
                 android:paddingBottom="40dp">
+
+                <!-- Ảnh minh họa -->
+                <ImageView
+                    android:id="@+id/image_flashcard"
+                    android:layout_width="100dp"
+                    android:layout_height="90dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="30dp"
+                    android:visibility="gone"
+                    android:contentDescription="Minh họa từ vựng" />
 
                 <!-- Mặt trước: chỉ hiển thị từ -->
                 <TextView
@@ -159,6 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="24sp"
+                    android:layout_marginTop="50dp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
                     android:visibility="visible" />
@@ -170,6 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="20sp"
+                    android:layout_marginTop="50dp"
                     android:textColor="@android:color/black"
                     android:visibility="gone" />
 
@@ -179,12 +192,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:textSize="14sp"
                     android:textColor="#666666"
                     android:visibility="gone"
                     android:maxLines="3"
                     android:ellipsize="end" />
+
+
 
             </FrameLayout>
         </LinearLayout>
