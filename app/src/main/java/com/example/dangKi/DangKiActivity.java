@@ -2,7 +2,6 @@ package com.example.dangKi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gheptu.Database.SQLiteConnect;
+import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 
 
@@ -66,13 +66,6 @@ public class DangKiActivity extends AppCompatActivity {
             return;
         }
 
-        // Kiểm tra định dạng email chuẩn
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.setError("Email không hợp lệ. Vui lòng nhập đúng định dạng (VD: example@email.com)");
-            emailEditText.requestFocus();
-            return;
-        }
-
         if (password.isEmpty()) {
             passwordEditText.setError("Vui lòng nhập mật khẩu");
             passwordEditText.requestFocus();
@@ -95,7 +88,7 @@ public class DangKiActivity extends AppCompatActivity {
 
         // Kiểm tra ký tự đặc biệt
         if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
-            passwordEditText.setError("Mật khẩu phải có ít nhất 1 ký tự đặc biệt (!@#$...)");
+            passwordEditText.setError("Mật khẩu phải có ít nhất 1 ký tự đặc biệt");
             passwordEditText.requestFocus();
             return;
         }
