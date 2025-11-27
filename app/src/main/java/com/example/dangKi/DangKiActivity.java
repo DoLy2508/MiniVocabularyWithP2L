@@ -2,6 +2,7 @@ package com.example.dangKi;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +70,12 @@ public class DangKiActivity extends AppCompatActivity {
         if (password.isEmpty()) {
             passwordEditText.setError("Vui lòng nhập mật khẩu");
             passwordEditText.requestFocus();
+            return;
+        }
+        // Kiểm tra định dạng email chuẩn
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            emailEditText.setError("Email không hợp lệ. Vui lòng nhập đúng định dạng (VD: example@email.com)");
+            emailEditText.requestFocus();
             return;
         }
 
