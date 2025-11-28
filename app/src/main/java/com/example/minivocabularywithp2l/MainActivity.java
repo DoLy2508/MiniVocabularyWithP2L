@@ -18,6 +18,7 @@ import com.example.NhiemVu.NhiemVuActivity;
 import com.example.chuDe.ChuDeActivity;
 import com.example.chuDe.FlashCardActivity;
 import com.example.gheptu.GhepTuActivity;
+import com.example.setting.SettingActivity;
 
 //Cac trang activ se lien ket voi Mainactivity (trang chu) bang intent o day
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +51,15 @@ public class MainActivity extends AppCompatActivity {
         tvluyenphatam = findViewById(R.id.tvluyenphatam);
 
 
+        // Lien ket trang Setting (khi bấm nút Home)
+        imbtnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
+                intentSetting.putExtra("email", email); // Truyền email sang Setting
+                startActivity(intentSetting);
+            }
+        });
 
 
         // Lien ket trang Phat am
@@ -134,4 +144,3 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
-

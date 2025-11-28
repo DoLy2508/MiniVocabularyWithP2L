@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MiniVocabularyWithP2L">
         <activity
+            android:name="com.example.setting.SettingActivity"
+            android:exported="false" />
+        <activity
             android:name="com.example.LuyenPA.Activities.SuaTuPaActivity"
             android:exported="false" />
         <!-- <activity -->
