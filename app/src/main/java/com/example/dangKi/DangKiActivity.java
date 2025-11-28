@@ -1,5 +1,6 @@
 package com.example.dangKi;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -102,7 +103,17 @@ public class DangKiActivity extends AppCompatActivity {
 
         // Kiểm tra xem email đã tồn tại chưa
         if (databaseHelper.checkEmail(email)) {
-            Toast.makeText(this, "Email này đã được đăng ký! Vui lòng sử dụng email khác.", Toast.LENGTH_SHORT).show();
+            // Thay vì chỉ Toast, hiển thị Dialog gợi ý đăng nhập
+            new AlertDialog.Builder(this)
+                .setTitle("Email đã tồn tại")
+                .setMessage("Email này đã được đăng ký. Bạn có muốn đăng nhập không?")
+                .setPositiveButton("Đăng nhập ngay", (dialog, which) -> {
+                    Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
+                    startActivity(intent);
+                    finish();
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
             return;
         }
 

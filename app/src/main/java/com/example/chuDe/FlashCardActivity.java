@@ -29,6 +29,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     ImageView image_flashcard;
 
     private int currentId = -1;
+    private String currentTopic = "Animals"; // Chủ đề mặc định
 
     private SQLiteConnect dbflashcard;
 
@@ -40,6 +41,13 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chude_tuvung);
+
+        // NHẬN DỮ LIỆU CHỦ ĐỀ TỪ CHUDEACTIVITY
+        String topic = getIntent().getStringExtra("TOPIC_NAME");
+        if (topic != null && !topic.isEmpty()) {
+            currentTopic = topic;
+        }
+
         btnGhepThe = findViewById(R.id.btnGhepThe);
         btnGhepThe.setOnClickListener(v -> {
             startActivity(new Intent(FlashCardActivity.this, GhepTuActivity.class));
@@ -62,7 +70,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
             dbflashcard = new SQLiteConnect(this);
 
 
-        // Tải flashcard đầu tiên
+        // Tải flashcard đầu tiên theo chủ đề
         loadRandomFlashcard();
 
         // KHỞI TẠO TEXT-TO-SPEECH
@@ -139,8 +147,10 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
 
     private void loadRandomFlashcard() {
-        Cursor cursor = dbflashcard.getRandomFlashcard();
-        if (cursor.moveToFirst()) {
+        // Thay đổi: Lấy từ vựng theo chủ đề
+        Cursor cursor = dbflashcard.getRandomFlashcardByTopic(currentTopic);
+        
+        if (cursor != null && cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex("id");
             int wordIndex = cursor.getColumnIndex("word");
             int meaningIndex = cursor.getColumnIndex("meaning");
@@ -193,43 +203,38 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
             // KHÔNG tự động hiển thị hint nữa → để người dùng tự nhấn
         } else {
-            // Không có flashcard
-            text_flashcard_front.setText("Không có flashcard!");
+            // Không có flashcard cho chủ đề này
+            text_flashcard_front.setText("Không có từ vựng\ncho chủ đề: " + currentTopic);
             text_flashcard_back.setText("");
             text_flashcard_hint.setText(""); // rõ ràng: không có hint
             image_flashcard.setVisibility(View.GONE); // ẩn ảnh
             currentId = -1;
         }
-        cursor.close();
+        if(cursor != null) cursor.close();
     }
 
 
     private boolean isCurrentStarred() {
         if (currentId == -1) return false;
         Cursor cursor = dbflashcard.getFlashcardById(currentId);
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             boolean starred = cursor.getInt(cursor.getColumnIndexOrThrow("is_starred")) == 1;
             cursor.close();
             return starred;
         }
-        cursor.close();
+        if(cursor != null) cursor.close();
         return false;
     }
 
     private String getCurrentWord() {
         if (currentId == -1) return "";
         Cursor cursor = dbflashcard.getFlashcardById(currentId);
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             String word = cursor.getString(cursor.getColumnIndexOrThrow("word"));
             cursor.close();
             return word;
         }
-        cursor.close();
+        if(cursor != null) cursor.close();
         return "";
     }
 }
-
-
-
-
-

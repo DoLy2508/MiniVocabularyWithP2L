@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "HocTiengAnh.db";
-    public static final int DATABASE_VERSION = 5; // Tăng version để cập nhật bảng mới
+    public static final int DATABASE_VERSION = 6; // Tăng version để cập nhật bảng mới (thêm cột topic)
 
     // Bảng Users (Đăng Ký)
     public static final String TABLE_USERS = "users";
@@ -86,7 +86,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "nguAm TEXT," +
                         "tiengViet TEXT)"
         );
-        // 4.Phương : Tạo bảng flashcard
+        // 4.Phương : Tạo bảng flashcard (Thêm cột topic)
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS flashcards (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -95,8 +95,9 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "hint TEXT," +
                         "audio_path TEXT," +
                         "is_starred INTEGER DEFAULT 0," +
-                        "last_reviewed TEXT," + // <-- SỬA LỖI: Thêm dấu phẩy ở đây
-                        "image TEXT" +
+                        "last_reviewed TEXT," + 
+                        "image TEXT," +
+                        "topic TEXT DEFAULT 'Animals'" + // <-- THÊM CỘT TOPIC
                         ")"
         );
         //  CHÈN DỮ LIỆU MẪU VÀO BẢNG flashcards
@@ -107,17 +108,17 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     private void insertSampleFlashcards(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
 
-        // Flashcard 1
+        // --- ANIMALS ---
         values.put("word", "banana");
         values.put("meaning", "Quả chuối");
         values.put("hint", "A sweet, curved yellow fruit that monkeys love!");
         values.put("audio_path", "irritating.mp3");
         values.put("is_starred", 0);
         values.put("last_reviewed", "2025-01-01");
-        values.put("image", "banana"); // ← THÊM DÒNG NÀY
+        values.put("image", "banana");
+        values.put("topic", "Food"); // Chuối thuộc Food
         db.insert("flashcards", null, values);
 
-        // Flashcard 2
         values.clear();
         values.put("word", "apple");
         values.put("meaning", "Quả táo");
@@ -125,10 +126,39 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("audio_path", "irritating.mp3");
         values.put("is_starred", 0);
         values.put("last_reviewed", "2025-01-01");
-        values.put("image", "apple"); // ← THÊM DÒNG NÀY
+        values.put("image", "apple");
+        values.put("topic", "Food");
         db.insert("flashcards", null, values);
 
-        // Thêm nhiều hơn nếu cần...
+        values.clear();
+        values.put("word", "dog");
+        values.put("meaning", "Con chó");
+        values.put("hint", "Man's best friend.");
+        values.put("topic", "Animals");
+        db.insert("flashcards", null, values);
+
+        values.clear();
+        values.put("word", "cat");
+        values.put("meaning", "Con mèo");
+        values.put("hint", "Meow meow.");
+        values.put("topic", "Animals");
+        db.insert("flashcards", null, values);
+
+        // --- TRAVEL ---
+        values.clear();
+        values.put("word", "airport");
+        values.put("meaning", "Sân bay");
+        values.put("hint", "Where planes take off and land.");
+        values.put("topic", "Travel");
+        db.insert("flashcards", null, values);
+
+        // --- JOBS ---
+        values.clear();
+        values.put("word", "doctor");
+        values.put("meaning", "Bác sĩ");
+        values.put("hint", "Someone who helps sick people.");
+        values.put("topic", "Jobs");
+        db.insert("flashcards", null, values);
     }
 
     @Override
@@ -138,7 +168,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_GT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_PA);
-        db.execSQL("DROP TABLE IF EXISTS flashcards"); // ← THÊM DÒNG NÀY
+        db.execSQL("DROP TABLE IF EXISTS flashcards"); 
         onCreate(db);
     }
 
@@ -238,17 +268,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return rowsDeleted > 0;
     }
 
-    // quản lý flashcard
-//    public boolean checkDatabase() {
-//        return false;
-//    }
-
-//    public void copyDatabase() {
-//    }
-
-//    public void openDatabase() {
-//    }
-
     public void updateStarred(int currentId, boolean isStarred) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -266,9 +285,16 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         db.update(TABLE_FLASHCARDS, cv, COLUMN_FLASHCARD_ID + " = ?", new String[]{String.valueOf(currentId)});
     }
 
+    // Lấy flashcard ngẫu nhiên (Hàm cũ, vẫn giữ)
     public Cursor getRandomFlashcard() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM flashcards ORDER BY RANDOM() LIMIT 1", null);
+    }
+
+    // Lấy flashcard ngẫu nhiên THEO CHỦ ĐỀ (Hàm mới)
+    public Cursor getRandomFlashcardByTopic(String topic) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM flashcards WHERE topic = ? ORDER BY RANDOM() LIMIT 1", new String[]{topic});
     }
 
     public Cursor getFlashcardById(int id) {
@@ -295,8 +321,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     public boolean updatePassword(String email, String newPass) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        byte[] newPassword = new byte[0];
-        cv.put(COLUMN_PASSWORD, newPassword);
+        cv.put(COLUMN_PASSWORD, newPass); // <-- SỬA LỖI: lưu mật khẩu String, không phải byte[]
         int rows = db.update(TABLE_USERS, cv, COLUMN_EMAIL + " = ?", new String[]{email});
         return rows > 0;
     }
