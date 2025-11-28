@@ -60,16 +60,6 @@
                         android:layout_marginTop="8dp"
                         android:src="@drawable/play"
                         android:background="@null"/>
-                    <TextView
-                        android:id="@+id/tvTenAudio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="audio1"
-                        android:textColor="#333333"
-                        android:layout_weight="1"
-                        android:layout_marginTop="10dp"/>
-
                 </LinearLayout>
 
 

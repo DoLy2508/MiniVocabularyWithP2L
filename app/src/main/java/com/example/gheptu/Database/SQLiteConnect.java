@@ -68,7 +68,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                 COLUMN_TASK_COMPLETED + " INTEGER DEFAULT 0)";
         db.execSQL(createTableTasks);
         
-        // 3. Tạo bảng Từ Vựng Ghép Từ (Code cũ của bạn)
+        // 3. Tạo bảng Từ Vựng Ghép Từ
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_TUVUNG_GT + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -84,8 +84,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "maTu TEXT," +
                         "tiengAnh TEXT," +
                         "nguAm TEXT," +
-                        "tiengViet TEXT," +
-                        "tenAudio TEXT)"
+                        "tiengViet TEXT)"
         );
         // 4.Phương : Tạo bảng flashcard
         db.execSQL(

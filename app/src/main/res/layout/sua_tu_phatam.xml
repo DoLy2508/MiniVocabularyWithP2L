@@ -51,21 +51,6 @@
             android:hint="Nhập từ tiếng việt"
             android:layout_marginTop="8dp"/>
 
-        <!-- Spinner chọn audio -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chọn audio phát âm"
-            android:textStyle="bold"
-            android:layout_marginTop="12dp"/>
-
-        <Spinner
-            android:id="@+id/spinnerAudio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"/>
-
-
 
         <LinearLayout
             android:layout_width="match_parent"

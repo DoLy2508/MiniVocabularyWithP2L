@@ -16,13 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.minivocabularywithp2l.R;
 
-import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 
 
 public class ThemMoiTuPaActivity extends AppCompatActivity {
     EditText edtThemMaTu, edtThemTiengAnh, edtThemNguAm, edtThemTiengViet;
-    Spinner spinnerAudio;
     Button btnHuyThemMoi, btnThemMoiTu;
 
 
@@ -38,25 +37,9 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
         edtThemTiengAnh = findViewById(R.id.edtThemTiengAnh);
         edtThemNguAm = findViewById(R.id.edtThemNguAm);
         edtThemTiengViet = findViewById(R.id.edtThemTiengViet);
-        spinnerAudio = findViewById(R.id.spinnerAudio);
 
-        // Lấy danh sách file trong thư mục raw
-        Field[] fields = R.raw.class.getFields();
-        ArrayList<String> listAudio = new ArrayList<>();
 
-        listAudio.add("Chọn audio"); // item mặc định
 
-        for (Field field : fields) {
-            listAudio.add(field.getName());   // lấy tên file (không có .mp3)
-        }
-
-// Đưa vào spinner bằng ArrayAdapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                listAudio
-        );
-        spinnerAudio.setAdapter(adapter);
 
         btnHuyThemMoi = findViewById(R.id.btnHuyThemMoi);
         btnThemMoiTu = findViewById(R.id.btnThemMoiTu);
@@ -75,7 +58,7 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                 String tiengAnh = edtThemTiengAnh.getText().toString().trim();
                 String nguAm = edtThemNguAm.getText().toString().trim();
                 String tiengViet = edtThemTiengViet.getText().toString().trim();
-                String tenAudio = spinnerAudio.getSelectedItem().toString().trim();
+
 
                 // 1. Kiểm tra đầu vào
                 if (maTu.isEmpty() || tiengAnh.isEmpty() || nguAm.isEmpty() || tiengViet.isEmpty()) {
@@ -84,12 +67,7 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                     return;
                 }
 
-                if (tenAudio.equals("Chọn audio")) {
-                    Toast.makeText(ThemMoiTuPaActivity.this, "Bạn chưa chọn audio!",
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
+//
                 // Khai báo đối tượng database ở ngoài để có thể truy cập trong 'finally'
                 SQLiteConnect sqLiteConnect = null;
 
@@ -103,8 +81,8 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                     );
 
                     // 3. Thực hiện INSERT
-                    String query = "INSERT INTO tuvungPAm (maTu, tiengAnh, nguAm, tiengViet, tenAudio) " +
-                            "VALUES ('" + maTu + "', '" + tiengAnh + "', '" + nguAm + "', '" +  tiengViet + "', '" + tenAudio + "')";
+                    String query = "INSERT INTO tuvungPAm (maTu, tiengAnh, nguAm, tiengViet) " +
+                            "VALUES ('" + maTu + "', '" + tiengAnh + "', '" + nguAm + "', '" +  tiengViet + "')";
 
                     sqLiteConnect.queryData(query);
 
@@ -116,14 +94,14 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                     finish();
 
                 } catch (Exception e) {
-                    // Xử lý lỗi SQL, lỗi kết nối, v.v.
+                    // Xử lý lỗi SQL
                     Log.e("Loi INSERT CSDL", "Ghi CSDL thất bại: " + e.getMessage());
                     Toast.makeText(ThemMoiTuPaActivity.this,
                             "Lỗi thêm từ: Vui lòng kiểm tra Logcat",
                             Toast.LENGTH_LONG).show();
 
                 } finally {
-                    // 4. Đóng kết nối database
+                    //  Đóng kết nối database
                     if (sqLiteConnect != null) {
                         sqLiteConnect.close();
                     }

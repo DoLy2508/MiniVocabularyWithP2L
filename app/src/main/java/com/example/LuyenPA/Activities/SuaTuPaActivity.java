@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 public class SuaTuPaActivity extends AppCompatActivity {
     EditText edtSuaMaTu, edtSuaTiengAnh, edtSuaNguAm, edtSuaTiengViet;
-    Spinner spinnerAudio;
     Button btnHuySuaTu, btnLuu;
 
 
@@ -42,7 +41,7 @@ public class SuaTuPaActivity extends AppCompatActivity {
         edtSuaTiengAnh = findViewById(R.id.edtSuaTiengAnh);
         edtSuaNguAm = findViewById(R.id.edtSuaNguAm);
         edtSuaTiengViet = findViewById(R.id.edtSuaTiengViet);
-        spinnerAudio = findViewById(R.id.spinnerAudio);
+
         btnHuySuaTu = findViewById(R.id.btnHuySuaTu);
         btnLuu = findViewById(R.id.btnLuu);
 
@@ -56,26 +55,13 @@ public class SuaTuPaActivity extends AppCompatActivity {
         LuyenPhatAm tu = (LuyenPhatAm) data.get("tu");
 
 
-        // Lấy danh sách file trong thư mục raw
-        Field[] fields = R.raw.class.getFields();
-        ArrayList<String> listAudio = new ArrayList<>();
-        listAudio.add("Chọn audio"); // item mặc định
 
-        for (Field field : fields) {
-            listAudio.add(field.getName());   // lấy tên file (không có .mp3)
-        }
-        // Đưa vào spinner bằng ArrayAdapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_dropdown_item,
-                listAudio
-        );
-        spinnerAudio.setAdapter(adapter);
+
         edtSuaMaTu.setText(tu.getMaTu());
         edtSuaTiengAnh.setText(tu.getTiengAnh());
         edtSuaNguAm.setText(tu.getNguAm());
         edtSuaTiengViet.setText(tu.getTiengViet());
-        spinnerAudio.setSelection(adapter.getPosition(tu.getTenAudio()));
+
 
 
         btnHuySuaTu.setOnClickListener(new View.OnClickListener() {
@@ -95,10 +81,10 @@ public class SuaTuPaActivity extends AppCompatActivity {
                     String tiengAnh = edtSuaTiengAnh.getText().toString().trim();
                     String nguAm = edtSuaNguAm.getText().toString().trim();
                     String tiengViet = edtSuaTiengViet.getText().toString().trim();
-                    String tenAudio = spinnerAudio.getSelectedItem().toString().trim();
+
                     String query = "UPDATE tuvungPAm SET maTu = '" + maTu +
                             "', tiengAnh = '" + tiengAnh + "', nguAm = '" + nguAm + "', tiengViet = '"
-                            + tiengViet + "', tenAudio = '" + tenAudio + "' WHERE id = '" + tu.getId() + "'";
+                            + tiengViet + "' WHERE id = '" + tu.getId() + "'";
                     SQLiteConnect sqLiteConnect = new SQLiteConnect(getBaseContext(),
                             getString(R.string.db_name), null, SQLiteConnect.DATABASE_VERSION);
                     sqLiteConnect.queryData(query);

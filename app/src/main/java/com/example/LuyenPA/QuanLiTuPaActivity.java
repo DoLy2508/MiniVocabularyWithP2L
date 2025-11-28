@@ -2,7 +2,6 @@ package com.example.LuyenPA;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.speech.tts.TextToSpeech;
+import java.util.Locale;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResult;
@@ -31,13 +32,14 @@ import com.example.minivocabularywithp2l.R;
 
 import java.util.ArrayList;
 
-public class QuanLiTuPaActivity extends AppCompatActivity {
+public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
     ImageButton imbtnHome, imbtnHoc, imbtnCheckList, imbtnGame;
     ImageView imvTroLai;
     ListView lvTuVugPhatAm;
     ArrayList<LuyenPhatAm> listTuPA;
     TuVungPAadapter tuVungPaAdapter;
     SQLiteConnect sqLiteConnect;
+    private TextToSpeech tts; // <-- Thêm biến TextToSpeech
 
     // launcher sua
     public ActivityResultLauncher<Intent> suaTuLauncher = registerForActivityResult(
@@ -54,11 +56,14 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.quan_li_tu_phatam);
+
         imbtnHome = findViewById(R.id.imbtnHome);
         imbtnHoc = findViewById(R.id.imbtnHoc);
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         imbtnGame = findViewById(R.id.imbtnGame);
         imvTroLai = findViewById(R.id.imvTroLai);
+        // KHỞI TẠO TEXTTOSPEECH
+        tts = new TextToSpeech(this, this); // this chính là OnInitListener
 
         lvTuVugPhatAm = findViewById(R.id.lvTuVugPhatAm);
 
@@ -73,27 +78,33 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
                 SQLiteConnect.DATABASE_VERSION);
 
 
-        tuVungPaAdapter = new TuVungPAadapter(QuanLiTuPaActivity.this, R.layout.item_quan_li_phatam, listTuPA);
+        tuVungPaAdapter = new TuVungPAadapter(QuanLiTuPaActivity.this, R.layout.item_quan_li_phatam, listTuPA, tts);
         lvTuVugPhatAm.setAdapter(tuVungPaAdapter);
 
         loadDataTuVung();
-        lvTuVugPhatAm.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                LuyenPhatAm tuPA = listTuPA.get(position);
-                String tenAudio = tuPA.getTenAudio();   // tên lưu trong DB (vd: rainbow)
+    }
 
-                int audioId = getResources().getIdentifier(tenAudio, "raw", getPackageName());
-
-                if (audioId != 0) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(QuanLiTuPaActivity.this, audioId);
-                    mediaPlayer.start();
-                } else {
-                    Toast.makeText(QuanLiTuPaActivity.this, "Không tìm thấy audio: " + tenAudio, Toast.LENGTH_SHORT).show();
-                }
+    // THÊM CÁC PHƯƠNG THỨC ĐỂ XỬ LÝ TEXTTOSPEECH
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(Locale.US); // Giọng Anh-Mỹ
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, "Ngôn ngữ này không được hỗ trợ", Toast.LENGTH_SHORT).show();
             }
-        });
+        } else {
+            Toast.makeText(this, "Khởi tạo TextToSpeech thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        // Giải phóng TTS khi activity bị hủy để tránh rò rỉ bộ nhớ
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
     }
     public void loadDataTuVung(){
         listTuPA.clear();
@@ -107,9 +118,9 @@ public class QuanLiTuPaActivity extends AppCompatActivity {
             String tiengAnh = cursor.getString(2);
             String nguAm = cursor.getString(3);
             String tiengViet = cursor.getString(4);
-            String tenAudio = cursor.getString(5);
 
-            LuyenPhatAm tuPA = new LuyenPhatAm(id, maTu, tiengAnh, nguAm, tiengViet, tenAudio);
+
+            LuyenPhatAm tuPA = new LuyenPhatAm(id, maTu, tiengAnh, nguAm, tiengViet);
             listTuPA.add(tuPA);
         }
         cursor.close();

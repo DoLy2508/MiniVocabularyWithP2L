@@ -8,20 +8,19 @@ public class LuyenPhatAm implements Serializable {
     private String nguAm;
     private String tiengAnh;
     private String tiengViet;
-    private String tenAudio;
+
 
 
     public LuyenPhatAm(){ }
 
 
     public LuyenPhatAm(int id, String maTu, String tiengAnh, String nguAm,
-                       String tiengViet, String tenAudio) {
+                       String tiengViet) {
         this.id = id;
         this.maTu = maTu;
         this.tiengAnh = tiengAnh;
         this.nguAm = nguAm;
         this.tiengViet = tiengViet;
-        this.tenAudio = tenAudio;
     }
 
     public int getId() {
@@ -63,11 +62,5 @@ public class LuyenPhatAm implements Serializable {
         this.tiengViet = tiengViet;
     }
 
-    public String getTenAudio() {
-        return tenAudio;
-    }
 
-    public void setTenAudio(String tenAudio) {
-        this.tenAudio = tenAudio;
-    }
 }
