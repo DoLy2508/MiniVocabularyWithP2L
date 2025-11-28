@@ -101,9 +101,7 @@ public class GhepTuActivity extends AppCompatActivity {
 
 
         });
-        imbtnQuanLiTu.setOnClickListener(v -> {
-            startActivity(new Intent(GhepTuActivity.this, QuanLiTuActivity.class));
-        });
+
 
         btnHoanThanh.setOnClickListener(v -> xuLyHoanThanh());
 
