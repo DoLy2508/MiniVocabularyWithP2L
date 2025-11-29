@@ -59,11 +59,14 @@ public class NhiemVuActivity extends AppCompatActivity {
         lvNhiemVu.setAdapter(adapter);
 
         // Sự kiện nút Home
-        imbtnHome.setOnClickListener(v -> {
-            startActivity(new Intent(NhiemVuActivity.this, MainActivity.class));
-            finish();
-        });
+        imbtnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
 
+
+        });
         // Sự kiện nút Thêm mới
         fabAddTask.setOnClickListener(v -> {
             showAddDialog();
