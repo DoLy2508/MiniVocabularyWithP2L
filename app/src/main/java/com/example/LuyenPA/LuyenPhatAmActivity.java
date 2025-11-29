@@ -95,12 +95,14 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
 
         // Thiết lập các sự kiện click
         imvTroVe.setOnClickListener(v -> {
-            startActivity(new Intent(LuyenPhatAmActivity.this, MainActivity.class));
             finish();
         });
 
         imbtnQuanLiTuPA.setOnClickListener(v -> {
-            startActivity(new Intent(LuyenPhatAmActivity.this, QuanLiTuPaActivity.class));
+            // Chuyển sang QuanLiTuPaActivity và truyền quyền admin đi
+            Intent intentQuanLi = new Intent(LuyenPhatAmActivity.this, QuanLiTuPaActivity.class);
+            intentQuanLi.putExtra("isAdmin", this.isAdmin); // Luôn truyền trạng thái đi tiếp
+            startActivity(intentQuanLi);
         });
 
         imvNghe.setOnClickListener(v -> {
