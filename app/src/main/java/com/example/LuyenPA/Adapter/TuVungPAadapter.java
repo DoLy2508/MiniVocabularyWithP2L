@@ -92,6 +92,19 @@ public class TuVungPAadapter extends ArrayAdapter {
 
         });
 
+        imvSua.setOnClickListener(v -> {
+            // Tạo Intent để mở màn hình sửa
+            Intent intent = new Intent(context, SuaTuPaActivity.class);
+
+            // Đóng gói đối tượng 'tuPA' vào Intent
+            // "tu" là một cái khóa (key) để lát nữa bên SuaTuPaActivity lấy ra
+            intent.putExtra("tu", tuPA);
+
+            // Yêu cầu QuanLiTuPaActivity (Activity cha) khởi chạy Intent này
+            // và chờ kết quả trả về
+            activity.launchEditActivity(intent);
+        });
+
 
         imvXoa.setOnClickListener(v -> {
             // Hiển thị hộp thoại xác nhận

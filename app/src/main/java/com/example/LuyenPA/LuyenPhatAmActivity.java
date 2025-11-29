@@ -11,7 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+// Thêm các import cần thiết cho Speech Recognition
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.graphics.Color;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.LuyenPA.Model.LuyenPhatAm;
 import com.example.gheptu.Database.SQLiteConnect;
@@ -35,6 +45,12 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
 
     // Biến thành viên để lưu trạng thái admin, tránh bị mất khi quay lại Activity
     private boolean isAdmin = false;
+    private Button btnStart; // Thêm nút Start
+    private TextView tvHint; // Thêm TextView Hint để hiển thị kết quả
+    // === Biến cho Speech Recognition ===
+    private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
+    private SpeechRecognizer speechRecognizer;
+    private Intent speechRecognizerIntent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +60,9 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         // Đọc trạng thái isAdmin MỘT LẦN và lưu vào biến thành viên
         this.isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
+        // --- Ánh xạ các View mới ---
+        btnStart = findViewById(R.id.btnStart);
+        tvHint = findViewById(R.id.tvHint);
         // Ánh xạ View
         imvTroVe = findViewById(R.id.imvTroVe);
         imbtnQuanLiTuPA = findViewById(R.id.imbtnQuanLiTuPA);
@@ -56,6 +75,23 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         // Khởi tạo các đối tượng cần thiết
         tts = new TextToSpeech(this, this);
         listTuPA = new ArrayList<>();
+
+
+
+        // --- Thiết lập sự kiện cho btnStart ---
+        btnStart.setOnClickListener(v -> {
+            // 1. Kiểm tra quyền ghi âm
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                // Nếu chưa có quyền, yêu cầu người dùng cấp quyền
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
+            } else {
+                // Nếu đã có quyền, bắt đầu ghi âm
+                startListening();
+            }
+        });
+
+        // --- Khởi tạo Speech Recognizer ---
+        setupSpeechRecognizer();
 
         // Thiết lập các sự kiện click
         imvTroVe.setOnClickListener(v -> {
@@ -92,6 +128,101 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
                 displayCurrentWord();
             }
         });
+    }
+
+
+    // --- CÁC PHƯƠNG THỨC MỚI CHO SPEECH RECOGNITION ---
+
+
+     //Khởi tạo SpeechRecognizer và Intent
+
+    private void setupSpeechRecognizer() {
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+        speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString()); // Nhận dạng tiếng Anh-Mỹ
+
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+                // Sẵn sàng ghi âm, cập nhật giao diện
+                tvHint.setText("Đang lắng nghe...");
+                tvHint.setTextColor(Color.BLUE);
+            }
+
+            @Override
+            public void onResults(Bundle results) {
+                // Nhận kết quả
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (matches != null && !matches.isEmpty()) {
+                    String spokenText = matches.get(0); // Lấy kết quả có độ chính xác cao nhất
+                    checkPronunciation(spokenText);
+                } else {
+                    tvHint.setText("Không nhận dạng được. Thử lại!");
+                    tvHint.setTextColor(Color.RED);
+                }
+            }
+
+            @Override
+            public void onError(int error) {
+                // Xử lý lỗi
+                tvHint.setText("Lỗi ghi âm, hãy thử lại!");
+                tvHint.setTextColor(Color.RED);
+            }
+            // Các phương thức khác có thể để trống
+            @Override
+            public void onBeginningOfSpeech() {}
+            @Override
+            public void onEndOfSpeech() {}
+            @Override
+            public void onRmsChanged(float rmsdB) {}
+            @Override
+            public void onBufferReceived(byte[] buffer) {}
+            @Override
+            public void onPartialResults(Bundle partialResults) {}
+            @Override
+            public void onEvent(int eventType, Bundle params) {}
+        });
+    }
+
+
+
+      //Bắt đầu quá trình lắng nghe giọng nói
+
+    private void startListening() {
+        if (speechRecognizer != null) {
+            speechRecognizer.startListening(speechRecognizerIntent);
+        }
+    }
+
+    //So sánh từ được nói và từ gốc, sau đó cập nhật giao diện
+     //@param spokenText Từ mà người dùng đã nói
+
+    private void checkPronunciation(String spokenText) {
+        String correctWord = tvTiengAnh.getText().toString();
+
+        // So sánh không phân biệt chữ hoa/thường và bỏ qua khoảng trắng thừa
+        if (spokenText.trim().equalsIgnoreCase(correctWord.trim())) {
+            tvHint.setText("Chính xác! Bạn đã đọc đúng: " + spokenText);
+            tvHint.setTextColor(Color.parseColor("#4CAF50")); // Màu xanh lá
+        } else {
+            tvHint.setText("Chưa đúng. Bạn đã đọc: \"" + spokenText + "\". Hãy thử lại!");
+            tvHint.setTextColor(Color.RED);
+        }
+    }
+    //Xử lý kết quả sau khi người dùng cấp (hoặc từ chối) quyền
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Người dùng đã cấp quyền, bắt đầu ghi âm
+                startListening();
+            } else {
+                // Người dùng từ chối, thông báo cho họ
+                Toast.makeText(this, "Cần quyền ghi âm để sử dụng chức năng này", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -167,11 +298,16 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         }
     }
 
+
     @Override
     protected void onDestroy() {
         if (tts != null) {
             tts.stop();
             tts.shutdown();
+        }
+        // --- Giải phóng SpeechRecognizer khi Activity bị hủy ---
+        if (speechRecognizer != null) {
+            speechRecognizer.destroy();
         }
         super.onDestroy();
     }

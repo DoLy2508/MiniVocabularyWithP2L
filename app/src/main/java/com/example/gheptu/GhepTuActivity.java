@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.Model.TuVungGhepTu;
 
@@ -95,12 +96,25 @@ public class GhepTuActivity extends AppCompatActivity {
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentGame = new Intent(GhepTuActivity.this, MainActivity.class);
-                startActivity(intentGame);
+                finish();
             }
 
 
         });
+        imbtnCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intentNhiemVu = new Intent(GhepTuActivity.this, NhiemVuActivity.class);
+                intentNhiemVu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                // (Tùy chọn) Nếu NhiemVuActivity cũng cần quyền admin, hãy truyền nó đi
+                //intentNhiemVu.putExtra("isAdmin", isAdmin);
+
+                startActivity(intentNhiemVu);
+            }
+        });
+
 
 
         btnHoanThanh.setOnClickListener(v -> xuLyHoanThanh());
