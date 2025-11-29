@@ -76,8 +76,14 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         // KHỞI TẠO TEXT-TO-SPEECH
         tts = new TextToSpeech(this, this); // this = OnInitListener
 
-        // Nút Tiếp tục
-        btn_next.setOnClickListener(v -> loadRandomFlashcard());
+        // Nút Tiếp tục (Và đánh dấu đã học)
+        btn_next.setOnClickListener(v -> {
+             // Đánh dấu đã học trước khi chuyển từ
+             if (currentId != -1) {
+                 dbflashcard.markAsLearned(currentId);
+             }
+             loadRandomFlashcard();
+        });
 
         // thêm sự kiện click cho text_hint ( hển th gợi  )
         text_hint.setOnClickListener(v -> {
