@@ -11,132 +11,154 @@
     android:padding="0dp"
     tools:context="com.example.LuyenPA.LuyenPhatAmActivity">
 
-    <!-- HEADER -->
+    <!-- Nội dung chính có thể cuộn hoặc co giãn để nhường chỗ cho menu -->
     <LinearLayout
-        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="12dp"
-        android:background="@android:color/white">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-        <ImageView
-            android:id="@+id/imvTroVe"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/close" />
-
-        <TextView
-            android:id="@+id/tvTieuDe"
-            android:layout_width="0dp"
+        <!-- HEADER -->
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Đọc từ vựng"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@android:color/black"/>
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:background="@android:color/white">
 
-    <ImageButton
-        android:id="@+id/imbtnQuanLiTuPA"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="Quản lý từ vựng"
-        android:src="@drawable/quan_li" />
+            <ImageView
+                android:id="@+id/imvTroVe"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/close" 
+                android:contentDescription="Trở về"/>
 
-    <TextView
-        android:id="@+id/tvTiengAnh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Apple"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        android:gravity="center"/>
+            <TextView
+                android:id="@+id/tvTieuDe"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Đọc từ vựng"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
 
-    <!-- Phonetic + Speaker -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_marginTop="4dp">
-
-        <ImageView
-            android:id="@+id/imvNghe"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/listen" />
+        <ImageButton
+            android:id="@+id/imbtnQuanLiTuPA"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="Quản lý từ vựng"
+            android:src="@drawable/quan_li" />
 
         <TextView
-            android:id="@+id/tvNguAm"
+            android:id="@+id/tvTiengAnh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="/ˈæp.əl/"
+            android:text="Apple"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:gravity="center"/>
+
+        <!-- Phonetic + Speaker -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:layout_marginTop="4dp">
+
+            <ImageView
+                android:id="@+id/imvNghe"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/listen"
+                android:contentDescription="Nghe phát âm mẫu"/>
+
+            <TextView
+                android:id="@+id/tvNguAm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/ˈæp.əl/"
+                android:textColor="#666"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNghiaTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quả táo"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Mic -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnMic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/microphone"
+            app:tint="@android:color/white"
+            app:backgroundTint="#EDBFBF"
+            app:maxImageSize="40dp"
+            android:contentDescription="Nhấn để nói và kiểm tra phát âm">
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+        <!-- Button Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp">
+
+            <Button
+                android:id="@+id/btnReTry"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Retry"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#EDBFBF"
+                android:layout_marginEnd="20dp"/>
+
+            <Button
+                android:id="@+id/btnContinue"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Continue"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#EDBFBF"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hãy đọc từ vựng thật to để luyện phát âm"
+            android:textSize="14sp"
             android:textColor="#666"
-            android:textSize="18sp"/>
-    </LinearLayout>
+            android:layout_marginTop="16dp"/>
+            
+    </LinearLayout> <!-- Kết thúc phần nội dung chính -->
 
-    <TextView
-        android:id="@+id/tvNghiaTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quả táo"
-        android:textSize="20sp"
-        android:textColor="#000"
-        android:layout_marginTop="8dp"/>
-
-    <!-- Mic -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnMic"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/microphone"
-        android:tint="@android:color/white"
-        app:backgroundTint="#EDBFBF"
-        app:maxImageSize="40dp">
-
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
-
-    <!-- Button Row -->
-    <LinearLayout
+    <!-- Menu bottom -->
+    <include
+        android:id="@+id/thanh_menu"
+        layout="@layout/thanh_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp">
-
-        <Button
-            android:id="@+id/btnReTry"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Retry"
-            android:textColor="@android:color/white"
-            android:backgroundTint="#EDBFBF"
-            android:layout_marginEnd="20dp"/>
-
-        <Button
-            android:id="@+id/btnContinue"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Continue"
-            android:textColor="@android:color/white"
-            android:backgroundTint="#EDBFBF"/>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hãy đọc từ vựng thật to để luyện phát âm"
-        android:textSize="14sp"
-        android:textColor="#666"
-        android:layout_marginTop="16dp"/>
+        android:layout_height="wrap_content" />
+        
 </LinearLayout>
+<!--    Lỗi bạn gặp phải là do nút FloatingActionButton (btnMic) thiếu thuộc tính android:contentDescription. Đây là thuộc tính quan trọng giúp các công cụ hỗ trợ người khiếm thị
+(như TalkBack) đọc được chức năng của nút.-->

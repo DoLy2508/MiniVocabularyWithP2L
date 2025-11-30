@@ -1,10 +1,11 @@
 package com.example.dangKi;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -13,17 +14,13 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 
 public class DangNhapActivity extends AppCompatActivity {
-    EditText editEmail,editPassword;
+    EditText editEmail, editPassword;
     Button btnLogin;
     TextView tvForgot;
 
@@ -37,7 +34,7 @@ public class DangNhapActivity extends AppCompatActivity {
         setContentView(R.layout.trang_dangnhap);
 
         databaseHelper = new SQLiteConnect(this); // ← KHỞI TẠO databaseHelper
-        
+
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -51,7 +48,7 @@ public class DangNhapActivity extends AppCompatActivity {
             showForgotPasswordDialog();
         });
 
-    
+
     }
 
     private void showForgotPasswordDialog() {
@@ -119,7 +116,6 @@ public class DangNhapActivity extends AppCompatActivity {
 
             // Cập nhật mật khẩu trong SQLite
             SQLiteConnect db = new SQLiteConnect(this);
-            //  Bạn chưa có hàm updatePassword → cần thêm!
             boolean updated = db.updatePassword(email, newPass);
             if (updated) {
                 Toast.makeText(this, "Đặt lại mật khẩu thành công!", Toast.LENGTH_SHORT).show();
@@ -138,25 +134,36 @@ public class DangNhapActivity extends AppCompatActivity {
         String email = editEmail.getText().toString().trim();
         String password = editPassword.getText().toString().trim();
 
-        if(email.isEmpty()){
+        Log.d("DangNhap", "Login Attempt - Email: [" + email + "], Pass: [" + password + "]"); // Debug Log
+
+        // Kiểm tra email
+        if (email.isEmpty()) {
             editEmail.setError("Vui lòng nhập email");
             editEmail.requestFocus();
             return;
         }
 
-        if(password.isEmpty()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editEmail.setError("Email không hợp lệ (Ví dụ: abc@gmail.com)");
+            editEmail.requestFocus();
+            return;
+        }
+
+        // Kiểm tra mật khẩu
+        if (password.isEmpty()) {
             editPassword.setError("Vui lòng nhập mật khẩu");
             editPassword.requestFocus();
             return;
         }
 
-        // kiểm tra đăng nhập
+        // Kiểm tra đăng nhập
         boolean loginSuccess = databaseHelper.checkUser(email, password);
 
-        if(loginSuccess){
+        if (loginSuccess) {
             boolean isAdmin = databaseHelper.isAdmin(email); // kiểm tra quyền admin
 
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+            Log.d("DangNhap", "Login Success: " + email);
 
             // Gửi thông tin sang MainActivity
             Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
@@ -167,6 +174,7 @@ public class DangNhapActivity extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(this, "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+            Log.e("DangNhap", "Login Failed for: " + email);
         }
     }
 

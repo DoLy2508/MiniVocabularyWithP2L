@@ -85,9 +85,10 @@
             android:textSize="16sp"/>
 
         <Switch
+
             android:id="@+id/switchDarkMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:thumbTint="#D81B60"
             android:trackTint="#FFB6C1"/>
     </LinearLayout>

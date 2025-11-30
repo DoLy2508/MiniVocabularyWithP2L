@@ -29,18 +29,20 @@
 
             <!-- Icon thông báo -->
             <ImageButton
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:id="@+id/btnNotification"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/anhthongbao"
                 android:contentDescription="Thông báo"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 android:padding="4dp" />
 
-            <!-- Icon cài đặt -->
+            <!-- Icon cài đặt (Đã thêm ID) -->
             <ImageButton
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:id="@+id/btnSetting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/anhcaidat"
                 android:contentDescription="Cài đặt"
                 android:background="@android:color/transparent"
@@ -67,7 +69,6 @@
             android:layout_height="15dp" />
 
         <!-- Hàng: Tiến độ và Luyện nghe -->
-        <!-- android:divider + showDividers có đường chia (hoặc khoảng trống) giữa các phần tử con trong LinearLayout cha  -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,13 +80,17 @@
 
             <!-- Tiến độ -->
             <LinearLayout
+                android:id="@+id/layoutTiendo"
                 android:layout_width="0dp"
                 android:layout_height="180dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:background="@drawable/bg_tiendo"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <!-- Hình ảnh -->
                 <ImageView
@@ -104,13 +109,17 @@
 
             <!-- Luyện nghe -->
             <LinearLayout
+                android:id="@+id/layoutLuyenNghe"
                 android:layout_width="0dp"
                 android:layout_height="180dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:background="@drawable/bg_luyennghe"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <ImageView
                     android:layout_width="100dp"
@@ -225,12 +234,10 @@
         </LinearLayout>
 
         <!-- Khoảng cách để đẩy thanh nav xuống -->
-
-        <!-- Thanh điều hướng dưới cùng -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="195dp"
-            />
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <!-- Menu bottom -->
         <include
@@ -239,6 +246,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

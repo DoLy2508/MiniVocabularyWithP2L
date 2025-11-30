@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,12 +24,14 @@ import com.example.setting.SettingActivity;
 
 //Cac trang activ se lien ket voi Mainactivity (trang chu) bang intent o day
 public class MainActivity extends AppCompatActivity {
-    private Button btnGame, btnNhiemVu, btnAnimail, btnFood, btnTravel;
+    private Button btnGame, btnNhiemVu, btnAnimail, btnFood, btnTravel, btnJobs;
     private ImageButton imbtnHome;
     private ImageButton imbtnHoc;
     private ImageButton imbtnCheckList;
     private ImageButton imbtnGame;
+    private ImageButton btnSetting; // Thêm nút Setting
     private TextView tvluyenphatam;
+    private LinearLayout layoutTiendo;
     private boolean isAdmin;
     private String email;
 
@@ -45,21 +49,51 @@ public class MainActivity extends AppCompatActivity {
         btnAnimail = findViewById(R.id.btnAnimail);
         btnFood = findViewById(R.id.btnFood);
         btnTravel = findViewById(R.id.btnTravel);
+        btnJobs = findViewById(R.id.btnJobs);
+        
+        // Menu dưới
         imbtnHome = findViewById(R.id.imbtnHome);
-        imbtnGame = findViewById(R.id.imbtnGame);
         imbtnHoc = findViewById(R.id.imbtnHoc);
+        imbtnCheckList = findViewById(R.id.imbtnCheckList);
+        imbtnGame = findViewById(R.id.imbtnGame);
+
+        // Nút Setting (Góc trên)
+        btnSetting = findViewById(R.id.btnSetting);
+
         tvluyenphatam = findViewById(R.id.tvluyenphatam);
+        layoutTiendo = findViewById(R.id.layoutTiendo);
 
 
-        // Lien ket trang Setting (khi bấm nút Home)
+        // Xử lý sự kiện nút Setting
+        if (btnSetting != null) {
+            btnSetting.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
+                    intentSetting.putExtra("email", email); // Truyền email sang Setting
+                    startActivity(intentSetting);
+                }
+            });
+        }
+
+        // Menu Home: Đang ở trang chủ thì không làm gì hoặc thông báo
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentSetting = new Intent(MainActivity.this, SettingActivity.class);
-                intentSetting.putExtra("email", email); // Truyền email sang Setting
-                startActivity(intentSetting);
+                Toast.makeText(MainActivity.this, "Bạn đang ở trang chủ", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Liên kết trang Tiến Độ
+        if (layoutTiendo != null) {
+            layoutTiendo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentTiendo = new Intent(MainActivity.this, ChuDeActivity.class);
+                    startActivity(intentTiendo);
+                }
+            });
+        }
 
 
         // Lien ket trang Phat am
@@ -83,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Liên ket trang nhiem vu hoc tap
+        // Liên ket trang nhiem vu hoc tap (Nút Button to)
         btnNhiemVu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,11 +126,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Liên kết trang Nhiệm vụ học tập (Nút Menu dưới)
+        imbtnCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCheckList = new Intent(MainActivity.this, NhiemVuActivity.class);
+                startActivity(intentCheckList);
+            }
+        });
+
         // Lien ket trang hoc flatcat
         btnAnimail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentAnimal = new Intent(MainActivity.this, FlashCardActivity.class);
+                intentAnimal.putExtra("TOPIC_NAME", "Animals");
                 startActivity(intentAnimal);
             }
         });
@@ -104,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentFood = new Intent(MainActivity.this, FlashCardActivity.class);
+                intentFood.putExtra("TOPIC_NAME", "Food");
                 startActivity(intentFood);
             }
         });
@@ -111,16 +156,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentTravel = new Intent(MainActivity.this, FlashCardActivity.class);
+                intentTravel.putExtra("TOPIC_NAME", "Travel");
                 startActivity(intentTravel);
             }
         });
+        // Xử lý sự kiện cho nút Jobs
+        if (btnJobs != null) {
+            btnJobs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentJobs = new Intent(MainActivity.this, FlashCardActivity.class);
+                    intentJobs.putExtra("TOPIC_NAME", "Jobs");
+                    startActivity(intentJobs);
+                }
+            });
+        }
 
         // trò chơi ghép từ
         View.OnClickListener gameClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent intentGhepTu = new Intent(MainActivity.this, GhepTuActivity.class);
                 intentGhepTu.putExtra("isAdmin", isAdmin);
                 startActivity(intentGhepTu);
@@ -130,17 +185,10 @@ public class MainActivity extends AppCompatActivity {
         imbtnGame.setOnClickListener(gameClickListener);
 
 
-
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-
-
     }
-
-
 }

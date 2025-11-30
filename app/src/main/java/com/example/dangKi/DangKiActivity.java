@@ -3,6 +3,7 @@ package com.example.dangKi;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -58,8 +59,11 @@ public class DangKiActivity extends AppCompatActivity {
     }
 
     private void handleRegistration() {
+        // TRIM() QUAN TRỌNG: Loại bỏ khoảng trắng thừa
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
+
+        Log.d("DangKi", "Email: [" + email + "], Pass: [" + password + "]"); // Debug log
 
         // Kiểm tra dữ liệu nhập vào
         if (email.isEmpty()) {
@@ -121,6 +125,7 @@ public class DangKiActivity extends AppCompatActivity {
         boolean insertSuccess = databaseHelper.insertUser(email, password);
         if (insertSuccess) {
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+            Log.d("DangKi", "Insert User Success: " + email);
             // Chuyển sang màn hình đăng nhập
             Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -128,6 +133,7 @@ public class DangKiActivity extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(this, "Đăng ký thất bại! Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+            Log.e("DangKi", "Insert User Failed");
         }
     }
 }

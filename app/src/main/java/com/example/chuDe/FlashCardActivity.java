@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.GhepTuActivity;
+import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 
 import java.io.IOException;
@@ -34,6 +36,11 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     private SQLiteConnect dbflashcard;
 
     private Button btnGhepThe;
+    private ImageButton imbtnHome;
+    private ImageButton imbtnHoc;
+    private ImageButton imbtnCheckList;
+    private ImageButton imbtnGame;
+
     private TextToSpeech tts; // <-- THÊM DÒNG NÀY
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -64,6 +71,46 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         btn_sound = findViewById(R.id.btn_sound);
         btn_star = findViewById(R.id.btn_star);
         image_flashcard = findViewById(R.id.image_flashcard);
+        
+        // Ánh xạ Navigation Bottom Bar
+        imbtnHome = findViewById(R.id.imbtnHome);
+        imbtnHoc = findViewById(R.id.imbtnHoc);
+        imbtnCheckList = findViewById(R.id.imbtnCheckList);
+        imbtnGame = findViewById(R.id.imbtnGame);
+
+        // Navigation Bottom Bar Actions
+        imbtnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMain = new Intent(FlashCardActivity.this, MainActivity.class);
+                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intentMain);
+            }
+        });
+
+        imbtnHoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentHoc = new Intent(FlashCardActivity.this, ChuDeActivity.class);
+                startActivity(intentHoc);
+            }
+        });
+
+        imbtnCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCheckList = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
+                startActivity(intentCheckList);
+            }
+        });
+
+        imbtnGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentGame = new Intent(FlashCardActivity.this, GhepTuActivity.class);
+                startActivity(intentGame);
+            }
+        });
 
 
         // Khởi tạo DatabaseHelper

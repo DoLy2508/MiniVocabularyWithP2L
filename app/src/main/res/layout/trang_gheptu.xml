@@ -113,8 +113,8 @@
             android:useDefaultMargins="true" />
         <Button
             android:id="@+id/btnHoanThanh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:backgroundTint="#EDBFBF"
             android:text="Hoàn thành"
             android:layout_gravity="center"
@@ -124,8 +124,8 @@
         <include
             android:id="@+id/thanh_menu"
             layout="@layout/thanh_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_gravity="bottom" />
 
 

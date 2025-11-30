@@ -18,7 +18,7 @@ import java.util.Locale;
 public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "HocTiengAnh.db";
-    public static final int DATABASE_VERSION = 6; 
+    public static final int DATABASE_VERSION = 7; // Tăng version lên 7 để reset DB sạch sẽ
 
     // Bảng Users
     public static final String TABLE_USERS = "users";
@@ -54,6 +54,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                 COLUMN_PASSWORD + " TEXT, " +
                 "role TEXT DEFAULT 'user')";
         db.execSQL(createTableUsers);
+        // Admin mặc định
         db.execSQL("INSERT OR IGNORE INTO users (email, password, role) VALUES ('adminp2l@gmail.com', '123456A@', 'admin')");
 
         // 2. Tasks
@@ -109,7 +110,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("hint", "A sweet, curved yellow fruit that monkeys love!");
         values.put("audio_path", "irritating.mp3");
         values.put("is_starred", 0);
-        values.put("last_reviewed", (String)null); // Chưa học
+        values.put("last_reviewed", (String)null); 
         values.put("image", "banana");
         values.put("topic", "Food"); 
         db.insert("flashcards", null, values);
@@ -158,6 +159,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Xóa bảng cũ nếu tồn tại để tạo lại từ đầu
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_GT);
@@ -167,6 +169,18 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     }
 
     // --- CÁC HÀM HỖ TRỢ ---
+
+    // Hàm chạy query không trả về (INSERT, UPDATE, DELETE)
+    public void queryData(String query) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL(query);
+    }
+
+    // Hàm chạy query có trả về (SELECT)
+    public Cursor getData(String query) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery(query, null);
+    }
 
     public boolean insertUser(String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();

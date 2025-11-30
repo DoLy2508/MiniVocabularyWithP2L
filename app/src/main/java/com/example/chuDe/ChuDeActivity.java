@@ -9,10 +9,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
+import com.example.gheptu.GhepTuActivity;
+import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 
 
@@ -28,6 +32,9 @@ public class ChuDeActivity extends AppCompatActivity {
     // Tổng quan
     private ProgressBar progressBarTotal;
     private TextView tvProgressPercentTotal;
+
+    // Menu dưới
+    private ImageButton imbtnHome, imbtnHoc, imbtnCheckList, imbtnGame;
 
     private SQLiteConnect db;
 
@@ -58,6 +65,12 @@ public class ChuDeActivity extends AppCompatActivity {
         progressBarTotal = findViewById(R.id.progress_bar_total);
         tvProgressPercentTotal = findViewById(R.id.tv_progress_percent);
 
+        // Ánh xạ Menu dưới
+        imbtnHome = findViewById(R.id.imbtnHome);
+        imbtnHoc = findViewById(R.id.imbtnHoc);
+        imbtnCheckList = findViewById(R.id.imbtnCheckList);
+        imbtnGame = findViewById(R.id.imbtnGame);
+
         // Xử lý sự kiện nút back
         btnBack.setOnClickListener(v -> finish());
 
@@ -66,6 +79,9 @@ public class ChuDeActivity extends AppCompatActivity {
         layoutFood.setOnClickListener(v -> openFlashCard("Food"));
         layoutTravel.setOnClickListener(v -> openFlashCard("Travel"));
         layoutJobs.setOnClickListener(v -> openFlashCard("Jobs"));
+
+        // Xử lý sự kiện Menu dưới
+        setupBottomMenu();
     }
 
     @Override
@@ -75,6 +91,29 @@ public class ChuDeActivity extends AppCompatActivity {
         if (db != null) {
             updateProgress();
         }
+    }
+
+    private void setupBottomMenu() {
+        imbtnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(ChuDeActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        imbtnHoc.setOnClickListener(v -> {
+            // Đang ở trang học (Chủ đề), có thể reload hoặc thông báo
+            Toast.makeText(ChuDeActivity.this, "Bạn đang ở trang Học tập", Toast.LENGTH_SHORT).show();
+        });
+
+        imbtnCheckList.setOnClickListener(v -> {
+            Intent intent = new Intent(ChuDeActivity.this, NhiemVuActivity.class);
+            startActivity(intent);
+        });
+
+        imbtnGame.setOnClickListener(v -> {
+            Intent intent = new Intent(ChuDeActivity.this, GhepTuActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void updateProgress() {

@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.NhiemVu.NhiemVuActivity;
+import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.Model.TuVungGhepTu;
 
@@ -92,14 +94,39 @@ public class GhepTuActivity extends AppCompatActivity {
             startActivity(new Intent(GhepTuActivity.this, QuanLiTuActivity.class));
         });
 
+        // Navigation Bottom Bar
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentGame = new Intent(GhepTuActivity.this, MainActivity.class);
-                startActivity(intentGame);
+                Intent intentMain = new Intent(GhepTuActivity.this, MainActivity.class);
+                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intentMain);
             }
+        });
 
+        imbtnHoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentHoc = new Intent(GhepTuActivity.this, ChuDeActivity.class);
+                startActivity(intentHoc);
+            }
+        });
 
+        imbtnCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCheckList = new Intent(GhepTuActivity.this, NhiemVuActivity.class);
+                startActivity(intentCheckList);
+            }
+        });
+
+        // imbtnGame là trang hiện tại, có thể reload hoặc không làm gì
+        imbtnGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Do nothing or refresh
+                Toast.makeText(GhepTuActivity.this, "Bạn đang ở trang Game", Toast.LENGTH_SHORT).show();
+            }
         });
 
 
