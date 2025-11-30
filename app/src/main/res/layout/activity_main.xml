@@ -28,6 +28,7 @@
                 android:textColor="#000000" />
 
             <!-- Icon thông báo -->
+            <!-- Đã sửa: Tăng size lên 48dp (chuẩn Google) và tăng padding để icon vẫn nhỏ gọn -->
             <ImageButton
                 android:id="@+id/btnNotification"
                 android:layout_width="48dp"
@@ -36,9 +37,10 @@
                 android:contentDescription="Thông báo"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:padding="4dp" />
+                android:padding="10dp" />
 
-            <!-- Icon cài đặt (Đã thêm ID) -->
+            <!-- Icon cài đặt -->
+            <!-- Đã sửa: Tăng size lên 48dp (chuẩn Google) và tăng padding lên 12dp để giữ icon hiển thị như cũ (khoảng 24dp) -->
             <ImageButton
                 android:id="@+id/btnSetting"
                 android:layout_width="48dp"
@@ -47,7 +49,7 @@
                 android:contentDescription="Cài đặt"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:padding="4dp" />
+                android:padding="12dp" />
         </LinearLayout>
 
         <!-- Thông báo -->
@@ -69,6 +71,7 @@
             android:layout_height="15dp" />
 
         <!-- Hàng: Tiến độ và Luyện nghe -->
+        <!-- android:divider + showDividers có đường chia (hoặc khoảng trống) giữa các phần tử con trong LinearLayout cha  -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

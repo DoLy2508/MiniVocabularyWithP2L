@@ -51,6 +51,7 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
             }
     );
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +84,10 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
 
         loadDataTuVung();
 
+    }
+    // === THÊM PHƯƠNG THỨC NÀY ĐỂ ADAPTER CÓ THỂ GỌI ===
+    public void launchEditActivity(Intent intent) {
+        suaTuLauncher.launch(intent);
     }
 
     // THÊM CÁC PHƯƠNG THỨC ĐỂ XỬ LÝ TEXTTOSPEECH
@@ -172,14 +177,14 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 456 && resultCode == 456){
-            loadDataTuVung();
-        }
-
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 456 && resultCode == 456){
+//            loadDataTuVung();
+//        }
+//
+//    }
 
 
 }

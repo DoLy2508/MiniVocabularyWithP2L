@@ -59,7 +59,6 @@ public class DangKiActivity extends AppCompatActivity {
     }
 
     private void handleRegistration() {
-        // TRIM() QUAN TRỌNG: Loại bỏ khoảng trắng thừa
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
@@ -109,15 +108,15 @@ public class DangKiActivity extends AppCompatActivity {
         if (databaseHelper.checkEmail(email)) {
             // Thay vì chỉ Toast, hiển thị Dialog gợi ý đăng nhập
             new AlertDialog.Builder(this)
-                .setTitle("Email đã tồn tại")
-                .setMessage("Email này đã được đăng ký. Bạn có muốn đăng nhập không?")
-                .setPositiveButton("Đăng nhập ngay", (dialog, which) -> {
-                    Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
-                    startActivity(intent);
-                    finish();
-                })
-                .setNegativeButton("Hủy", null)
-                .show();
+                    .setTitle("Email đã tồn tại")
+                    .setMessage("Email này đã được đăng ký. Bạn có muốn đăng nhập không?")
+                    .setPositiveButton("Đăng nhập ngay", (dialog, which) -> {
+                        Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton("Hủy", null)
+                    .show();
             return;
         }
 

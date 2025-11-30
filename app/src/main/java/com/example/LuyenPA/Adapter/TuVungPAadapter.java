@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import androidx.annotation.Nullable;
 import com.example.LuyenPA.Activities.SuaTuPaActivity;
 import com.example.LuyenPA.Model.LuyenPhatAm;
 import com.example.LuyenPA.QuanLiTuPaActivity;
+import com.example.gheptu.Model.TuVungGhepTu;
 import com.example.minivocabularywithp2l.R;
 
 import java.util.ArrayList;
@@ -92,6 +94,19 @@ public class TuVungPAadapter extends ArrayAdapter {
 
         });
 
+        imvSua.setOnClickListener(v -> {
+            // Tạo Intent để mở màn hình sửa
+            Intent intent = new Intent(context, SuaTuPaActivity.class);
+
+            // Đóng gói đối tượng 'tuPA' vào Intent
+            // "tu" là một cái khóa (key) để lát nữa bên SuaTuPaActivity lấy ra
+            intent.putExtra("tu", tuPA);
+
+            // Yêu cầu QuanLiTuPaActivity (Activity cha) khởi chạy Intent này
+            // và chờ kết quả trả về
+            activity.launchEditActivity(intent);
+        });
+
 
         imvXoa.setOnClickListener(v -> {
             // Hiển thị hộp thoại xác nhận
@@ -142,5 +157,44 @@ public class TuVungPAadapter extends ArrayAdapter {
         return customView;
 
 
+    }
+
+    @NonNull
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String query = constraint.toString().trim().toLowerCase();
+                if (query.length() < 1){
+                    listTuFilter = listTuBackup;
+                } else {
+                    listTuFilter = new ArrayList<>();
+                    for (LuyenPhatAm tu : listTuBackup){
+                        if (tu.getTiengAnh().toLowerCase().contains(query)){
+                            listTuFilter.add(tu);
+                        }
+
+                    }
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listTuFilter;
+
+
+
+
+
+
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                listTuPA = (ArrayList<LuyenPhatAm>) results.values;
+                notifyDataSetChanged();
+
+            }
+        };
     }
 }

@@ -16,7 +16,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.NhiemVu.NhiemVuActivity;
-import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.Model.TuVungGhepTu;
 
@@ -94,40 +93,32 @@ public class GhepTuActivity extends AppCompatActivity {
             startActivity(new Intent(GhepTuActivity.this, QuanLiTuActivity.class));
         });
 
-        // Navigation Bottom Bar
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentMain = new Intent(GhepTuActivity.this, MainActivity.class);
-                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intentMain);
-            }
-        });
+                Intent intentTrangChu = new Intent(GhepTuActivity.this, MainActivity.class);
+                intentTrangChu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intentTrangChu.putExtra("isAdmin", isAdmin);
 
-        imbtnHoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentHoc = new Intent(GhepTuActivity.this, ChuDeActivity.class);
-                startActivity(intentHoc);
+                startActivity(intentTrangChu);
             }
-        });
 
+
+        });
         imbtnCheckList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentCheckList = new Intent(GhepTuActivity.this, NhiemVuActivity.class);
-                startActivity(intentCheckList);
+
+                Intent intentNhiemVu = new Intent(GhepTuActivity.this, NhiemVuActivity.class);
+                intentNhiemVu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                // (Tùy chọn) Nếu NhiemVuActivity cũng cần quyền admin, hãy truyền nó đi
+                //intentNhiemVu.putExtra("isAdmin", isAdmin);
+
+                startActivity(intentNhiemVu);
             }
         });
 
-        // imbtnGame là trang hiện tại, có thể reload hoặc không làm gì
-        imbtnGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Do nothing or refresh
-                Toast.makeText(GhepTuActivity.this, "Bạn đang ở trang Game", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         btnHoanThanh.setOnClickListener(v -> xuLyHoanThanh());

@@ -1,146 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout
+<!-- SỬA 1: Thay ConstraintLayout bằng CoordinatorLayout để nhất quán và quản lý FAB/Menu tốt hơn -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8FAFF"
     android:fitsSystemWindows="true"
-    tools:context="com.example.gheptu.VictoryActivity">
-
-    <!-- Trang ghep tu -->
-
-
+    tools:context="com.example.gheptu.GhepTuActivity">
 
     <!-- Nội dung chính -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F8FAFF"
-        android:orientation="vertical"
-
-        >
+        android:orientation="vertical">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center"
+            android:paddingTop="16dp"
+            android:paddingHorizontal="16dp">
 
-            >
+
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="12dp"
+                android:layout_weight="1"
+                android:gravity="center"
                 android:text="Ghép thẻ vui!"
-                android:textColor="#ffe085"
-                android:textSize="26sp"
+                android:textColor="#F2BB5E"
+                android:textSize="22sp"
                 android:textStyle="bold" />
+
             <ImageButton
                 android:id="@+id/imbtnQuanLiTu"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Quản lý từ vựng"
                 android:src="@drawable/quan_li" />
-
         </LinearLayout>
 
-
-
-
-
-
         <!-- Thanh điểm + thời gian -->
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            >
-
-
+            android:paddingVertical="8dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="dong ho"
                 android:src="@drawable/clock" />
-
-
 
             <TextView
                 android:id="@+id/tvTimer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="12dp"
-                android:text="00:60"
+                android:text="00:00"
                 android:textColor="#FF9800"
                 android:textSize="16sp" />
-
-
-
-
-
         </LinearLayout>
 
-
-
-        <!-- Lưới thẻ -->
 
         <GridLayout
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
-            android:layout_height="565dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:alignmentMode="alignMargins"
             android:columnCount="3"
-            android:rowCount="4"
-            android:padding="20dp"
-            android:useDefaultMargins="true" />
+            android:padding="16dp"/>
+
+        <!-- Nút hoàn thành -->
         <Button
             android:id="@+id/btnHoanThanh"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:backgroundTint="#EDBFBF"
-            android:text="Hoàn thành"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="16dp"
-            />
-
-        <include
-            android:id="@+id/thanh_menu"
-            layout="@layout/thanh_menu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom" />
-
-
-
-
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="80dp"
+            android:backgroundTint="#EDBFBF"
+            android:text="Hoàn thành" />
 
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/thanh_menu"
+        layout="@layout/thanh_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 
-
-
-
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

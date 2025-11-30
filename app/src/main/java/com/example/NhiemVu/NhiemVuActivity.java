@@ -13,9 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
-import com.example.gheptu.GhepTuActivity;
+
 import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 
 public class NhiemVuActivity extends AppCompatActivity {
 
-    private ImageButton imbtnHome, imbtnHoc, imbtnCheckList, imbtnGame;
+    private ImageButton imbtnHome;
     private FloatingActionButton fabAddTask;
     private ListView lvNhiemVu;
     private ArrayList<NhiemVu> nhiemVuList;
@@ -41,7 +40,6 @@ public class NhiemVuActivity extends AppCompatActivity {
 
         // Khởi tạo view
         initViews();
-        setupBottomMenu();
         
         // Lấy dữ liệu từ Database
         loadDataFromDB();
@@ -60,6 +58,15 @@ public class NhiemVuActivity extends AppCompatActivity {
         });
         lvNhiemVu.setAdapter(adapter);
 
+        // Sự kiện nút Home
+        imbtnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+
+
+        });
         // Sự kiện nút Thêm mới
         fabAddTask.setOnClickListener(v -> {
             showAddDialog();
@@ -68,33 +75,8 @@ public class NhiemVuActivity extends AppCompatActivity {
 
     private void initViews() {
         imbtnHome = findViewById(R.id.imbtnHome);
-        imbtnHoc = findViewById(R.id.imbtnHoc);
-        imbtnCheckList = findViewById(R.id.imbtnCheckList);
-        imbtnGame = findViewById(R.id.imbtnGame);
         fabAddTask = findViewById(R.id.fab_add_task);
         lvNhiemVu = findViewById(R.id.lv_nhiemvu);
-    }
-
-    private void setupBottomMenu() {
-        imbtnHome.setOnClickListener(v -> {
-            Intent intent = new Intent(NhiemVuActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
-        });
-
-        imbtnHoc.setOnClickListener(v -> {
-            Intent intent = new Intent(NhiemVuActivity.this, ChuDeActivity.class);
-            startActivity(intent);
-        });
-
-        imbtnCheckList.setOnClickListener(v -> {
-             Toast.makeText(NhiemVuActivity.this, "Bạn đang ở trang Nhiệm vụ", Toast.LENGTH_SHORT).show();
-        });
-
-        imbtnGame.setOnClickListener(v -> {
-            Intent intent = new Intent(NhiemVuActivity.this, GhepTuActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void loadDataFromDB() {

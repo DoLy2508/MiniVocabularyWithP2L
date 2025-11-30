@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,8 +20,7 @@
             android:exported="false" />
         <activity
             android:name="com.example.LuyenPA.Activities.SuaTuPaActivity"
-            android:exported="false" />
-        <!-- <activity -->
+            android:exported="false" /> <!-- <activity -->
         <!-- android:name="com.example.thongBao.ReminderReceiver" -->
         <!-- android:exported="false" -->
         <!-- tools:ignore="MissingClass" /> -->

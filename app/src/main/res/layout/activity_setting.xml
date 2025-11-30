@@ -10,6 +10,19 @@
     android:padding="24dp"
     tools:context="com.example.setting.SettingActivity">
 
+    <!-- Nút Thoát (Back Arrow) nằm góc trên bên trái -->
+    <!-- Đã sửa: Dùng icon back và chuyển gravity sang start -->
+    <ImageButton
+        android:id="@+id/btnExitSetting"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/back"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Quay lại"
+        android:scaleType="centerInside"
+        android:layout_gravity="start"
+        app:tint="#808080"/>
+
     <!-- Header -->
     <TextView
         android:id="@+id/tvTitle"
@@ -108,7 +121,7 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:backgroundTint="#D81B60"
+        android:backgroundTint="#808080"
         app:cornerRadius="25dp"/>
 
 </LinearLayout>

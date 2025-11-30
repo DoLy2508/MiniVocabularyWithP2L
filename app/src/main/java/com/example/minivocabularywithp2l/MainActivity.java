@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imbtnGame;
     private ImageButton btnSetting; // Thêm nút Setting
     private TextView tvluyenphatam;
-    private LinearLayout layoutTiendo;
+    private LinearLayout layoutTiendo, layoutLuyenPhatAm;
     private boolean isAdmin;
     private String email;
 
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvluyenphatam = findViewById(R.id.tvluyenphatam);
         layoutTiendo = findViewById(R.id.layoutTiendo);
+        layoutLuyenPhatAm = findViewById(R.id.layoutLuyenNghe);
 
 
         // Xử lý sự kiện nút Setting
@@ -97,15 +98,28 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Lien ket trang Phat am
+        if (layoutLuyenPhatAm != null) {
+            layoutLuyenPhatAm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intentLuyenPA = new Intent(MainActivity.this, LuyenPhatAmActivity.class);
+                    // Đính kèm thông tin quyền admin vào Intent
+                    intentLuyenPA.putExtra("isAdmin", isAdmin);
+                    startActivity(intentLuyenPA);
+                }
+            });
+        }
+        
+        // Fallback cho text view neu nguoi dung click vao chu
         tvluyenphatam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentLuyenPA = new Intent(MainActivity.this, LuyenPhatAmActivity.class);
-                // Đính kèm thông tin quyền admin vào Intent
                 intentLuyenPA.putExtra("isAdmin", isAdmin);
                 startActivity(intentLuyenPA);
             }
         });
+        
         // =================================================================
 
         // Lien ket trang chu de tu vung

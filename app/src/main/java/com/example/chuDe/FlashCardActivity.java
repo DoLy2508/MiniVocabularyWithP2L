@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.GhepTuActivity;
 import com.example.minivocabularywithp2l.MainActivity;
@@ -31,15 +30,11 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     ImageView image_flashcard;
 
     private int currentId = -1;
-    private String currentTopic = "Animals"; // Chủ đề mặc định
 
     private SQLiteConnect dbflashcard;
 
     private Button btnGhepThe;
-    private ImageButton imbtnHome;
-    private ImageButton imbtnHoc;
-    private ImageButton imbtnCheckList;
-    private ImageButton imbtnGame;
+    private boolean isAdmin;
 
     private TextToSpeech tts; // <-- THÊM DÒNG NÀY
 
@@ -48,17 +43,13 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chude_tuvung);
-
-        // NHẬN DỮ LIỆU CHỦ ĐỀ TỪ CHUDEACTIVITY
-        String topic = getIntent().getStringExtra("TOPIC_NAME");
-        if (topic != null && !topic.isEmpty()) {
-            currentTopic = topic;
-        }
-
         btnGhepThe = findViewById(R.id.btnGhepThe);
+        isAdmin = getIntent().getBooleanExtra("isAdmin", false);
+
         btnGhepThe.setOnClickListener(v -> {
-            startActivity(new Intent(FlashCardActivity.this, GhepTuActivity.class));
-            finish();
+            Intent intentGhepTu = new Intent(FlashCardActivity.this, GhepTuActivity.class);
+            intentGhepTu.putExtra("isAdmin", isAdmin);
+            startActivity(intentGhepTu);
 
         });
         // ánh xạ view
@@ -71,66 +62,20 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         btn_sound = findViewById(R.id.btn_sound);
         btn_star = findViewById(R.id.btn_star);
         image_flashcard = findViewById(R.id.image_flashcard);
-        
-        // Ánh xạ Navigation Bottom Bar
-        imbtnHome = findViewById(R.id.imbtnHome);
-        imbtnHoc = findViewById(R.id.imbtnHoc);
-        imbtnCheckList = findViewById(R.id.imbtnCheckList);
-        imbtnGame = findViewById(R.id.imbtnGame);
-
-        // Navigation Bottom Bar Actions
-        imbtnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMain = new Intent(FlashCardActivity.this, MainActivity.class);
-                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intentMain);
-            }
-        });
-
-        imbtnHoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentHoc = new Intent(FlashCardActivity.this, ChuDeActivity.class);
-                startActivity(intentHoc);
-            }
-        });
-
-        imbtnCheckList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentCheckList = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
-                startActivity(intentCheckList);
-            }
-        });
-
-        imbtnGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentGame = new Intent(FlashCardActivity.this, GhepTuActivity.class);
-                startActivity(intentGame);
-            }
-        });
 
 
         // Khởi tạo DatabaseHelper
             dbflashcard = new SQLiteConnect(this);
 
 
-        // Tải flashcard đầu tiên theo chủ đề
+        // Tải flashcard đầu tiên
         loadRandomFlashcard();
 
         // KHỞI TẠO TEXT-TO-SPEECH
         tts = new TextToSpeech(this, this); // this = OnInitListener
 
-        // Nút Tiếp tục (Và đánh dấu đã học)
-        btn_next.setOnClickListener(v -> {
-             // Đánh dấu đã học trước khi chuyển từ
-             if (currentId != -1) {
-                 dbflashcard.markAsLearned(currentId);
-             }
-             loadRandomFlashcard();
-        });
+        // Nút Tiếp tục
+        btn_next.setOnClickListener(v -> loadRandomFlashcard());
 
         // thêm sự kiện click cho text_hint ( hển th gợi  )
         text_hint.setOnClickListener(v -> {
@@ -200,10 +145,8 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
 
     private void loadRandomFlashcard() {
-        // Thay đổi: Lấy từ vựng theo chủ đề
-        Cursor cursor = dbflashcard.getRandomFlashcardByTopic(currentTopic);
-        
-        if (cursor != null && cursor.moveToFirst()) {
+        Cursor cursor = dbflashcard.getRandomFlashcard();
+        if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex("id");
             int wordIndex = cursor.getColumnIndex("word");
             int meaningIndex = cursor.getColumnIndex("meaning");
@@ -256,38 +199,43 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
             // KHÔNG tự động hiển thị hint nữa → để người dùng tự nhấn
         } else {
-            // Không có flashcard cho chủ đề này
-            text_flashcard_front.setText("Không có từ vựng\ncho chủ đề: " + currentTopic);
+            // Không có flashcard
+            text_flashcard_front.setText("Không có flashcard!");
             text_flashcard_back.setText("");
             text_flashcard_hint.setText(""); // rõ ràng: không có hint
             image_flashcard.setVisibility(View.GONE); // ẩn ảnh
             currentId = -1;
         }
-        if(cursor != null) cursor.close();
+        cursor.close();
     }
 
 
     private boolean isCurrentStarred() {
         if (currentId == -1) return false;
         Cursor cursor = dbflashcard.getFlashcardById(currentId);
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             boolean starred = cursor.getInt(cursor.getColumnIndexOrThrow("is_starred")) == 1;
             cursor.close();
             return starred;
         }
-        if(cursor != null) cursor.close();
+        cursor.close();
         return false;
     }
 
     private String getCurrentWord() {
         if (currentId == -1) return "";
         Cursor cursor = dbflashcard.getFlashcardById(currentId);
-        if (cursor != null && cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             String word = cursor.getString(cursor.getColumnIndexOrThrow("word"));
             cursor.close();
             return word;
         }
-        if(cursor != null) cursor.close();
+        cursor.close();
         return "";
     }
 }
+
+
+
+
+
