@@ -96,7 +96,11 @@ public class GhepTuActivity extends AppCompatActivity {
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intentTrangChu = new Intent(GhepTuActivity.this, MainActivity.class);
+                intentTrangChu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intentTrangChu.putExtra("isAdmin", isAdmin);
+
+                startActivity(intentTrangChu);
             }
 
 

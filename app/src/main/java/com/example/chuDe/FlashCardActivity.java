@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.GhepTuActivity;
+import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 
 import java.io.IOException;
@@ -33,6 +34,8 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     private SQLiteConnect dbflashcard;
 
     private Button btnGhepThe;
+    private boolean isAdmin;
+
     private TextToSpeech tts; // <-- THÊM DÒNG NÀY
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
@@ -41,9 +44,12 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chude_tuvung);
         btnGhepThe = findViewById(R.id.btnGhepThe);
+        isAdmin = getIntent().getBooleanExtra("isAdmin", false);
+
         btnGhepThe.setOnClickListener(v -> {
-            startActivity(new Intent(FlashCardActivity.this, GhepTuActivity.class));
-            finish();
+            Intent intentGhepTu = new Intent(FlashCardActivity.this, GhepTuActivity.class);
+            intentGhepTu.putExtra("isAdmin", isAdmin);
+            startActivity(intentGhepTu);
 
         });
         // ánh xạ view
