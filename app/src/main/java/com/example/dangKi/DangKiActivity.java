@@ -1,7 +1,9 @@
 package com.example.dangKi;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -60,6 +62,8 @@ public class DangKiActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
+        Log.d("DangKi", "Email: [" + email + "], Pass: [" + password + "]"); // Debug log
+
         // Kiểm tra dữ liệu nhập vào
         if (email.isEmpty()) {
             emailEditText.setError("Vui lòng nhập email");
@@ -102,7 +106,17 @@ public class DangKiActivity extends AppCompatActivity {
 
         // Kiểm tra xem email đã tồn tại chưa
         if (databaseHelper.checkEmail(email)) {
-            Toast.makeText(this, "Email này đã được đăng ký! Vui lòng sử dụng email khác.", Toast.LENGTH_SHORT).show();
+            // Thay vì chỉ Toast, hiển thị Dialog gợi ý đăng nhập
+            new AlertDialog.Builder(this)
+                    .setTitle("Email đã tồn tại")
+                    .setMessage("Email này đã được đăng ký. Bạn có muốn đăng nhập không?")
+                    .setPositiveButton("Đăng nhập ngay", (dialog, which) -> {
+                        Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .setNegativeButton("Hủy", null)
+                    .show();
             return;
         }
 
@@ -110,6 +124,7 @@ public class DangKiActivity extends AppCompatActivity {
         boolean insertSuccess = databaseHelper.insertUser(email, password);
         if (insertSuccess) {
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
+            Log.d("DangKi", "Insert User Success: " + email);
             // Chuyển sang màn hình đăng nhập
             Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -117,6 +132,7 @@ public class DangKiActivity extends AppCompatActivity {
             finish();
         } else {
             Toast.makeText(this, "Đăng ký thất bại! Vui lòng thử lại.", Toast.LENGTH_SHORT).show();
+            Log.e("DangKi", "Insert User Failed");
         }
     }
 }

@@ -10,12 +10,15 @@ import androidx.annotation.Nullable;
 
 import com.example.NhiemVu.NhiemVu;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "HocTiengAnh.db";
-    public static final int DATABASE_VERSION = 5; // Tăng version để cập nhật bảng mới
+    public static final int DATABASE_VERSION = 7; // Tăng version để cập nhật bảng mới
 
     // Bảng Users (Đăng Ký)
     public static final String TABLE_USERS = "users";
@@ -142,7 +145,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // --- CÁC HÀM HỖ TRỢ CHUNG (Code cũ) ---
+    // --- CÁC HÀM HỖ TRỢ CHUNG ---
     // truy vấn không trả kết quả: CREATE, INSERT, UPDATE,...
     public void queryData(String query) {
         SQLiteDatabase db = getWritableDatabase();
@@ -193,7 +196,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         cv.put(COLUMN_TASK_TITLE, task.getTitle());
         cv.put(COLUMN_TASK_DESC, task.getDescription());
         cv.put(COLUMN_TASK_COMPLETED, task.isCompleted() ? 1 : 0);
-
         long result = db.insert(TABLE_TASKS, null, cv);
         return result != -1;
     }
@@ -203,16 +205,13 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         ArrayList<NhiemVu> taskList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_TASKS, null);
-
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_TASK_ID));
                 String title = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TASK_TITLE));
                 String desc = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TASK_DESC));
                 boolean isCompleted = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_TASK_COMPLETED)) == 1;
-
-                NhiemVu task = new NhiemVu(id, title, desc, isCompleted);
-                taskList.add(task);
+                taskList.add(new NhiemVu(id, title, desc, isCompleted));
             } while (cursor.moveToNext());
         }
         cursor.close();
@@ -226,7 +225,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         cv.put(COLUMN_TASK_TITLE, task.getTitle());
         cv.put(COLUMN_TASK_DESC, task.getDescription());
         cv.put(COLUMN_TASK_COMPLETED, task.isCompleted() ? 1 : 0);
-
         int rowsAffected = db.update(TABLE_TASKS, cv, COLUMN_TASK_ID + " = ?", new String[]{String.valueOf(task.getId())});
         return rowsAffected > 0;
     }
@@ -249,32 +247,79 @@ public class SQLiteConnect extends SQLiteOpenHelper {
 //    public void openDatabase() {
 //    }
 
-    public void updateStarred(int currentId, boolean isStarred) {
+//    public void updateStarred(int currentId, boolean isStarred) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues cv = new ContentValues();
+//        boolean starred = false;
+//        cv.put("is_starred", isStarred ? 1 : 0);
+////        db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
+//        final String TABLE_FLASHCARDS = "flashcards";
+//        final String COLUMN_FLASHCARD_ID = "id";
+//        final String COLUMN_FLASHCARD_WORD = "word";
+//        final String COLUMN_FLASHCARD_MEANING = "meaning";
+//        final String COLUMN_FLASHCARD_HINT = "hint";
+//        final String COLUMN_FLASHCARD_AUDIO_PATH = "audio_path";
+//        final String COLUMN_FLASHCARD_STARRED = "is_starred";
+//        final String COLUMN_FLASHCARD_LAST_REVIEWED = "last_reviewed";
+//        db.update(TABLE_FLASHCARDS, cv, COLUMN_FLASHCARD_ID + " = ?", new String[]{String.valueOf(currentId)});
+    //}
+public void updateStarred(int currentId, boolean isStarred) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues cv = new ContentValues();
+    cv.put("is_starred", isStarred ? 1 : 0);
+    db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
+}
+
+
+    // --- TIẾN ĐỘ HỌC TẬP ---
+
+    // Đánh dấu từ đã học (cập nhật last_reviewed)
+    public void markAsLearned(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        boolean starred = false;
-        cv.put("is_starred", isStarred ? 1 : 0);
-//        db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
-        final String TABLE_FLASHCARDS = "flashcards";
-        final String COLUMN_FLASHCARD_ID = "id";
-        final String COLUMN_FLASHCARD_WORD = "word";
-        final String COLUMN_FLASHCARD_MEANING = "meaning";
-        final String COLUMN_FLASHCARD_HINT = "hint";
-        final String COLUMN_FLASHCARD_AUDIO_PATH = "audio_path";
-        final String COLUMN_FLASHCARD_STARRED = "is_starred";
-        final String COLUMN_FLASHCARD_LAST_REVIEWED = "last_reviewed";
-        db.update(TABLE_FLASHCARDS, cv, COLUMN_FLASHCARD_ID + " = ?", new String[]{String.valueOf(currentId)});
+        String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        cv.put("last_reviewed", currentDate);
+        db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(id)});
     }
 
+    public int getTotalCountByTopic(String topic) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM flashcards WHERE topic = ?", new String[]{topic});
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    // Lấy số từ đã học theo chủ đề (last_reviewed IS NOT NULL)
+    public int getLearnedCountByTopic(String topic) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM flashcards WHERE topic = ? AND last_reviewed IS NOT NULL", new String[]{topic});
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
     public Cursor getRandomFlashcard() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM flashcards ORDER BY RANDOM() LIMIT 1", null);
+    }
+    public Cursor getRandomFlashcardByTopic(String topic) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM flashcards WHERE topic = ? ORDER BY RANDOM() LIMIT 1", new String[]{topic});
     }
 
     public Cursor getFlashcardById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM flashcards WHERE id = ?", new String[]{String.valueOf(id)});
     }
+
+
+
 
     public boolean isAdmin(String email) {
         SQLiteDatabase db = this.getReadableDatabase();

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -140,6 +141,12 @@ public class DangNhapActivity extends AppCompatActivity {
 
         if(email.isEmpty()){
             editEmail.setError("Vui lòng nhập email");
+            editEmail.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editEmail.setError("Email không hợp lệ (Ví dụ: abc@gmail.com)");
             editEmail.requestFocus();
             return;
         }
