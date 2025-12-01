@@ -21,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.minivocabularywithp2l.MainActivity;
+import com.example.minivocabularywithp2l.MySharedPreferences;
 import com.example.minivocabularywithp2l.R;
 
 public class DangNhapActivity extends AppCompatActivity {
@@ -29,7 +30,7 @@ public class DangNhapActivity extends AppCompatActivity {
     TextView tvForgot;
 
     private SQLiteConnect databaseHelper;
-
+    private MySharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,8 @@ public class DangNhapActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.trang_dangnhap);
 
-        databaseHelper = new SQLiteConnect(this); // ← KHỞI TẠO databaseHelper
+        databaseHelper = new SQLiteConnect(this);
+        pref = new MySharedPreferences(this);
         
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
@@ -162,10 +164,13 @@ public class DangNhapActivity extends AppCompatActivity {
 
         if(loginSuccess){
             boolean isAdmin = databaseHelper.isAdmin(email); // kiểm tra quyền admin
+            
+            // Lưu thông tin vào SharedPreferences
+            pref.saveUserSession(email, isAdmin);
 
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-            // Gửi thông tin sang MainActivity
+            // Gửi thông tin sang MainActivity (vẫn gửi intent để tương thích code cũ)
             Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("isAdmin", isAdmin);

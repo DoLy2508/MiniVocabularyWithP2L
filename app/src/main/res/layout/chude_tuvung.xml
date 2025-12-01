@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
         android:fitsSystemWindows="true"
-        android:gravity="center">
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/thanh_menu">
 
         <!-- Thanh trên cùng chứa các nút (2 hàng, mỗi hàng 3 nút) -->
         <LinearLayout
@@ -134,17 +138,18 @@
 
                     <ImageButton
                         android:id="@+id/btn_sound"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/loa"
-                        android:layout_marginEnd="16dp"/>
+                        android:contentDescription="Phát âm từ vựng"
+                        android:src="@drawable/loa" />
 
                     <ImageButton
                         android:id="@+id/btn_star"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
                         android:background="@android:color/transparent"
+                        android:contentDescription="Đánh dấu từ yêu thích"
                         android:src="@drawable/sao" />
                 </LinearLayout>
             </LinearLayout>
@@ -205,8 +210,6 @@
                     android:maxLines="3"
                     android:ellipsize="end" />
 
-
-
             </FrameLayout>
         </LinearLayout>
 
@@ -242,5 +245,12 @@
 
     </LinearLayout>
 
+    <!-- Menu bottom -->
+    <include
+        android:id="@+id/thanh_menu"
+        layout="@layout/thanh_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

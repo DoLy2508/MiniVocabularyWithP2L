@@ -26,28 +26,28 @@
 
         <EditText
             android:id="@+id/edtThemMaTu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập mã từ vựng"
             android:layout_marginTop="8dp"/>
 
         <EditText
             android:id="@+id/edtThemTiengAnh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập từ tiếng anh"
             android:layout_marginTop="8dp"/>
         <EditText
             android:id="@+id/edtThemNguAm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập ngữ âm của từ"
             android:layout_marginTop="8dp"/>
 
         <EditText
             android:id="@+id/edtThemTiengViet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập từ tiếng việt"
             android:layout_marginTop="8dp"/>
 

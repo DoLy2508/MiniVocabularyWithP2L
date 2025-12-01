@@ -24,7 +24,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.LuyenPA.Model.LuyenPhatAm;
+import com.example.NhiemVu.NhiemVuActivity;
+import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
+import com.example.gheptu.GhepTuActivity;
 import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 
@@ -42,6 +45,9 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
     private ImageView imvTroVe;
     private SQLiteConnect db;
     private TextToSpeech tts;
+    
+    // Menu dưới
+    private ImageButton imbtnHome, imbtnHoc, imbtnCheckList, imbtnGame;
 
     // Biến thành viên để lưu trạng thái admin, tránh bị mất khi quay lại Activity
     private boolean isAdmin = false;
@@ -71,6 +77,12 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         tvNguAm = findViewById(R.id.tvNguAm);
         tvNghiaTV = findViewById(R.id.tvNghiaTV);
         imvNghe = findViewById(R.id.imvNghe);
+
+        // Ánh xạ Menu dưới
+        imbtnHome = findViewById(R.id.imbtnHome);
+        imbtnHoc = findViewById(R.id.imbtnHoc);
+        imbtnCheckList = findViewById(R.id.imbtnCheckList);
+        imbtnGame = findViewById(R.id.imbtnGame);
 
         // Khởi tạo các đối tượng cần thiết
         tts = new TextToSpeech(this, this);
@@ -129,6 +141,32 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
             if (!listTuPA.isEmpty()) {
                 displayCurrentWord();
             }
+        });
+        
+        // Xử lý sự kiện Menu dưới
+        setupBottomMenu();
+    }
+    
+    private void setupBottomMenu() {
+        imbtnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(LuyenPhatAmActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        });
+
+        imbtnHoc.setOnClickListener(v -> {
+            Intent intent = new Intent(LuyenPhatAmActivity.this, ChuDeActivity.class);
+            startActivity(intent);
+        });
+
+        imbtnCheckList.setOnClickListener(v -> {
+            Intent intent = new Intent(LuyenPhatAmActivity.this, NhiemVuActivity.class);
+            startActivity(intent);
+        });
+
+        imbtnGame.setOnClickListener(v -> {
+            Intent intent = new Intent(LuyenPhatAmActivity.this, GhepTuActivity.class);
+            startActivity(intent);
         });
     }
 

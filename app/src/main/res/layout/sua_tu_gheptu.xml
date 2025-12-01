@@ -22,18 +22,18 @@
             android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/edtSuaMaTu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập từ vựng"/>
         <EditText
             android:id="@+id/edtSuaTiengAnh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập từ tiếng anh"/>
         <EditText
             android:id="@+id/edtSuaTiengViet"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:hint="Nhập từ tiếng việt"/>
         <LinearLayout
             android:layout_width="match_parent"
