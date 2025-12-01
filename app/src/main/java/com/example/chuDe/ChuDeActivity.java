@@ -2,9 +2,9 @@ package com.example.chuDe;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.example.LuyenPA.LuyenPhatAmActivity;
 import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.GhepTuActivity;
@@ -27,10 +27,10 @@ public class ChuDeActivity extends AppCompatActivity {
     private LinearLayout layoutAnimals, layoutFood, layoutTravel, layoutJobs;
     private ImageButton btnBack;
 
+
     // Khai báo các view hiển thị phần trăm
     private TextView tvPercentAnimals, tvPercentFood, tvPercentTravel, tvPercentJobs;
     private ImageView imgAnimals, imgFood, imgTravel, imgJobs;
-    private ProgressBar pbAnimals, pbFood, pbTravel, pbJobs;
 
     // Tổng quan
     private ProgressBar progressBarTotal;
@@ -67,11 +67,6 @@ public class ChuDeActivity extends AppCompatActivity {
         imgTravel = findViewById(R.id.img_travel);
         imgJobs = findViewById(R.id.img_jobs);
 
-        pbAnimals = findViewById(R.id.pb_animals);
-        pbFood = findViewById(R.id.pb_food);
-        pbTravel = findViewById(R.id.pb_travel);
-        pbJobs = findViewById(R.id.pb_jobs);
-
         progressBarTotal = findViewById(R.id.progress_bar_total);
         tvProgressPercentTotal = findViewById(R.id.tv_progress_percent);
 
@@ -89,6 +84,7 @@ public class ChuDeActivity extends AppCompatActivity {
         layoutFood.setOnClickListener(v -> openFlashCard("Food"));
         layoutTravel.setOnClickListener(v -> openFlashCard("Travel"));
         layoutJobs.setOnClickListener(v -> openFlashCard("Jobs"));
+
 
         // Xử lý sự kiện Menu dưới
         setupBottomMenu();
@@ -130,6 +126,8 @@ public class ChuDeActivity extends AppCompatActivity {
             intent.putExtra("isAdmin", this.isAdmin);
             startActivity(intent);
         });
+
+
     }
 
     private void updateProgress() {
@@ -140,10 +138,10 @@ public class ChuDeActivity extends AppCompatActivity {
         int pJobs = calculatePercent("Jobs");
 
         // 2. Cập nhật giao diện từng dòng
-        updateRowUI(tvPercentAnimals, imgAnimals, pbAnimals, pAnimals);
-        updateRowUI(tvPercentFood, imgFood, pbFood, pFood);
-        updateRowUI(tvPercentTravel, imgTravel, pbTravel, pTravel);
-        updateRowUI(tvPercentJobs, imgJobs, pbJobs, pJobs);
+        updateRowUI(tvPercentAnimals, imgAnimals, pAnimals);
+        updateRowUI(tvPercentFood, imgFood, pFood);
+        updateRowUI(tvPercentTravel, imgTravel, pTravel);
+        updateRowUI(tvPercentJobs, imgJobs, pJobs);
 
         // 3. Tính tổng tiến độ chung
         int totalLearned = db.getLearnedCountByTopic("Animals") +
@@ -165,7 +163,15 @@ public class ChuDeActivity extends AppCompatActivity {
         tvProgressPercentTotal.setText(totalPercent + "%");
 
         // Màu cho vòng tròn tổng
-        setProgressBarColor(progressBarTotal, tvProgressPercentTotal, totalPercent);
+        if (totalPercent >= 80) {
+            tvProgressPercentTotal.setTextColor(Color.parseColor("#4CAF50")); // Xanh
+        } else if (totalPercent >= 60) {
+            tvProgressPercentTotal.setTextColor(Color.parseColor("#FF9800")); // Cam
+        } else if (totalPercent >= 30) {
+            tvProgressPercentTotal.setTextColor(Color.parseColor("#E65100")); // Cam đậm
+        } else {
+            tvProgressPercentTotal.setTextColor(Color.parseColor("#FF0000")); // Đỏ
+        }
     }
 
     private int calculatePercent(String topic) {
@@ -175,42 +181,22 @@ public class ChuDeActivity extends AppCompatActivity {
         return (int) ((learned / (float) total) * 100);
     }
 
-    private void updateRowUI(TextView tvPercent, ImageView imgIcon, ProgressBar pb, int percent) {
+    private void updateRowUI(TextView tvPercent, ImageView imgIcon, int percent) {
         tvPercent.setText(percent + "%");
-        pb.setProgress(percent);
-        
-        // Cập nhật màu sắc cho ProgressBar nhỏ và text, icon
-        int color = getColorForPercent(percent);
-        
+
+        int color;
+        if (percent >= 80) { // 100 - 80: Xanh lá
+            color = Color.parseColor("#4CAF50");
+        } else if (percent >= 60) { // 70 - 60: Cam
+            color = Color.parseColor("#FF9800");
+        } else if (percent >= 30) { // 50 - 30: Cam đậm
+            color = Color.parseColor("#E65100");
+        } else { // 20 - 0: Đỏ lè
+            color = Color.parseColor("#FF0000");
+        }
+
         tvPercent.setTextColor(color);
         imgIcon.setColorFilter(color);
-        
-        // Set màu cho ProgressBar
-        Drawable progressDrawable = pb.getProgressDrawable().mutate();
-        // Layer thứ 2 trong layer-list thường là progress (hoặc dùng tint)
-        progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        pb.setProgressDrawable(progressDrawable);
-    }
-    
-    private void setProgressBarColor(ProgressBar pb, TextView tvPercent, int percent) {
-        int color = getColorForPercent(percent);
-        tvPercent.setTextColor(color);
-        
-        Drawable progressDrawable = pb.getProgressDrawable().mutate();
-        progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-        pb.setProgressDrawable(progressDrawable);
-    }
-
-    private int getColorForPercent(int percent) {
-        if (percent <= 30) {
-            return Color.parseColor("#FF0000"); // Đỏ
-        } else if (percent <= 50) {
-            return Color.parseColor("#FFD700"); // Vàng
-        } else if (percent <= 70) {
-            return Color.parseColor("#00008B"); // Xanh lam đậm
-        } else {
-            return Color.parseColor("#008000"); // Xanh lá (từ 71 đến 100)
-        }
     }
 
     // Hàm dùng chung để chuyển activity
