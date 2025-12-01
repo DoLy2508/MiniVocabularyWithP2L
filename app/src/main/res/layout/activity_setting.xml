@@ -11,7 +11,6 @@
     tools:context="com.example.setting.SettingActivity">
 
     <!-- Nút Thoát (Back Arrow) nằm góc trên bên trái -->
-    <!-- Đã sửa: Dùng icon back và chuyển gravity sang start -->
     <ImageButton
         android:id="@+id/btnExitSetting"
         android:layout_width="48dp"
@@ -37,6 +36,7 @@
 
     <!-- Thông tin User -->
     <LinearLayout
+        android:id="@+id/layoutProfileInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

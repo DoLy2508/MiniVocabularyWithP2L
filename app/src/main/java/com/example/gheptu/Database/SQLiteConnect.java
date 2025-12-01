@@ -18,7 +18,7 @@ import java.util.Locale;
 public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "HocTiengAnh.db";
-    public static final int DATABASE_VERSION = 7; // Tăng version để cập nhật bảng mới
+    public static final int DATABASE_VERSION = 8; // Giữ nguyên version 8
 
     // Bảng Users (Đăng Ký)
     public static final String TABLE_USERS = "users";
@@ -31,9 +31,9 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     public static final String COLUMN_TASK_ID = "id";
     public static final String COLUMN_TASK_TITLE = "title";
     public static final String COLUMN_TASK_DESC = "description";
-//    public static final String COLUMN_TAaSK_COMPLETED = "is_completed";
+    public static final String COLUMN_TAaSK_COMPLETED = "is_completed";
     
-    // Bảng Từ vựng Ghép từ (giữ lại code cũ của bạn)
+    // Bảng Từ vựng Ghép từ
     public static final String TABLE_TUVUNG_GT = "tuvungGT_v2";
 
     // Bang tu vung phat am
@@ -41,11 +41,9 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     private static final String COLUMN_TASK_COMPLETED = "is_completed";
 
     public SQLiteConnect(@Nullable Context context) {
-        // Constructor mặc định cho việc sử dụng chung
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     
-    // Giữ lại constructor cũ nếu có chỗ nào đang dùng (để tránh lỗi code cũ)
     public SQLiteConnect(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name != null ? name : DATABASE_NAME, factory, version >= 1 ? version : DATABASE_VERSION);
     }
@@ -60,7 +58,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                 "role TEXT DEFAULT 'user')";
         db.execSQL(createTableUsers);
 
-        //Chèn admin (chỉ 1 lần)
         db.execSQL("INSERT OR IGNORE INTO users (email, password, role) VALUES ('adminp2l@gmail.com', '123456A@', 'admin')");
 
         // 2. Tạo bảng Tasks
@@ -89,7 +86,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "nguAm TEXT," +
                         "tiengViet TEXT)"
         );
-        // 4.Phương : Tạo bảng flashcard
+        // 4. Tạo bảng flashcard
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS flashcards (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -98,116 +95,80 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "hint TEXT," +
                         "audio_path TEXT," +
                         "is_starred INTEGER DEFAULT 0," +
-                        "last_reviewed TEXT," + // <-- SỬA LỖI: Thêm dấu phẩy ở đây
-                        "image TEXT" +
-                        ")"
+                        "last_reviewed TEXT," +
+                        "image TEXT," +
+                        "topic TEXT DEFAULT 'General')"
         );
-        //  CHÈN DỮ LIỆU MẪU VÀO BẢNG flashcards
+        
         insertSampleFlashcards(db);
-
     }
 
     private void insertSampleFlashcards(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
 
-        // Flashcard 1
-        values.put("word", "bee");
-        values.put("meaning", "Con Ong");
-        values.put("hint", "It buzzes, makes honey, and lives in a hive.");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "bee"); // ← THÊM DÒNG NÀY
+        // Animals
+        values.put("word", "Cat");
+        values.put("meaning", "Con mèo");
+        values.put("hint", "Meow meow");
+        values.put("image", "animals"); 
+        values.put("topic", "Animals");
+        db.insert("flashcards", null, values);
+        
+        values.put("word", "Dog");
+        values.put("meaning", "Con chó");
+        values.put("hint", "Gâu gâu");
+        values.put("image", "animals");
+        values.put("topic", "Animals");
         db.insert("flashcards", null, values);
 
-        // Flashcard 2
-        values.clear();
-        values.put("word", "parrot");
-        values.put("meaning", "Con Vẹt");
-        values.put("hint", "It has colorful feathers and can mimic human speech.");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "parrot"); // ← THÊM DÒNG NÀY
+        // Food
+        values.put("word", "Apple");
+        values.put("meaning", "Quả táo");
+        values.put("hint", "Red fruit");
+        values.put("image", "food");
+        values.put("topic", "Food");
         db.insert("flashcards", null, values);
-
-        // Flashcard 3
-        values.clear();
-        values.put("word", "crab");
-        values.put("meaning", "Con Cua");
-        values.put("hint", "It has a hard shell and walks sideways in the sand.");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "crab"); // ← THÊM DÒNG NÀY
+        
+        values.put("word", "Bread");
+        values.put("meaning", "Bánh mì");
+        values.put("hint", "Ăn sáng");
+        values.put("image", "food");
+        values.put("topic", "Food");
         db.insert("flashcards", null, values);
-
-        // Flashcard 2
-        values.clear();
-        values.put("word", "Monkey");
-        values.put("meaning", "Con Khỉ");
-        values.put("hint", "It jumps, climbs, and eats bananas!");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "monkey"); // ← THÊM DÒNG NÀY
+        
+        // Travel
+        values.put("word", "Passport");
+        values.put("meaning", "Hộ chiếu");
+        values.put("hint", "Cần để đi nước ngoài");
+        values.put("image", "travel");
+        values.put("topic", "Travel");
         db.insert("flashcards", null, values);
-
-        // Flashcard 4
-        values.clear();
-        values.put("word", "whale");
-        values.put("meaning", "Cá Voi");
-        values.put("hint", "The biggest animal in the ocean.");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "whale"); // ← THÊM DÒNG NÀY
+        
+        // Jobs
+        values.put("word", "Doctor");
+        values.put("meaning", "Bác sĩ");
+        values.put("hint", "Chữa bệnh");
+        values.put("image", "jobs");
+        values.put("topic", "Jobs");
         db.insert("flashcards", null, values);
-
-        // Flashcard 4
-        values.clear();
-        values.put("word", "Frog");
-        values.put("meaning", "Con Ếch");
-        values.put("hint", "The frog hops and says ribbit .");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "frog"); // ← THÊM DÒNG NÀY
-        db.insert("flashcards", null, values);
-
-        // Flashcard 4
-        values.clear();
-        values.put("word", "Elephant");
-        values.put("meaning", "Con Voi");
-        values.put("hint", "The elephant is big, gentle, and has a long trunk.");
-        values.put("audio_path", "irritating.mp3");
-        values.put("is_starred", 0);
-        values.put("last_reviewed", "2025-01-01");
-        values.put("image", "elephant"); // ← THÊM DÒNG NÀY
-        db.insert("flashcards", null, values);
-
-        // Thêm nhiều hơn nếu cần...
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Xử lý nâng cấp version (xóa bảng cũ tạo lại hoặc alter table)
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_GT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TUVUNG_PA);
-        db.execSQL("DROP TABLE IF EXISTS flashcards"); // ← THÊM DÒNG NÀY
+        db.execSQL("DROP TABLE IF EXISTS flashcards");
         onCreate(db);
     }
 
     // --- CÁC HÀM HỖ TRỢ CHUNG ---
-    // truy vấn không trả kết quả: CREATE, INSERT, UPDATE,...
     public void queryData(String query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
     }
 
-    // truy vấn trả về kết quả: SELECT,...
     public Cursor getData(String query) {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery(query, null);
@@ -244,7 +205,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
 
     // --- QUẢN LÝ TASKS (NHIỆM VỤ) ---
 
-    // Thêm nhiệm vụ mới
     public boolean addTask(NhiemVu task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -255,7 +215,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // Lấy danh sách tất cả nhiệm vụ
     public ArrayList<NhiemVu> getAllTasks() {
         ArrayList<NhiemVu> taskList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -273,7 +232,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return taskList;
     }
 
-    // Cập nhật nhiệm vụ
     public boolean updateTask(NhiemVu task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -284,7 +242,6 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
-    // Xóa nhiệm vụ
     public boolean deleteTask(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         int rowsDeleted = db.delete(TABLE_TASKS, COLUMN_TASK_ID + " = ?", new String[]{String.valueOf(id)});
@@ -292,43 +249,17 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     }
 
     // quản lý flashcard
-//    public boolean checkDatabase() {
-//        return false;
-//    }
 
-//    public void copyDatabase() {
-//    }
-
-//    public void openDatabase() {
-//    }
-
-//    public void updateStarred(int currentId, boolean isStarred) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues cv = new ContentValues();
-//        boolean starred = false;
-//        cv.put("is_starred", isStarred ? 1 : 0);
-////        db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
-//        final String TABLE_FLASHCARDS = "flashcards";
-//        final String COLUMN_FLASHCARD_ID = "id";
-//        final String COLUMN_FLASHCARD_WORD = "word";
-//        final String COLUMN_FLASHCARD_MEANING = "meaning";
-//        final String COLUMN_FLASHCARD_HINT = "hint";
-//        final String COLUMN_FLASHCARD_AUDIO_PATH = "audio_path";
-//        final String COLUMN_FLASHCARD_STARRED = "is_starred";
-//        final String COLUMN_FLASHCARD_LAST_REVIEWED = "last_reviewed";
-//        db.update(TABLE_FLASHCARDS, cv, COLUMN_FLASHCARD_ID + " = ?", new String[]{String.valueOf(currentId)});
-    //}
-public void updateStarred(int currentId, boolean isStarred) {
-    SQLiteDatabase db = this.getWritableDatabase();
-    ContentValues cv = new ContentValues();
-    cv.put("is_starred", isStarred ? 1 : 0);
-    db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
-}
+    public void updateStarred(int currentId, boolean isStarred) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("is_starred", isStarred ? 1 : 0);
+        db.update("flashcards", cv, "id = ?", new String[]{String.valueOf(currentId)});
+    }
 
 
     // --- TIẾN ĐỘ HỌC TẬP ---
 
-    // Đánh dấu từ đã học (cập nhật last_reviewed)
     public void markAsLearned(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -348,7 +279,6 @@ public void updateStarred(int currentId, boolean isStarred) {
         return count;
     }
 
-    // Lấy số từ đã học theo chủ đề (last_reviewed IS NOT NULL)
     public int getLearnedCountByTopic(String topic) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM flashcards WHERE topic = ? AND last_reviewed IS NOT NULL", new String[]{topic});
@@ -359,10 +289,17 @@ public void updateStarred(int currentId, boolean isStarred) {
         cursor.close();
         return count;
     }
-    public Cursor getRandomFlashcard() {
+    
+    // Lấy random nhưng ƯU TIÊN TỪ CHƯA HỌC
+    public Cursor getUnlearnedFlashcardByTopic(String topic) {
         SQLiteDatabase db = this.getReadableDatabase();
-        return db.rawQuery("SELECT * FROM flashcards ORDER BY RANDOM() LIMIT 1", null);
+        // Tìm từ chưa có last_reviewed (là null hoặc rỗng)
+        return db.rawQuery(
+            "SELECT * FROM flashcards WHERE topic = ? AND (last_reviewed IS NULL OR last_reviewed = '') ORDER BY RANDOM() LIMIT 1", 
+            new String[]{topic}
+        );
     }
+
     public Cursor getRandomFlashcardByTopic(String topic) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM flashcards WHERE topic = ? ORDER BY RANDOM() LIMIT 1", new String[]{topic});
@@ -372,9 +309,6 @@ public void updateStarred(int currentId, boolean isStarred) {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM flashcards WHERE id = ?", new String[]{String.valueOf(id)});
     }
-
-
-
 
     public boolean isAdmin(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -395,12 +329,8 @@ public void updateStarred(int currentId, boolean isStarred) {
     public boolean updatePassword(String email, String newPass) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(COLUMN_PASSWORD, newPass); // ← SỬ DỤNG newPass TRỰC TIẾP
+        cv.put(COLUMN_PASSWORD, newPass);
         int rows = db.update(TABLE_USERS, cv, COLUMN_EMAIL + " = ?", new String[]{email});
-        db.close(); // ← NÊN ĐÓNG DB
         return rows > 0;
     }
-
-//    public void closeDatabase() {
-//    }
 }

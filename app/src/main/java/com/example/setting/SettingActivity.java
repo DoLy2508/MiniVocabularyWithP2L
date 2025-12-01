@@ -50,8 +50,7 @@ public class SettingActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.main_layout);
         btnExitSetting = findViewById(R.id.btnExitSetting); // Ánh xạ nút thoát
 
-        // Lấy email từ SharedPref (chính xác hơn là lấy từ Intent vì Intent có thể thiếu)
-        // Ưu tiên lấy từ Intent (nếu có), nếu không thì lấy từ Pref
+        // Lấy email từ SharedPref
         String emailFromIntent = getIntent().getStringExtra("email");
         if (emailFromIntent != null && !emailFromIntent.isEmpty()) {
             userEmail = emailFromIntent;
@@ -66,8 +65,11 @@ public class SettingActivity extends AppCompatActivity {
         }
 
         // Set trạng thái Dark Mode hiện tại cho Switch
-        switchDarkMode.setChecked(pref.isDarkMode());
-        updateUIForDarkMode(pref.isDarkMode());
+        boolean isDarkMode = pref.isDarkMode();
+        switchDarkMode.setChecked(isDarkMode);
+        
+        // Cập nhật giao diện ngay lập tức
+        updateUIForDarkMode(isDarkMode);
         
         // Xử lý sự kiện nút Exit (Thoát trang Setting)
         btnExitSetting.setOnClickListener(new View.OnClickListener() {
@@ -116,21 +118,44 @@ public class SettingActivity extends AppCompatActivity {
     
     private void updateUIForDarkMode(boolean isDark) {
         if (isDark) {
-            // Chế độ tối: Đổi sang màu xám than #303030 để sáng hơn
+            // CHẾ ĐỘ TỐI (DARK MODE)
+            // Nền: Xám than sáng hơn một chút để dễ nhìn
             mainLayout.setBackgroundColor(Color.parseColor("#303030"));
+            
+            // Chữ tiêu đề: Trắng
             tvTitle.setTextColor(Color.WHITE);
+            
+            // Chữ nhãn phụ (Tài khoản hiện tại): Xám nhạt
             tvLabelUser.setTextColor(Color.LTGRAY);
-            tvUserEmail.setTextColor(Color.WHITE);
+            
+            // Chữ Email: Màu hồng đặc trưng (hoặc trắng/vàng nếu muốn nổi hơn) - Giữ màu hồng để nhận diện thương hiệu
+            tvUserEmail.setTextColor(Color.parseColor("#FF80AB")); // Hồng nhạt hơn để nổi trên nền tối
+            
+            // Chữ nhãn Dark Mode: Trắng
             tvDarkModeLabel.setTextColor(Color.WHITE);
-            btnExitSetting.setColorFilter(Color.WHITE); // Đổi màu nút mũi tên sang trắng
+            
+            // Nút Back: Trắng để nổi bật trên nền tối
+            btnExitSetting.setColorFilter(Color.WHITE);
+            
         } else {
-            // Chế độ sáng
+            // CHẾ ĐỘ SÁNG (LIGHT MODE)
+            // Nền: Hồng nhạt
             mainLayout.setBackgroundColor(Color.parseColor("#FFF0F5"));
+            
+            // Chữ tiêu đề: Hồng đậm
             tvTitle.setTextColor(Color.parseColor("#D81B60"));
+            
+            // Chữ nhãn phụ: Xám
             tvLabelUser.setTextColor(Color.parseColor("#888888"));
+            
+            // Chữ Email: Hồng đậm
             tvUserEmail.setTextColor(Color.parseColor("#D81B60"));
+            
+            // Chữ nhãn Dark Mode: Đen/Xám đậm
             tvDarkModeLabel.setTextColor(Color.parseColor("#333333"));
-            btnExitSetting.setColorFilter(Color.parseColor("#808080")); // Đổi màu nút mũi tên sang xám
+            
+            // Nút Back: Xám đậm để nhìn rõ trên nền hồng nhạt
+            btnExitSetting.setColorFilter(Color.parseColor("#808080"));
         }
     }
 }

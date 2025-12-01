@@ -27,32 +27,42 @@ import java.util.Locale;
 
 public class FlashCardActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
     TextView text_flashcard_front,text_flashcard_back, text_hint, text_flashcard_hint;
-    Button btn_next, btn_flip, btnHoc,btnTrangChu,btnTienDo,btnLuyenNghe, btnNhiemVu;
-
+    Button btn_next, btn_flip;
     ImageButton btn_sound,btn_star;
     ImageView image_flashcard;
 
     private int currentId = -1;
+    private String currentTopic = "Animals"; // Chủ đề mặc định
 
     private SQLiteConnect dbflashcard;
 
     private Button btnGhepThe;
+    private ImageButton imbtnHome;
+    private ImageButton imbtnHoc;
+    private ImageButton imbtnCheckList;
+    private ImageButton imbtnGame;
     private boolean isAdmin;
 
-    private TextToSpeech tts; // <-- THÊM DÒNG NÀY
+    private TextToSpeech tts; 
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chude_tuvung);
-        btnGhepThe = findViewById(R.id.btnGhepThe);
+
+        // NHẬN DỮ LIỆU CHỦ ĐỀ TỪ CHUDEACTIVITY
+        String topic = getIntent().getStringExtra("TOPIC_NAME");
+        if (topic != null && !topic.isEmpty()) {
+            currentTopic = topic;
+        }
+        
         isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
+        btnGhepThe = findViewById(R.id.btnGhepThe);
         btnGhepThe.setOnClickListener(v -> {
-            Intent intentGhepTu = new Intent(FlashCardActivity.this, GhepTuActivity.class);
-            intentGhepTu.putExtra("isAdmin", isAdmin);
-            startActivity(intentGhepTu);
+            startActivity(new Intent(FlashCardActivity.this, GhepTuActivity.class));
+            finish();
 
         });
         // ánh xạ view
@@ -64,27 +74,71 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         btn_flip = findViewById(R.id.btn_flip);
         btn_sound = findViewById(R.id.btn_sound);
         btn_star = findViewById(R.id.btn_star);
-        // xử lý các nút trong flashcard
-        btnHoc = findViewById(R.id.btnHoc);
-        btnNhiemVu = findViewById(R.id.btnNhiemVu);
-        btnTrangChu = findViewById(R.id.btnTrangChu);
-        btnTienDo = findViewById(R.id.btnTienDo);
-        btnLuyenNghe = findViewById(R.id.btnLuyenNghe);
         image_flashcard = findViewById(R.id.image_flashcard);
+        
+        // Ánh xạ Navigation Bottom Bar
+        imbtnHome = findViewById(R.id.imbtnHome);
+        imbtnHoc = findViewById(R.id.imbtnHoc);
+        imbtnCheckList = findViewById(R.id.imbtnCheckList);
+        imbtnGame = findViewById(R.id.imbtnGame);
+
+        // Navigation Bottom Bar Actions
+        imbtnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentMain = new Intent(FlashCardActivity.this, MainActivity.class);
+                intentMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intentMain.putExtra("isAdmin", isAdmin);
+                startActivity(intentMain);
+            }
+        });
+
+        imbtnHoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentHoc = new Intent(FlashCardActivity.this, ChuDeActivity.class);
+                intentHoc.putExtra("isAdmin", isAdmin);
+                startActivity(intentHoc);
+            }
+        });
+
+        imbtnCheckList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentCheckList = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
+                intentCheckList.putExtra("isAdmin", isAdmin);
+                startActivity(intentCheckList);
+            }
+        });
+
+        imbtnGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentGame = new Intent(FlashCardActivity.this, GhepTuActivity.class);
+                intentGame.putExtra("isAdmin", isAdmin);
+                startActivity(intentGame);
+            }
+        });
 
 
         // Khởi tạo DatabaseHelper
             dbflashcard = new SQLiteConnect(this);
 
 
-        // Tải flashcard đầu tiên
+        // Tải flashcard đầu tiên theo chủ đề
         loadRandomFlashcard();
 
         // KHỞI TẠO TEXT-TO-SPEECH
         tts = new TextToSpeech(this, this); // this = OnInitListener
 
-        // Nút Tiếp tục
-        btn_next.setOnClickListener(v -> loadRandomFlashcard());
+        // Nút Tiếp tục (Và đánh dấu đã học)
+        btn_next.setOnClickListener(v -> {
+             // Đánh dấu đã học trước khi chuyển từ
+             if (currentId != -1) {
+                 dbflashcard.markAsLearned(currentId);
+             }
+             loadRandomFlashcard();
+        });
 
         // thêm sự kiện click cho text_hint ( hển th gợi  )
         text_hint.setOnClickListener(v -> {
@@ -126,40 +180,6 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 //            updateHintVisibility(); // <-- thêm dòng này
         });
 
-
-        // Liên kết nút Hoc → quay lại FlashCard (nếu cần)
-        btnHoc.setOnClickListener(v -> {
-            // Vì đang ở FlashCard rồi, có thể không cần mở lại
-            // Hoặc nếu muốn reload: startActivity + finish()
-            Toast.makeText(FlashCardActivity.this, "Đang ở chế độ học", Toast.LENGTH_SHORT).show();
-        });
-
-        // Liên kết nút Tiến Độ → mở Nhiệm Vụ Học Tập
-        btnTienDo.setOnClickListener(v -> {
-            Intent intent = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
-            intent.putExtra("isAdmin", isAdmin);
-            startActivity(intent);
-        });
-
-        btnLuyenNghe.setOnClickListener(v -> {
-            Intent intent = new Intent(FlashCardActivity.this, LuyenPhatAmActivity.class);
-            intent.putExtra("isAdmin", isAdmin);
-            startActivity(intent);
-        });
-
-        btnNhiemVu.setOnClickListener(v -> {
-            Intent intent = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
-            intent.putExtra("isAdmin", isAdmin);
-            startActivity(intent);
-        });
-
-        btnTrangChu.setOnClickListener(v -> {
-            Intent intent = new Intent(FlashCardActivity.this, MainActivity.class);
-            intent.putExtra("isAdmin", isAdmin);
-            startActivity(intent);
-        });
-
-
     }
 
     //  TRIỂN KHAI OnInitListener
@@ -188,8 +208,16 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
 
     private void loadRandomFlashcard() {
-        Cursor cursor = dbflashcard.getRandomFlashcard();
-        if (cursor.moveToFirst()) {
+        // ƯU TIÊN TỪ CHƯA HỌC TRƯỚC
+        Cursor cursor = dbflashcard.getUnlearnedFlashcardByTopic(currentTopic);
+        
+        // Nếu không còn từ nào chưa học, thì lấy random bình thường (Ôn tập)
+        if (cursor == null || !cursor.moveToFirst()) {
+            if (cursor != null) cursor.close();
+            cursor = dbflashcard.getRandomFlashcardByTopic(currentTopic);
+        }
+        
+        if (cursor != null && cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex("id");
             int wordIndex = cursor.getColumnIndex("word");
             int meaningIndex = cursor.getColumnIndex("meaning");
@@ -242,74 +270,38 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
             // KHÔNG tự động hiển thị hint nữa → để người dùng tự nhấn
         } else {
-            // Không có flashcard
-            text_flashcard_front.setText("Không có flashcard!");
+            // Không có flashcard cho chủ đề này
+            text_flashcard_front.setText("Không có từ vựng\ncho chủ đề: " + currentTopic);
             text_flashcard_back.setText("");
             text_flashcard_hint.setText(""); // rõ ràng: không có hint
             image_flashcard.setVisibility(View.GONE); // ẩn ảnh
             currentId = -1;
         }
-        cursor.close();
-
-
-        // XỬ LÝ NÚT SAO
-        btn_star.setOnClickListener(v -> {
-            if (currentId == -1) return; // không có flashcard
-
-            boolean isCurrentlyStarred = isCurrentStarred();
-            boolean newStarredState = !isCurrentlyStarred;
-
-            // Cập nhật CSDL
-            dbflashcard.updateStarred(currentId, newStarredState);
-
-            // Cập nhật giao diện
-            if (newStarredState) {
-                btn_star.setImageResource(R.drawable.sao_day); // hoặc tên drawable bạn dùng
-            } else {
-                btn_star.setImageResource(R.drawable.sao_rong);
-            }
-        });
-
-        // Cập nhật trạng thái sao
-        boolean isStarred = isCurrentStarred();
-        if (isStarred) {
-            btn_star.setImageResource(R.drawable.sao_day);
-        } else {
-            btn_star.setImageResource(R.drawable.sao_rong);
-        }
+        if(cursor != null) cursor.close();
     }
-
-
-
-
 
 
     private boolean isCurrentStarred() {
         if (currentId == -1) return false;
         Cursor cursor = dbflashcard.getFlashcardById(currentId);
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             boolean starred = cursor.getInt(cursor.getColumnIndexOrThrow("is_starred")) == 1;
             cursor.close();
             return starred;
         }
-        cursor.close();
+        if(cursor != null) cursor.close();
         return false;
     }
 
     private String getCurrentWord() {
         if (currentId == -1) return "";
         Cursor cursor = dbflashcard.getFlashcardById(currentId);
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             String word = cursor.getString(cursor.getColumnIndexOrThrow("word"));
             cursor.close();
             return word;
         }
-        cursor.close();
+        if(cursor != null) cursor.close();
         return "";
     }
 }
-
-
-
-
-
