@@ -14,6 +14,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.LuyenPA.LuyenPhatAmActivity;
+import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.GhepTuActivity;
 import com.example.minivocabularywithp2l.MainActivity;
@@ -25,7 +27,8 @@ import java.util.Locale;
 
 public class FlashCardActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
     TextView text_flashcard_front,text_flashcard_back, text_hint, text_flashcard_hint;
-    Button btn_next, btn_flip;
+    Button btn_next, btn_flip, btnHoc,btnTrangChu,btnTienDo,btnLuyenNghe, btnNhiemVu;
+
     ImageButton btn_sound,btn_star;
     ImageView image_flashcard;
 
@@ -61,6 +64,12 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         btn_flip = findViewById(R.id.btn_flip);
         btn_sound = findViewById(R.id.btn_sound);
         btn_star = findViewById(R.id.btn_star);
+        // xử lý các nút trong flashcard
+        btnHoc = findViewById(R.id.btnHoc);
+        btnNhiemVu = findViewById(R.id.btnNhiemVu);
+        btnTrangChu = findViewById(R.id.btnTrangChu);
+        btnTienDo = findViewById(R.id.btnTienDo);
+        btnLuyenNghe = findViewById(R.id.btnLuyenNghe);
         image_flashcard = findViewById(R.id.image_flashcard);
 
 
@@ -116,6 +125,40 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
             }
 //            updateHintVisibility(); // <-- thêm dòng này
         });
+
+
+        // Liên kết nút Hoc → quay lại FlashCard (nếu cần)
+        btnHoc.setOnClickListener(v -> {
+            // Vì đang ở FlashCard rồi, có thể không cần mở lại
+            // Hoặc nếu muốn reload: startActivity + finish()
+            Toast.makeText(FlashCardActivity.this, "Đang ở chế độ học", Toast.LENGTH_SHORT).show();
+        });
+
+        // Liên kết nút Tiến Độ → mở Nhiệm Vụ Học Tập
+        btnTienDo.setOnClickListener(v -> {
+            Intent intent = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
+            intent.putExtra("isAdmin", isAdmin);
+            startActivity(intent);
+        });
+
+        btnLuyenNghe.setOnClickListener(v -> {
+            Intent intent = new Intent(FlashCardActivity.this, LuyenPhatAmActivity.class);
+            intent.putExtra("isAdmin", isAdmin);
+            startActivity(intent);
+        });
+
+        btnNhiemVu.setOnClickListener(v -> {
+            Intent intent = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
+            intent.putExtra("isAdmin", isAdmin);
+            startActivity(intent);
+        });
+
+        btnTrangChu.setOnClickListener(v -> {
+            Intent intent = new Intent(FlashCardActivity.this, MainActivity.class);
+            intent.putExtra("isAdmin", isAdmin);
+            startActivity(intent);
+        });
+
 
     }
 
@@ -207,7 +250,38 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
             currentId = -1;
         }
         cursor.close();
+
+
+        // XỬ LÝ NÚT SAO
+        btn_star.setOnClickListener(v -> {
+            if (currentId == -1) return; // không có flashcard
+
+            boolean isCurrentlyStarred = isCurrentStarred();
+            boolean newStarredState = !isCurrentlyStarred;
+
+            // Cập nhật CSDL
+            dbflashcard.updateStarred(currentId, newStarredState);
+
+            // Cập nhật giao diện
+            if (newStarredState) {
+                btn_star.setImageResource(R.drawable.sao_day); // hoặc tên drawable bạn dùng
+            } else {
+                btn_star.setImageResource(R.drawable.sao_rong);
+            }
+        });
+
+        // Cập nhật trạng thái sao
+        boolean isStarred = isCurrentStarred();
+        if (isStarred) {
+            btn_star.setImageResource(R.drawable.sao_day);
+        } else {
+            btn_star.setImageResource(R.drawable.sao_rong);
+        }
     }
+
+
+
+
 
 
     private boolean isCurrentStarred() {
