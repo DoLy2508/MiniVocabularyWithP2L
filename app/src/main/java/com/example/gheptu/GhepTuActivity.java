@@ -139,8 +139,13 @@ public class GhepTuActivity extends AppCompatActivity {
         batDauThoiGian();
     }
     private void xuLyHoanThanh() {
+        boolean isAdmin = getIntent().getBooleanExtra("isAdmin", false);
+        if (!isAdmin) {
+            imbtnQuanLiTu.setVisibility(View.GONE);
+        }
         if (matchedPairs == totalPairsOnScreen) {
             Intent intent = new Intent(GhepTuActivity.this, VictoryActivity.class);
+            intent.putExtra("isAdmin", isAdmin);
             startActivity(intent);
         } else {
             Toast.makeText(this, "Bạn chưa chơi ghép từ xong!", Toast.LENGTH_LONG).show();

@@ -16,11 +16,13 @@ public class VictoryActivity  extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_victory);
+        boolean isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
         Button btnChoiLai = findViewById(R.id.btnChoiLai);
         btnChoiLai.setOnClickListener(v -> {
             Intent intent = new Intent(VictoryActivity.this, GhepTuActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("isAdmin", isAdmin);
             startActivity(intent);
             finish();
         });
