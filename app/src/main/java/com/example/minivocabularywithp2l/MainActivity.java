@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         imbtnGame = findViewById(R.id.imbtnGame);
         imbtnHoc = findViewById(R.id.imbtnHoc);
 
+
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         btnSetting = findViewById(R.id.btnSetting);
         tvluyenphatam = findViewById(R.id.tvluyenphatam);

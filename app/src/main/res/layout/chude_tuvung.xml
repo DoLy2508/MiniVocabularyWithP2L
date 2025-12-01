@@ -24,6 +24,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/btnTrangChu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -33,6 +34,7 @@
                     android:text="Trang chủ" />
 
                 <Button
+                    android:id="@+id/btnHoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/hoc"
@@ -42,6 +44,7 @@
                     android:text="Học" />
 
                 <Button
+                    android:id="@+id/btnTienDo"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/kiemtra"
@@ -60,6 +63,7 @@
                 android:layout_marginTop="10dp">
 
                 <Button
+                    android:id="@+id/btnNhiemVu"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/blocks"
@@ -69,6 +73,7 @@
                     android:text="Nhiệm vụ" />
 
                 <Button
+                    android:id="@+id/btnLuyenNghe"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:drawableTop="@drawable/blast"
@@ -132,7 +137,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
-                        android:src="@drawable/loa" />
+                        android:src="@drawable/loa"
+                        android:layout_marginEnd="16dp"/>
 
                     <ImageButton
                         android:id="@+id/btn_star"

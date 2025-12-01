@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.LuyenPA.LuyenPhatAmActivity;
 import com.example.NhiemVu.NhiemVuActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.GhepTuActivity;
@@ -24,6 +26,7 @@ public class ChuDeActivity extends AppCompatActivity {
     // Khai báo các khối layout
     private LinearLayout layoutAnimals, layoutFood, layoutTravel, layoutJobs;
     private ImageButton btnBack;
+
 
     // Khai báo các view hiển thị phần trăm
     private TextView tvPercentAnimals, tvPercentFood, tvPercentTravel, tvPercentJobs;
@@ -82,6 +85,7 @@ public class ChuDeActivity extends AppCompatActivity {
         layoutTravel.setOnClickListener(v -> openFlashCard("Travel"));
         layoutJobs.setOnClickListener(v -> openFlashCard("Jobs"));
 
+
         // Xử lý sự kiện Menu dưới
         setupBottomMenu();
     }
@@ -122,6 +126,8 @@ public class ChuDeActivity extends AppCompatActivity {
             intent.putExtra("isAdmin", this.isAdmin);
             startActivity(intent);
         });
+
+
     }
 
     private void updateProgress() {
