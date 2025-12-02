@@ -57,13 +57,13 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trang_luyenphatam);
 
-        // Đọc trạng thái isAdmin MỘT LẦN và lưu vào biến thành viên
+
         this.isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
-        // --- Ánh xạ các View mới ---
+
         btnStart = findViewById(R.id.btnStart);
         tvHint = findViewById(R.id.tvHint);
-        // Ánh xạ View
+
         imvTroVe = findViewById(R.id.imvTroVe);
         imbtnQuanLiTuPA = findViewById(R.id.imbtnQuanLiTuPA);
         btnContinue = findViewById(R.id.btnContinue);
@@ -72,28 +72,28 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         tvNghiaTV = findViewById(R.id.tvNghiaTV);
         imvNghe = findViewById(R.id.imvNghe);
 
-        // Khởi tạo các đối tượng cần thiết
+
         tts = new TextToSpeech(this, this);
         listTuPA = new ArrayList<>();
 
 
 
-        // --- Thiết lập sự kiện cho btnStart ---
+
         btnStart.setOnClickListener(v -> {
-            // 1. Kiểm tra quyền ghi âm
+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                // Nếu chưa có quyền, yêu cầu người dùng cấp quyền
+
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, REQUEST_RECORD_AUDIO_PERMISSION);
             } else {
-                // Nếu đã có quyền, bắt đầu ghi âm
+
                 startListening();
             }
         });
 
-        // --- Khởi tạo Speech Recognizer ---
+
         setupSpeechRecognizer();
 
-        // Thiết lập các sự kiện click
+
         imvTroVe.setOnClickListener(v -> {
             finish();
         });
@@ -125,7 +125,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
                 Toast.makeText(this, "Đã hết danh sách! Quay về từ đầu.", Toast.LENGTH_SHORT).show();
             }
 
-            // Chỉ hiển thị từ nếu danh sách không rỗng
+
             if (!listTuPA.isEmpty()) {
                 displayCurrentWord();
             }
@@ -133,7 +133,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
     }
 
 
-    // --- CÁC PHƯƠNG THỨC MỚI CHO SPEECH RECOGNITION ---
+
 
 
      //Khởi tạo SpeechRecognizer và Intent
@@ -147,7 +147,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle params) {
-                // Sẵn sàng ghi âm, cập nhật giao diện
+
                 tvHint.setText("Đang lắng nghe...");
                 tvHint.setTextColor(Color.BLUE);
             }
@@ -157,7 +157,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
                 // Nhận kết quả
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 if (matches != null && !matches.isEmpty()) {
-                    String spokenText = matches.get(0); // Lấy kết quả có độ chính xác cao nhất
+                    String spokenText = matches.get(0);
                     checkPronunciation(spokenText);
                 } else {
                     tvHint.setText("Không nhận dạng được. Thử lại!");
@@ -167,11 +167,11 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
 
             @Override
             public void onError(int error) {
-                // Xử lý lỗi
+
                 tvHint.setText("Lỗi ghi âm, hãy thử lại!");
                 tvHint.setTextColor(Color.RED);
             }
-            // Các phương thức khác có thể để trống
+
             @Override
             public void onBeginningOfSpeech() {}
             @Override
@@ -189,7 +189,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
 
 
 
-      //Bắt đầu quá trình lắng nghe giọng nói
+
 
     private void startListening() {
         if (speechRecognizer != null) {
@@ -197,31 +197,30 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         }
     }
 
-    //So sánh từ được nói và từ gốc, sau đó cập nhật giao diện
-     //@param spokenText Từ mà người dùng đã nói
 
     private void checkPronunciation(String spokenText) {
         String correctWord = tvTiengAnh.getText().toString();
 
-        // So sánh không phân biệt chữ hoa/thường và bỏ qua khoảng trắng thừa
+
         if (spokenText.trim().equalsIgnoreCase(correctWord.trim())) {
-            tvHint.setText("Chính xác! Bạn đã đọc đúng: " + spokenText);
-            tvHint.setTextColor(Color.parseColor("#4CAF50")); // Màu xanh lá
+            tvHint.setText("Chính xác. Bạn đã đọc đúng: " + spokenText);
+            tvHint.setTextColor(Color.parseColor("#4CAF50"));
         } else {
-            tvHint.setText("Chưa đúng. Bạn đã đọc: \"" + spokenText + "\". Hãy thử lại!");
+            tvHint.setText("Chưa đúng. Bạn đã đọc: \"" + spokenText + "\". Hãy thử lại");
             tvHint.setTextColor(Color.RED);
         }
     }
-    //Xử lý kết quả sau khi người dùng cấp (hoặc từ chối) quyền
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_RECORD_AUDIO_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Người dùng đã cấp quyền, bắt đầu ghi âm
+
                 startListening();
             } else {
-                // Người dùng từ chối, thông báo cho họ
+
                 Toast.makeText(this, "Cần quyền ghi âm để sử dụng chức năng này", Toast.LENGTH_SHORT).show();
             }
         }
@@ -231,25 +230,25 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
     protected void onResume() {
         super.onResume();
 
-        // 1. Kiểm tra quyền admin và cập nhật giao diện
+
         if (this.isAdmin) {
             imbtnQuanLiTuPA.setVisibility(View.VISIBLE);
         } else {
             imbtnQuanLiTuPA.setVisibility(View.GONE);
         }
 
-        // 2. Tải lại dữ liệu từ CSDL
+
         loadDataFromDatabase();
 
-        // 3. Cập nhật lại giao diện hiển thị từ vựng
+
         if (currentIndex >= listTuPA.size()) {
-            currentIndex = 0; // Reset về từ đầu tiên nếu vị trí cũ không còn tồn tại
+            currentIndex = 0;
         }
 
         if (!listTuPA.isEmpty()) {
             displayCurrentWord();
         } else {
-            // Xử lý trường hợp không có dữ liệu
+
             tvTiengAnh.setText("Trống");
             tvNguAm.setText("");
             tvNghiaTV.setText("Không có từ vựng");
@@ -263,7 +262,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         }
         listTuPA.clear();
 
-        // Mở, truy vấn và đóng kết nối trong cùng một phương thức
+
         SQLiteConnect localDb = new SQLiteConnect(this, getString(R.string.db_name), null, SQLiteConnect.DATABASE_VERSION);
         Cursor cursor = localDb.getData("SELECT * FROM tuvungPAm");
         while (cursor.moveToNext()) {
@@ -280,7 +279,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
 
     private void displayCurrentWord() {
         if (listTuPA.isEmpty() || currentIndex >= listTuPA.size()) {
-            return; // Không làm gì nếu không có dữ liệu
+            return;
         }
         LuyenPhatAm tu = listTuPA.get(currentIndex);
         tvTiengAnh.setText(tu.getTiengAnh());
@@ -307,7 +306,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
             tts.stop();
             tts.shutdown();
         }
-        // --- Giải phóng SpeechRecognizer khi Activity bị hủy ---
+
         if (speechRecognizer != null) {
             speechRecognizer.destroy();
         }

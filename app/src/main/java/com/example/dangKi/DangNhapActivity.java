@@ -37,8 +37,7 @@ public class DangNhapActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.trang_dangnhap);
 
-        databaseHelper = new SQLiteConnect(this); // ← KHỞI TẠO databaseHelper
-        
+        databaseHelper = new SQLiteConnect(this);
         editEmail = findViewById(R.id.editEmail);
         editPassword = findViewById(R.id.editPassword);
         btnLogin = findViewById(R.id.btnLogin);
@@ -59,7 +58,7 @@ public class DangNhapActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Quên mật khẩu");
 
-        // Tạo EditText để nhập email
+
         EditText input = new EditText(this);
         input.setHint("Nhập email của bạn");
         input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -74,7 +73,7 @@ public class DangNhapActivity extends AppCompatActivity {
 
             SQLiteConnect db = new SQLiteConnect(this);
             if (db.checkEmail(email)) {
-                // Cho phép đặt mật khẩu mới ngay (vì không có email server)
+
                 showResetPasswordDialog(email);
             } else {
                 Toast.makeText(this, "Email không tồn tại!", Toast.LENGTH_SHORT).show();
@@ -118,9 +117,9 @@ public class DangNhapActivity extends AppCompatActivity {
                 return;
             }
 
-            // Cập nhật mật khẩu trong SQLite
+
             SQLiteConnect db = new SQLiteConnect(this);
-            //  Bạn chưa có hàm updatePassword → cần thêm!
+
             boolean updated = db.updatePassword(email, newPass);
             if (updated) {
                 Toast.makeText(this, "Đặt lại mật khẩu thành công!", Toast.LENGTH_SHORT).show();
@@ -157,7 +156,7 @@ public class DangNhapActivity extends AppCompatActivity {
             return;
         }
 
-        // kiểm tra đăng nhập
+
         boolean loginSuccess = databaseHelper.checkUser(email, password);
 
         if(loginSuccess){
@@ -165,7 +164,6 @@ public class DangNhapActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
-            // Gửi thông tin sang MainActivity
             Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
             intent.putExtra("email", email);
             intent.putExtra("isAdmin", isAdmin);

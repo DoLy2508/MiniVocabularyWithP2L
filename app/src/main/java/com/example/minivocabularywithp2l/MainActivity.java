@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton imbtnCheckList;
     private ImageButton imbtnGame;
     private ImageButton btnSetting;
-    private TextView tvluyenphatam;
 
     private LinearLayout layoutTiendo, layoutLuyenPhatAm;
     private boolean isAdmin;
@@ -43,25 +43,27 @@ public class MainActivity extends AppCompatActivity {
 
         isAdmin = getIntent().getBooleanExtra("isAdmin", false);
         email = getIntent().getStringExtra("email");
-        // ánh xạ view (b1)
+
         btnGame = findViewById(R.id.btnGame);
         btnNhiemVu = findViewById(R.id.btnNhiemVu);
         btnAnimail = findViewById(R.id.btnAnimail);
         btnFood = findViewById(R.id.btnFood);
         btnTravel = findViewById(R.id.btnTravel);
+
+
         imbtnHome = findViewById(R.id.imbtnHome);
         imbtnGame = findViewById(R.id.imbtnGame);
         imbtnHoc = findViewById(R.id.imbtnHoc);
-
-
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
-        btnSetting = findViewById(R.id.btnSetting);
-        tvluyenphatam = findViewById(R.id.tvluyenphatam);
+
         layoutTiendo = findViewById(R.id.layoutTiendo);
         layoutLuyenPhatAm = findViewById(R.id.layoutLuyenPhatAm);
 
+        btnSetting = findViewById(R.id.btnSetting);
 
-        // Xử lý sự kiện nút Setting
+
+
+
         if (btnSetting != null) {
             btnSetting.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,25 +75,29 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        imbtnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this, "Bạn đang ở trang chủ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // Lien ket trang Phat am
         layoutLuyenPhatAm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentLuyenPA = new Intent(MainActivity.this, LuyenPhatAmActivity.class);
-                // Đính kèm thông tin quyền admin vào Intent
+
                 intentLuyenPA.putExtra("isAdmin", isAdmin);
                 startActivity(intentLuyenPA);
             }
         });
 
 
-        // =================================================================
 
         // Lien ket trang chu de tu vung va tien do
         View.OnClickListener ChuDeClickListener = v -> {
             Intent intentChuDe = new Intent(MainActivity.this, ChuDeActivity.class);
-            // BỎ CỜ FLAG_ACTIVITY_CLEAR_TOP
-            // intentNhiemVu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intentChuDe.putExtra("isAdmin", isAdmin);
             startActivity(intentChuDe);
         };
@@ -130,11 +136,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        // Lien ket trang hoc flatcat
+        // Lien ket trang hoc flashcard
         btnAnimail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intentAnimal = new Intent(MainActivity.this, FlashCardActivity.class);
+                intentAnimal.putExtra("category", "animals");
                 intentAnimal.putExtra("isAdmin", isAdmin);
                 startActivity(intentAnimal);
             }
@@ -143,27 +150,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentFood = new Intent(MainActivity.this, FlashCardActivity.class);
+                intentFood.putExtra("category", "food");
                 intentFood.putExtra("isAdmin", isAdmin);
                 startActivity(intentFood);
             }
         });
-        btnTravel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentTravel = new Intent(MainActivity.this, FlashCardActivity.class);
-                intentTravel.putExtra("isAdmin", isAdmin);
-                startActivity(intentTravel);
-            }
-        });
 
-
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
 
 

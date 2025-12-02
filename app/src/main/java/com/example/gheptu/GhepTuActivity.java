@@ -84,7 +84,7 @@ public class GhepTuActivity extends AppCompatActivity {
         imbtnGame = findViewById(R.id.imbtnGame);
         imbtnHome = findViewById(R.id.imbtnHome);
 
-        // Ẩn nút quản lý từ nếu không phải admin
+
         if (!isAdmin) {
             imbtnQuanLiTu.setVisibility(View.GONE);
         }
@@ -111,9 +111,6 @@ public class GhepTuActivity extends AppCompatActivity {
 
                 Intent intentNhiemVu = new Intent(GhepTuActivity.this, NhiemVuActivity.class);
                 intentNhiemVu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                // (Tùy chọn) Nếu NhiemVuActivity cũng cần quyền admin, hãy truyền nó đi
-                //intentNhiemVu.putExtra("isAdmin", isAdmin);
 
                 startActivity(intentNhiemVu);
             }
@@ -148,7 +145,7 @@ public class GhepTuActivity extends AppCompatActivity {
             intent.putExtra("isAdmin", isAdmin);
             startActivity(intent);
         } else {
-            Toast.makeText(this, "Bạn chưa chơi ghép từ xong!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Bạn chưa chơi ghép từ xong", Toast.LENGTH_LONG).show();
         }
     }
 

@@ -1,19 +1,19 @@
 package com.example.NhiemVu;
 
 public class NhiemVu {
-    private int id; // ID để định danh trong Database
+    private int id;
     private String title;
     private String description;
     private boolean isCompleted;
 
-    // Constructor dùng khi thêm mới (chưa có ID)
+
     public NhiemVu(String title, String description, boolean isCompleted) {
         this.title = title;
         this.description = description;
         this.isCompleted = isCompleted;
     }
 
-    // Constructor đầy đủ dùng khi lấy từ DB ra
+
     public NhiemVu(int id, String title, String description, boolean isCompleted) {
         this.id = id;
         this.title = title;

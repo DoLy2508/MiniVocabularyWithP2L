@@ -39,14 +39,14 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
     ArrayList<LuyenPhatAm> listTuPA;
     TuVungPAadapter tuVungPaAdapter;
     SQLiteConnect sqLiteConnect;
-    private TextToSpeech tts; // <-- Thêm biến TextToSpeech
+    private TextToSpeech tts;
 
     // launcher sua
     public ActivityResultLauncher<Intent> suaTuLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    loadDataTuVung();   // reload lại list
+                    loadDataTuVung();
                 }
             }
     );
@@ -63,8 +63,9 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
         imbtnCheckList = findViewById(R.id.imbtnCheckList);
         imbtnGame = findViewById(R.id.imbtnGame);
         imvTroLai = findViewById(R.id.imvTroLai);
-        // KHỞI TẠO TEXTTOSPEECH
-        tts = new TextToSpeech(this, this); // this chính là OnInitListener
+
+        // khoi tao texttospeech
+        tts = new TextToSpeech(this, this);
 
         lvTuVugPhatAm = findViewById(R.id.lvTuVugPhatAm);
 
@@ -85,12 +86,12 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
         loadDataTuVung();
 
     }
-    // === THÊM PHƯƠNG THỨC NÀY ĐỂ ADAPTER CÓ THỂ GỌI ===
+
     public void launchEditActivity(Intent intent) {
         suaTuLauncher.launch(intent);
     }
 
-    // THÊM CÁC PHƯƠNG THỨC ĐỂ XỬ LÝ TEXTTOSPEECH
+
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(Locale.US); // Giọng Anh-Mỹ
@@ -104,7 +105,7 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
 
     @Override
     protected void onDestroy() {
-        // Giải phóng TTS khi activity bị hủy để tránh rò rỉ bộ nhớ
+
         if (tts != null) {
             tts.stop();
             tts.shutdown();
@@ -136,7 +137,7 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == RESULT_OK) {
-                    loadDataTuVung(); // reload danh sách mới thêm
+                    loadDataTuVung();
                 }
             }
     );
@@ -177,14 +178,7 @@ public class QuanLiTuPaActivity extends AppCompatActivity implements TextToSpeec
         return super.onCreateOptionsMenu(menu);
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 456 && resultCode == 456){
-//            loadDataTuVung();
-//        }
-//
-//    }
+
 
 
 }

@@ -35,16 +35,16 @@ public class NhiemVuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trang_nhiemvuhoctap);
 
-        // Khởi tạo Database từ thư mục com.example.gheptu.Database
+
         databaseHelper = new SQLiteConnect(this);
 
-        // Khởi tạo view
+
         initViews();
         
-        // Lấy dữ liệu từ Database
+
         loadDataFromDB();
 
-        // Cài đặt Adapter
+
         adapter = new NhiemVuAdapter(this, R.layout.item_nhiemvu, nhiemVuList, new NhiemVuAdapter.OnItemActionListener() {
             @Override
             public void onEdit(int position) {
@@ -58,7 +58,7 @@ public class NhiemVuActivity extends AppCompatActivity {
         });
         lvNhiemVu.setAdapter(adapter);
 
-        // Sự kiện nút Home
+
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +67,7 @@ public class NhiemVuActivity extends AppCompatActivity {
 
 
         });
-        // Sự kiện nút Thêm mới
+
         fabAddTask.setOnClickListener(v -> {
             showAddDialog();
         });
@@ -81,7 +81,7 @@ public class NhiemVuActivity extends AppCompatActivity {
 
     private void loadDataFromDB() {
         nhiemVuList = databaseHelper.getAllTasks();
-        // Nếu DB chưa có gì (lần đầu chạy), thêm vài mẫu thử
+
         if (nhiemVuList.isEmpty()) {
              databaseHelper.addTask(new NhiemVu("Học 10 từ về Food ", " Từ 'grape' hay quên", true));
              databaseHelper.addTask(new NhiemVu("Học 5 từ về Animals ", "Chưa học", false));
@@ -89,14 +89,13 @@ public class NhiemVuActivity extends AppCompatActivity {
         }
     }
 
-    // Cập nhật lại list hiển thị sau khi thay đổi DB
+
     private void refreshData() {
         nhiemVuList.clear();
         nhiemVuList.addAll(databaseHelper.getAllTasks());
         adapter.notifyDataSetChanged();
     }
 
-    // HIỂN THỊ DIALOG THÊM MỚI
     private void showAddDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -128,7 +127,7 @@ public class NhiemVuActivity extends AppCompatActivity {
 
             if (!title.isEmpty()) {
                 NhiemVu newTask = new NhiemVu(title, desc, false);
-                // Lưu vào DB
+
                 boolean success = databaseHelper.addTask(newTask);
                 if (success) {
                     refreshData();
@@ -145,7 +144,7 @@ public class NhiemVuActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // HIỂN THỊ DIALOG SỬA
+
     private void showEditDialog(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -177,7 +176,7 @@ public class NhiemVuActivity extends AppCompatActivity {
                 currentItem.setTitle(newTitle);
                 currentItem.setDescription(newDesc);
                 
-                // Cập nhật vào DB
+
                 boolean success = databaseHelper.updateTask(currentItem);
                 if (success) {
                     refreshData(); // Load lại từ DB để đồng bộ
@@ -194,7 +193,7 @@ public class NhiemVuActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    // HIỂN THỊ DIALOG XÓA
+
     private void showDeleteDialog(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -213,7 +212,7 @@ public class NhiemVuActivity extends AppCompatActivity {
 
         btnConfirm.setOnClickListener(v -> {
             NhiemVu taskToDelete = nhiemVuList.get(position);
-            // Xóa khỏi DB
+
             boolean success = databaseHelper.deleteTask(taskToDelete.getId());
             if (success) {
                  refreshData();

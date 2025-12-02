@@ -60,19 +60,19 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                 String tiengViet = edtThemTiengViet.getText().toString().trim();
 
 
-                // 1. Kiểm tra đầu vào
+
                 if (maTu.isEmpty() || tiengAnh.isEmpty() || nguAm.isEmpty() || tiengViet.isEmpty()) {
                     Toast.makeText(ThemMoiTuPaActivity.this, "Vui lòng nhập đầy đủ thông tin!",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-//
-                // Khai báo đối tượng database ở ngoài để có thể truy cập trong 'finally'
+
+
                 SQLiteConnect sqLiteConnect = null;
 
                 try {
-                    // 2. Tạo kết nối
+
                     sqLiteConnect = new SQLiteConnect(
                             getBaseContext(),
                             getString(R.string.db_name),
@@ -80,7 +80,7 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                             SQLiteConnect.DATABASE_VERSION
                     );
 
-                    // 3. Thực hiện INSERT
+
                     String query = "INSERT INTO tuvungPAm (maTu, tiengAnh, nguAm, tiengViet) " +
                             "VALUES ('" + maTu + "', '" + tiengAnh + "', '" + nguAm + "', '" +  tiengViet + "')";
 
@@ -94,14 +94,14 @@ public class ThemMoiTuPaActivity extends AppCompatActivity {
                     finish();
 
                 } catch (Exception e) {
-                    // Xử lý lỗi SQL
+
                     Log.e("Loi INSERT CSDL", "Ghi CSDL thất bại: " + e.getMessage());
                     Toast.makeText(ThemMoiTuPaActivity.this,
                             "Lỗi thêm từ: Vui lòng kiểm tra Logcat",
                             Toast.LENGTH_LONG).show();
 
                 } finally {
-                    //  Đóng kết nối database
+
                     if (sqLiteConnect != null) {
                         sqLiteConnect.close();
                     }

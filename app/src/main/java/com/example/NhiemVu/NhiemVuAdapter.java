@@ -24,7 +24,7 @@ public class NhiemVuAdapter extends ArrayAdapter<NhiemVu> {
     private List<NhiemVu> objects;
     private OnItemActionListener listener;
 
-    // Interface để callback sự kiện về Activity
+
     public interface OnItemActionListener {
         void onEdit(int position);
         void onDelete(int position);
@@ -57,21 +57,21 @@ public class NhiemVuAdapter extends ArrayAdapter<NhiemVu> {
         tvDescription.setText(item.getDescription());
         cbCompleted.setChecked(item.isCompleted());
 
-        // Xử lý sự kiện click nút Sửa
+
         btnEdit.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onEdit(position);
             }
         });
 
-        // Xử lý sự kiện click nút Xóa
+
         btnDelete.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onDelete(position);
             }
         });
         
-        // Cập nhật trạng thái hoàn thành khi check vào checkbox
+
         cbCompleted.setOnCheckedChangeListener((buttonView, isChecked) -> {
              item.setCompleted(isChecked);
         });

@@ -33,13 +33,13 @@ public class DangKiActivity extends AppCompatActivity {
 
         databaseHelper = new SQLiteConnect(this);
 
-        // Ánh xạ các view từ layout
+
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
         registerButton = findViewById(R.id.register_button);
         loginTextView = findViewById(R.id.login_text_view);
 
-        // Thiết lập sự kiện click cho nút Đăng ký
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +47,7 @@ public class DangKiActivity extends AppCompatActivity {
             }
         });
 
-        // Thiết lập sự kiện click cho nút chuyển sang Đăng nhập
+
         loginTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,7 +64,7 @@ public class DangKiActivity extends AppCompatActivity {
 
         Log.d("DangKi", "Email: [" + email + "], Pass: [" + password + "]"); // Debug log
 
-        // Kiểm tra dữ liệu nhập vào
+
         if (email.isEmpty()) {
             emailEditText.setError("Vui lòng nhập email");
             emailEditText.requestFocus();
@@ -76,37 +76,37 @@ public class DangKiActivity extends AppCompatActivity {
             passwordEditText.requestFocus();
             return;
         }
-        // Kiểm tra định dạng email chuẩn
+
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("Email không hợp lệ. Vui lòng nhập đúng định dạng (VD: example@email.com)");
             emailEditText.requestFocus();
             return;
         }
 
-        // Kiểm tra độ dài mật khẩu
+
         if (password.length() < 6) {
             passwordEditText.setError("Mật khẩu phải có ít nhất 6 ký tự");
             passwordEditText.requestFocus();
             return;
         }
 
-        // Kiểm tra chữ hoa
+
         if (!password.matches(".*[A-Z].*")) {
             passwordEditText.setError("Mật khẩu phải có ít nhất 1 chữ hoa");
             passwordEditText.requestFocus();
             return;
         }
 
-        // Kiểm tra ký tự đặc biệt
+
         if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
             passwordEditText.setError("Mật khẩu phải có ít nhất 1 ký tự đặc biệt");
             passwordEditText.requestFocus();
             return;
         }
 
-        // Kiểm tra xem email đã tồn tại chưa
+
         if (databaseHelper.checkEmail(email)) {
-            // Thay vì chỉ Toast, hiển thị Dialog gợi ý đăng nhập
+
             new AlertDialog.Builder(this)
                     .setTitle("Email đã tồn tại")
                     .setMessage("Email này đã được đăng ký. Bạn có muốn đăng nhập không?")
@@ -120,12 +120,12 @@ public class DangKiActivity extends AppCompatActivity {
             return;
         }
 
-        // Thêm người dùng vào database
+
         boolean insertSuccess = databaseHelper.insertUser(email, password);
         if (insertSuccess) {
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
             Log.d("DangKi", "Insert User Success: " + email);
-            // Chuyển sang màn hình đăng nhập
+
             Intent intent = new Intent(DangKiActivity.this, DangNhapActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

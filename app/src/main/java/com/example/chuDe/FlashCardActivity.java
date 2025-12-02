@@ -39,7 +39,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
     private Button btnGhepThe;
     private boolean isAdmin;
 
-    private TextToSpeech tts; // <-- THÊM DÒNG NÀY
+    private TextToSpeech tts;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -55,7 +55,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
             startActivity(intentGhepTu);
 
         });
-        // ánh xạ view
+
         text_flashcard_front = findViewById(R.id.text_flashcard_front);
         text_flashcard_back = findViewById(R.id.text_flashcard_back);
         text_flashcard_hint = findViewById(R.id.text_flashcard_hint);
@@ -64,7 +64,8 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         btn_flip = findViewById(R.id.btn_flip);
         btn_sound = findViewById(R.id.btn_sound);
         btn_star = findViewById(R.id.btn_star);
-        // xử lý các nút trong flashcard
+
+
         btnHoc = findViewById(R.id.btnHoc);
         btnNhiemVu = findViewById(R.id.btnNhiemVu);
         btnTrangChu = findViewById(R.id.btnTrangChu);
@@ -73,26 +74,24 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         image_flashcard = findViewById(R.id.image_flashcard);
 
 
-        // Khởi tạo DatabaseHelper
+
             dbflashcard = new SQLiteConnect(this);
 
 
-        // Tải flashcard đầu tiên
         loadRandomFlashcard();
 
-        // KHỞI TẠO TEXT-TO-SPEECH
-        tts = new TextToSpeech(this, this); // this = OnInitListener
 
-        // Nút Tiếp tục
+        tts = new TextToSpeech(this, this);
+
         btn_next.setOnClickListener(v -> loadRandomFlashcard());
 
-        // thêm sự kiện click cho text_hint ( hển th gợi  )
+
         text_hint.setOnClickListener(v -> {
             if (text_flashcard_hint.getVisibility() == View.VISIBLE) {
                 text_flashcard_hint.setVisibility(View.GONE);
                 text_hint.setText("Hiển thị gợi ý");
             } else {
-                // Chỉ hiện nếu có nội dung hint
+
                 String hint = text_flashcard_hint.getText().toString().trim();
                 if (!hint.isEmpty()) {
                     text_flashcard_hint.setVisibility(View.VISIBLE);
@@ -103,7 +102,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
             }
         });
 
-        // NÚT LOA - DÙNG TTS ĐỂ PHÁT ÂM
+
         btn_sound.setOnClickListener(v -> {
             String word = getCurrentWord();
             if (!word.isEmpty()) {
@@ -114,7 +113,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         });
 
 
-        //Xử lý nút lật thẻ
+
         btn_flip.setOnClickListener(v -> {
             if (text_flashcard_front.getVisibility() == View.VISIBLE) {
                 text_flashcard_front.setVisibility(View.GONE);
@@ -123,18 +122,17 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
                 text_flashcard_front.setVisibility(View.VISIBLE);
                 text_flashcard_back.setVisibility(View.GONE);
             }
-//            updateHintVisibility(); // <-- thêm dòng này
+
         });
 
 
-        // Liên kết nút Hoc → quay lại FlashCard (nếu cần)
+
         btnHoc.setOnClickListener(v -> {
-            // Vì đang ở FlashCard rồi, có thể không cần mở lại
-            // Hoặc nếu muốn reload: startActivity + finish()
+
             Toast.makeText(FlashCardActivity.this, "Đang ở chế độ học", Toast.LENGTH_SHORT).show();
         });
 
-        // Liên kết nút Tiến Độ → mở Nhiệm Vụ Học Tập
+
         btnTienDo.setOnClickListener(v -> {
             Intent intent = new Intent(FlashCardActivity.this, NhiemVuActivity.class);
             intent.putExtra("isAdmin", isAdmin);
@@ -162,7 +160,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
 
     }
 
-    //  TRIỂN KHAI OnInitListener
+
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
@@ -175,7 +173,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
         }
     }
 
-    //  GIẢI PHÓNG TTS KHI THOÁT ACTIVITY
+
     @Override
     protected void onDestroy() {
         if (tts != null) {
@@ -183,7 +181,7 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
             tts.shutdown();
         }
         super.onDestroy();
-        // Đóng DB nếu cần (tùy SQLiteConnect của bạn có tự đóng không)
+
     }
 
 
@@ -210,67 +208,67 @@ public class FlashCardActivity extends AppCompatActivity implements TextToSpeech
                 hint = cursor.getString(hintIndex);
                 if (hint == null) hint = "";
             }
-            // XỬ LÝ ẢNH
+
             String imageName = "";
             if (imageIndex != -1) {
                 imageName = cursor.getString(imageIndex);
                 if (imageName == null) imageName = "";
             }
 
-            // gán text
+
             text_flashcard_front.setText(word);
             text_flashcard_back.setText(meaning);
-            text_flashcard_hint.setText(hint.trim()); // setText("") nếu rỗng
+            text_flashcard_hint.setText(hint.trim());
 
-            //  HIỂN THỊ ẢNH NẾU CÓ
+
             if (!imageName.isEmpty()) {
                 int resId = getResources().getIdentifier(imageName, "drawable", getPackageName());
                 if (resId != 0) {
                     image_flashcard.setImageResource(resId);
                     image_flashcard.setVisibility(View.VISIBLE);
                 } else {
-                    image_flashcard.setVisibility(View.GONE); // không tìm thấy ảnh
+                    image_flashcard.setVisibility(View.GONE);
                 }
             } else {
                 image_flashcard.setVisibility(View.GONE);
             }
 
 
-            // Luôn bắt đầu ở mặt trước, ẩn mặt sau
+
             text_flashcard_front.setVisibility(View.VISIBLE);
             text_flashcard_back.setVisibility(View.GONE);
 
-            // KHÔNG tự động hiển thị hint nữa → để người dùng tự nhấn
+
         } else {
-            // Không có flashcard
+
             text_flashcard_front.setText("Không có flashcard!");
             text_flashcard_back.setText("");
-            text_flashcard_hint.setText(""); // rõ ràng: không có hint
-            image_flashcard.setVisibility(View.GONE); // ẩn ảnh
+            text_flashcard_hint.setText("");
+            image_flashcard.setVisibility(View.GONE);
             currentId = -1;
         }
         cursor.close();
 
 
-        // XỬ LÝ NÚT SAO
+
         btn_star.setOnClickListener(v -> {
-            if (currentId == -1) return; // không có flashcard
+            if (currentId == -1) return;
 
             boolean isCurrentlyStarred = isCurrentStarred();
             boolean newStarredState = !isCurrentlyStarred;
 
-            // Cập nhật CSDL
+
             dbflashcard.updateStarred(currentId, newStarredState);
 
-            // Cập nhật giao diện
+
             if (newStarredState) {
-                btn_star.setImageResource(R.drawable.sao_day); // hoặc tên drawable bạn dùng
+                btn_star.setImageResource(R.drawable.sao_day);
             } else {
                 btn_star.setImageResource(R.drawable.sao_rong);
             }
         });
 
-        // Cập nhật trạng thái sao
+
         boolean isStarred = isCurrentStarred();
         if (isStarred) {
             btn_star.setImageResource(R.drawable.sao_day);
