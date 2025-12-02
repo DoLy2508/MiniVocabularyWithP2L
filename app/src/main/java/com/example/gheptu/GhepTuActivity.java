@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.NhiemVu.NhiemVuActivity;
+import com.example.chuDe.ChuDeActivity;
 import com.example.gheptu.Database.SQLiteConnect;
 import com.example.gheptu.Model.TuVungGhepTu;
 
@@ -113,6 +114,16 @@ public class GhepTuActivity extends AppCompatActivity {
                 intentNhiemVu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                 startActivity(intentNhiemVu);
+            }
+        });
+        imbtnHoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(GhepTuActivity.this, ChuDeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                startActivity(intent);
             }
         });
 

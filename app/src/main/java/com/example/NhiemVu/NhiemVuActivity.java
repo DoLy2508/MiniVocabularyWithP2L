@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.gheptu.Database.SQLiteConnect;
 
+import com.example.gheptu.GhepTuActivity;
 import com.example.minivocabularywithp2l.MainActivity;
 import com.example.minivocabularywithp2l.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,9 +35,12 @@ public class NhiemVuActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trang_nhiemvuhoctap);
+        boolean isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
 
         databaseHelper = new SQLiteConnect(this);
+
+
 
 
         initViews();
@@ -62,6 +66,11 @@ public class NhiemVuActivity extends AppCompatActivity {
         imbtnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intentTrangChu = new Intent(NhiemVuActivity.this, MainActivity.class);
+                intentTrangChu.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intentTrangChu.putExtra("isAdmin", isAdmin);
+
+                startActivity(intentTrangChu);
                 finish();
             }
 
