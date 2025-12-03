@@ -20,13 +20,13 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "HocTiengAnh.db";
     public static final int DATABASE_VERSION = 7;
 
-    // Bảng Users (Đăng Ký)
+
     public static final String TABLE_USERS = "users";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_PASSWORD = "password";
 
-    // Bảng Tasks (Nhiệm vụ)
+
     public static final String TABLE_TASKS = "tasks";
     public static final String COLUMN_TASK_ID = "id";
     public static final String COLUMN_TASK_TITLE = "title";
@@ -34,12 +34,12 @@ public class SQLiteConnect extends SQLiteOpenHelper {
 
     public static final String TABLE_TUVUNG_GT = "tuvungGT_v2";
 
-    // Bang tu vung phat am
+
     public static final String TABLE_TUVUNG_PA = "tuvungPAm";
     private static final String COLUMN_TASK_COMPLETED = "is_completed";
 
     public SQLiteConnect(@Nullable Context context) {
-        // Constructor mặc định cho việc sử dụng chung
+
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     
@@ -50,7 +50,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //  Tạo bảng Users
+
         String createTableUsers = "CREATE TABLE IF NOT EXISTS " + TABLE_USERS + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_EMAIL + " TEXT UNIQUE, " +
@@ -58,10 +58,10 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                 "role TEXT DEFAULT 'user')";
         db.execSQL(createTableUsers);
 
-        //Chèn admin
+
         db.execSQL("INSERT OR IGNORE INTO users (email, password, role) VALUES ('adminp2l@gmail.com', '123456A@', 'admin')");
 
-        // Tạo bảng Tasks
+
         String createTableTasks = "CREATE TABLE IF NOT EXISTS " + TABLE_TASKS + " (" +
                 COLUMN_TASK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TASK_TITLE + " TEXT, " +
@@ -69,7 +69,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                 COLUMN_TASK_COMPLETED + " INTEGER DEFAULT 0)";
         db.execSQL(createTableTasks);
         
-        // tao bang ghep tu
+
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_TUVUNG_GT + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -78,7 +78,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "tiengViet TEXT NOT NULL)"
         );
 
-        // 3. Tạo bảng Từ cung phat am
+
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS " + TABLE_TUVUNG_PA + " (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -87,7 +87,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "nguAm TEXT," +
                         "tiengViet TEXT)"
         );
-        //Tạo bảng flashcard
+
         db.execSQL(
                 "CREATE TABLE IF NOT EXISTS flashcards (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -96,7 +96,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
                         "hint TEXT," +
                         "audio_path TEXT," +
                         "is_starred INTEGER DEFAULT 0," +
-                        "last_reviewed TEXT," + // <-- SỬA LỖI: Thêm dấu phẩy ở đây
+                        "last_reviewed TEXT," +
                         "image TEXT" +
                         ")"
         );
@@ -108,7 +108,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     private void insertSampleFlashcards(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
 
-        // Flashcard 1
+
         values.put("word", "bee");
         values.put("meaning", "Con Ong");
         values.put("hint", "It buzzes, makes honey, and lives in a hive.");
@@ -118,7 +118,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("image", "bee");
         db.insert("flashcards", null, values);
 
-        // Flashcard 2
+
         values.clear();
         values.put("word", "parrot");
         values.put("meaning", "Con Vẹt");
@@ -129,7 +129,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("image", "parrot");
         db.insert("flashcards", null, values);
 
-        // Flashcard 3
+
         values.clear();
         values.put("word", "crab");
         values.put("meaning", "Con Cua");
@@ -140,7 +140,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("image", "crab");
         db.insert("flashcards", null, values);
 
-        // Flashcard 2
+
         values.clear();
         values.put("word", "Monkey");
         values.put("meaning", "Con Khỉ");
@@ -151,7 +151,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("image", "monkey");
         db.insert("flashcards", null, values);
 
-        // Flashcard 4
+
         values.clear();
         values.put("word", "whale");
         values.put("meaning", "Cá Voi");
@@ -162,7 +162,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("image", "whale");
         db.insert("flashcards", null, values);
 
-        // Flashcard 4
+
         values.clear();
         values.put("word", "Frog");
         values.put("meaning", "Con Ếch");
@@ -173,7 +173,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         values.put("image", "frog");
         db.insert("flashcards", null, values);
 
-        // Flashcard 4
+
         values.clear();
         values.put("word", "Elephant");
         values.put("meaning", "Con Voi");
@@ -199,7 +199,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
     }
 
 
-    // truy vấn không trả kết quả: CREATE, INSERT, UPDATE
+    // truy vấn không trả kết quả: CREATE, INSERT
     public void queryData(String query) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(query);
@@ -242,7 +242,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
 
 
 
-    // Thhem nhiem vu moi
+
     public boolean addTask(NhiemVu task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -253,7 +253,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // lay ra danh sach cac nhiem vu
+
     public ArrayList<NhiemVu> getAllTasks() {
         ArrayList<NhiemVu> taskList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -271,7 +271,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return taskList;
     }
 
-    // Cập nhật nhiệm vụ
+
     public boolean updateTask(NhiemVu task) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -282,7 +282,7 @@ public class SQLiteConnect extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
-    // Xóa nhiệm vụ
+
     public boolean deleteTask(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         int rowsDeleted = db.delete(TABLE_TASKS, COLUMN_TASK_ID + " = ?", new String[]{String.valueOf(id)});
