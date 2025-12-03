@@ -51,12 +51,12 @@ public class GhepTuActivity extends AppCompatActivity {
 
     private MaterialCardView firstCard = null;
     private String firstValue = "";
-    private int timeElapsed = 0;
+    private int time = 0;
 
     private Handler handler = new Handler();
     private Runnable runnable;
-    private int matchedPairs = 0;
-    private int totalPairsOnScreen = 0;
+    private int ghepDung = 0;
+    private int soTuHienThi = 0;
     private ImageButton imbtnHome;
     private ImageButton imbtnHoc;
     private ImageButton imbtnCheckList;
@@ -137,8 +137,8 @@ public class GhepTuActivity extends AppCompatActivity {
     }
     private void resetGame() {
         handler.removeCallbacks(runnable);
-        timeElapsed = 0;
-        matchedPairs = 0;
+        time = 0;
+        ghepDung = 0;
         firstCard = null;
         firstValue = "";
 
@@ -151,7 +151,7 @@ public class GhepTuActivity extends AppCompatActivity {
         if (!isAdmin) {
             imbtnQuanLiTu.setVisibility(View.GONE);
         }
-        if (matchedPairs == totalPairsOnScreen) {
+        if (ghepDung == soTuHienThi) {
             Intent intent = new Intent(GhepTuActivity.this, VictoryActivity.class);
             intent.putExtra("isAdmin", isAdmin);
             startActivity(intent);
@@ -192,7 +192,7 @@ public class GhepTuActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        totalPairsOnScreen = listPairs.size();
+        soTuHienThi = listPairs.size();
         Collections.shuffle(listPairs);
 
 
@@ -217,7 +217,7 @@ public class GhepTuActivity extends AppCompatActivity {
             TextView txtWord = card.findViewById(R.id.txtWord);
             txtWord.setText(word);
 
-            card.setOnClickListener(v -> handleCardClick(card, word));
+            card.setOnClickListener(v -> NhanThe(card, word));
 
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 0;
@@ -230,7 +230,7 @@ public class GhepTuActivity extends AppCompatActivity {
         }
     }
 
-    private void handleCardClick(MaterialCardView card, String word) {
+    private void NhanThe(MaterialCardView card, String word) {
         if (firstCard == null) {
             firstCard = card;
             firstValue = word;
@@ -252,7 +252,7 @@ public class GhepTuActivity extends AppCompatActivity {
             setVienThe(firstCard, Color.GREEN);
             setVienThe(card, Color.GREEN);
 
-            matchedPairs++;
+            ghepDung++;
 
 
             handler.postDelayed(() -> {
@@ -292,17 +292,17 @@ public class GhepTuActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                int minutes = timeElapsed / 60;
-                int seconds = timeElapsed % 60;
+                int minutes = time / 60;
+                int seconds = time % 60;
                 tvTimer.setText(String.format("%02d:%02d", minutes, seconds));
 
-                timeElapsed++;
+                time++;
 
                 handler.postDelayed(this, 1000);
             }
         };
 
-        handler.post(runnable); // bắt đầu
+        handler.post(runnable);
     }
 
 

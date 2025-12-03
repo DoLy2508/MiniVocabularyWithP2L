@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-// Thêm các import cần thiết cho Speech Recognition
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.speech.RecognitionListener;
@@ -42,12 +42,10 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
     private ImageView imvTroVe;
     private SQLiteConnect db;
     private TextToSpeech tts;
-
-    // Biến thành viên để lưu trạng thái admin, tránh bị mất khi quay lại Activity
     private boolean isAdmin = false;
-    private Button btnStart; // Thêm nút Start
-    private TextView tvHint; // Thêm TextView Hint để hiển thị kết quả
-    // === Biến cho Speech Recognition ===
+    private Button btnStart;
+    private TextView tvHint;
+
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private SpeechRecognizer speechRecognizer;
     private Intent speechRecognizerIntent;
@@ -99,9 +97,9 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         });
 
         imbtnQuanLiTuPA.setOnClickListener(v -> {
-            // Chuyển sang QuanLiTuPaActivity và truyền quyền admin đi
+
             Intent intentQuanLi = new Intent(LuyenPhatAmActivity.this, QuanLiTuPaActivity.class);
-            intentQuanLi.putExtra("isAdmin", this.isAdmin); // Luôn truyền trạng thái đi tiếp
+            intentQuanLi.putExtra("isAdmin", this.isAdmin);
             startActivity(intentQuanLi);
         });
 
@@ -121,7 +119,7 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
         btnContinue.setOnClickListener(v -> {
             currentIndex++;
             if (currentIndex >= listTuPA.size()) {
-                currentIndex = 0; // Quay về từ đầu tiên
+                currentIndex = 0;
                 Toast.makeText(this, "Đã hết danh sách! Quay về từ đầu.", Toast.LENGTH_SHORT).show();
             }
 
@@ -136,13 +134,13 @@ public class LuyenPhatAmActivity extends AppCompatActivity implements TextToSpee
 
 
 
-     //Khởi tạo SpeechRecognizer và Intent
+
 
     private void setupSpeechRecognizer() {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString()); // Nhận dạng tiếng Anh-Mỹ
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString());
 
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
